@@ -6,15 +6,13 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
+  SidebarMenuButtonWithActiveIndicator,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import ResumeCraftBrand from "@/components/common/brand";
 import Link from "next/link";
-import ThemeSwitch from "@/components/common/theme-switcher";
 
 // Menu items.
 const items = [
@@ -48,21 +46,19 @@ export function DashboardSidebar() {
             <SidebarMenu className="gap-4">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButtonWithActiveIndicator path={item.url}>
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
                     </Link>
-                  </SidebarMenuButton>
+                  </SidebarMenuButtonWithActiveIndicator>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        {/* <ThemeSwitch /> */}
-      </SidebarFooter>
+      <SidebarFooter>{/* <ThemeSwitch /> */}</SidebarFooter>
     </Sidebar>
   );
 }

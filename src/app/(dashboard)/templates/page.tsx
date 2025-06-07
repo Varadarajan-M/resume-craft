@@ -1,9 +1,15 @@
-import React from 'react'
+import PageHeader from "@/features/dashboard/components/page-header";
+import React from "react";
 
 const TemplatesPage = () => {
   return (
-    <div>TemplatesPage</div>
-  )
-}
+    <section id="templates">
+      <PageHeader
+        title="Templates"
+        description="Browse and select from a variety of resume templates to kickstart your job application process."
+      />
+    </section>
+  );
+};
 
-export default TemplatesPage
+export default TemplatesPage;
