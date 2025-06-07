@@ -1,5 +1,6 @@
 import { Files, Grid, LayoutDashboard } from "lucide-react";
 
+import ResumeCraftBrand from "@/components/common/ResumeCraftBrand";
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +12,6 @@ import {
   SidebarMenuButtonWithActiveIndicator,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import ResumeCraftBrand from "@/components/common/brand";
 import Link from "next/link";
 
 // Menu items.
@@ -34,7 +34,7 @@ const items = [
   },
 ];
 
-export function DashboardSidebar() {
+export default function DashboardSidebar() {
   return (
     <Sidebar className="px-3 py-1">
       <SidebarHeader className="p-3">

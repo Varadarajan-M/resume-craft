@@ -1,12 +1,12 @@
-import PageHeader from "@/features/dashboard/components/page-header";
 import { Button } from "@/components/ui/button";
+import PageHeader from "@/features/dashboard-page/components/PageHeader";
+import { DocumentsSection } from "@/features/documents-page/components";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 
 const DocumentsPage = () => {
   return (
-    <section id="documents">
+    <section id="documents" className="flex flex-col gap-12">
       <PageHeader
         title="My Documents"
         description="Manage your resumes, cover letters, and other documents here."
@@ -23,7 +23,7 @@ const DocumentsPage = () => {
           </Button>
         )}
       />
-
+      <DocumentsSection />
     </section>
   );
 };

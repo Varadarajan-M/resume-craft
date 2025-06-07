@@ -1,8 +1,8 @@
 "use client";
 
+import { Moon, Sun } from "lucide-react";
 import React, { useEffect } from "react";
 import { Button } from "../ui/button";
-import { Moon, Sun } from "lucide-react";
 
 const ThemeSwitch = () => {
   const [theme, setTheme] = React.useState("light");

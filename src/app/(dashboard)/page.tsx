@@ -1,11 +1,15 @@
 import { Button } from "@/components/ui/button";
-import PageHeader from "@/features/dashboard/components/page-header";
+import {
+  PageHeader,
+  RecentDocumentsSection,
+  SuggestedTemplatesSection,
+} from "@/features/dashboard-page/components";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardPage() {
   return (
-    <section id="dashboard">
+    <section id="dashboard" className="flex flex-col gap-12 ">
       <PageHeader
         title="My Dashboard"
         description="Welcome to your dashboard! Here you can manage your resumes, templates, and more."
@@ -22,6 +26,8 @@ export default function DashboardPage() {
           </Button>
         )}
       />
+      <RecentDocumentsSection />
+      <SuggestedTemplatesSection />
     </section>
   );
 }

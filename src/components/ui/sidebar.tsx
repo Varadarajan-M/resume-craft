@@ -1,12 +1,10 @@
 "use client";
 
-import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, VariantProps } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
+import * as React from "react";
 
-import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -24,6 +22,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/useMobile";
+import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
@@ -548,9 +548,10 @@ function SidebarMenuButton({
 
 function SidebarMenuButtonWithActiveIndicator({
   children,
-  path
+  path,
 }: React.ComponentProps<typeof SidebarMenuButton> & {
-  path?: string}) {
+  path?: string;
+}) {
   const pathname = usePathname();
   // Check if the current pathname matches the provided path.
   const isActive = pathname === path;
@@ -740,6 +741,7 @@ export {
   SidebarMenuAction,
   SidebarMenuBadge,
   SidebarMenuButton,
+  SidebarMenuButtonWithActiveIndicator,
   SidebarMenuItem,
   SidebarMenuSkeleton,
   SidebarMenuSub,
@@ -750,5 +752,4 @@ export {
   SidebarSeparator,
   SidebarTrigger,
   useSidebar,
-  SidebarMenuButtonWithActiveIndicator
 };

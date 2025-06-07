@@ -1,5 +1,4 @@
-import PageHeader from "@/features/dashboard/components/page-header";
-import React from "react";
+import PageHeader from "@/features/dashboard-page/components/PageHeader";
 
 const TemplatesPage = () => {
   return (
