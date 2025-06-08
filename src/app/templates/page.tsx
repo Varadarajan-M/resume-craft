@@ -1,4 +1,4 @@
-import PageHeader from "@/features/dashboard-page/components/PageHeader";
+import { PageHeader } from "@/shared/components/common/PageHeader";
 
 const TemplatesPage = () => {
   return (

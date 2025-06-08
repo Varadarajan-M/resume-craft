@@ -1,9 +1,11 @@
-import { DocumentList } from "@/features/document-listing/components";
+import { DocumentList, useDocumentListQuery } from "@/features/documents";
 import { Button } from "@/shared/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 const RecentDocumentSection = () => {
+  const documents = useDocumentListQuery();
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -14,7 +16,7 @@ const RecentDocumentSection = () => {
           </Link>
         </Button>
       </div>
-      <DocumentList numberOfDocuments={0} />
+      <DocumentList documents={documents} />
     </div>
   );
 };

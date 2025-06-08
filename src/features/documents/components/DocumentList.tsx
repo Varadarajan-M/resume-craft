@@ -3,45 +3,12 @@ import { Document } from "@/shared/types/document";
 import { DocumentCardGrid, DocumentCardList } from "./DocumentCard";
 
 interface DocumentListProps {
-  numberOfDocuments: number;
   viewType?: "grid" | "list";
+  documents: Document[];
 }
 
-const documents: Document[] = [
-  {
-    _id: "1",
-    image: "/placeholder.jpg",
-    userId: "user1",
-    category: "resume",
-    title: "Software Engineer Resume",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    status: "draft",
-  },
-  {
-    _id: "2",
-    image: "/placeholder.jpg",
-    userId: "user2",
-    category: "cv",
-    title: "Data Scientist CV",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    status: "published",
-  },
-  {
-    _id: "3",
-    image: "/placeholder.jpg",
-    userId: "user3",
-    category: "resume",
-    title: "Product Manager Resume",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    status: "archived",
-  },
-];
-
 const DocumentList: React.FC<DocumentListProps> = ({
-  numberOfDocuments,
+  documents,
   viewType = "grid",
 }) => {
   const isList = viewType === "list";
@@ -54,7 +21,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
           : "grid gap-8 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
       )}
     >
-      {documents.map((document) =>
+      {documents?.map((document) =>
         isList ? (
           <DocumentCardList key={document._id} document={document} />
         ) : (

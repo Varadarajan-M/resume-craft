@@ -1,7 +1,6 @@
+import { Metadata } from "next";
 import { Inter } from "next/font/google";
-import type, { Metadata } from "next"
-import './globals.css';
-
+import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,7 +21,7 @@ export const metadata: Metadata = {
     "modern resume generator",
     "pdf resume maker",
     "ResumeCraft",
-    "create resume online"
+    "create resume online",
   ],
   metadataBase: new URL("https://resumecraft.app"), // replace with your actual domain
   openGraph: {
@@ -59,9 +58,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} font-sans antialiased`}
-      >
+      <body className={`${inter.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>

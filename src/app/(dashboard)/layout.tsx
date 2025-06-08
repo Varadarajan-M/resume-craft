@@ -1,13 +1,12 @@
 import React from "react";
 
-import ThemeSwitch from "@/shared/components/common/ThemeSwitcher";
+import { DashboardSidebar } from "@/features/dashboard";
+import { ThemeSwitch } from "@/shared/components/common/ThemeSwitcher";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/shared/components/ui/sidebar";
-
-import { DashboardSidebar } from "@/features/dashboard-page/components";
 
 export default function DashboardLayout({
   children,
