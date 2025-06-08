@@ -17,7 +17,7 @@ export default function DashboardLayout({
     <SidebarProvider>
       <DashboardSidebar />
       <SidebarInset>
-        <div className="flex gap-1 items-center justify-between border-b px-6 py-2 mb-4">
+        <div className="flex gap-1 items-center justify-between border-b px-6 py-2 mb-4 sticky top-0 z-10 bg-background">
           <SidebarTrigger />
           <ThemeSwitch />
         </div>

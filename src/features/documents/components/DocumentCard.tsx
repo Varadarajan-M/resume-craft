@@ -35,7 +35,11 @@ const DocumentStatusTag: React.FC<{
 
 export const DocumentCardGrid: React.FC<DocumentCardProps> = ({ document }) => {
   return (
-    <Card className="hover:shadow-md transition-shadow duration-200 bg-neutral-50 dark:bg-neutral-950/95">
+    <Card
+      tabIndex={0}
+      aria-label="Card with document details"
+      className="hover:shadow-md transition-shadow duration-200 bg-neutral-50 dark:bg-neutral-950/95"
+    >
       <CardHeader className="flex flex-row items-center justify-between px-4 pb-2">
         <Image
           src={document?.image || "/placeholder.svg"}
@@ -67,7 +71,11 @@ export const DocumentCardList: React.FC<{ document: Document }> = ({
   document,
 }) => {
   return (
-    <Card className="flex flex-row items-center gap-4 px-4 py-3 border border-border hover:shadow-sm bg-background transition-shadow">
+    <Card
+      tabIndex={0}
+      aria-label="Card with document details"
+      className="flex flex-row items-center gap-4 px-4 py-3 border border-border hover:shadow-sm bg-background transition-shadow"
+    >
       <Image
         src={document.image || "/placeholder.svg"}
         alt="Document Icon"

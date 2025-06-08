@@ -9,14 +9,18 @@ interface TemplateCardProps {
 
 const TemplateCard: React.FC<TemplateCardProps> = ({ template }) => {
   return (
-    <Card className="hover:shadow-md transition-shadow duration-200 bg-neutral-50 dark:bg-neutral-950/95">
+    <Card
+      tabIndex={0}
+      aria-label="Card with template details"
+      className="hover:shadow-md transition-shadow duration-200 bg-neutral-50 dark:bg-neutral-950/95"
+    >
       <CardHeader className="p-4 pb-0 flex items-center justify-center">
         <Image
           src={template.image || "/placeholder.svg"}
           alt={template.title}
           width={200}
           height={200}
-          className="m-auto object-cover w-16 h-16 rounded-md"
+          className="m-auto object-cover w-full h-full rounded-md"
         />
       </CardHeader>
       <CardContent className="p-4 flex flex-col gap-2">
