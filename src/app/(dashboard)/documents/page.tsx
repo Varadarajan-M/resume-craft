@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
 import PageHeader from "@/features/dashboard-page/components/PageHeader";
 import { DocumentsSection } from "@/features/documents-page/components";
+import { Button } from "@/shared/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 

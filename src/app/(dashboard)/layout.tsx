@@ -1,11 +1,11 @@
 import React from "react";
 
-import ThemeSwitch from "@/components/common/ThemeSwitcher";
+import ThemeSwitch from "@/shared/components/common/ThemeSwitcher";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar";
+} from "@/shared/components/ui/sidebar";
 
 import { DashboardSidebar } from "@/features/dashboard-page/components";
 

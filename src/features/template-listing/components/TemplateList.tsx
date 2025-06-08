@@ -1,4 +1,4 @@
-import { DocumentTemplate } from "@/types/document";
+import { DocumentTemplate } from "@/shared/types/document";
 import TemplateCard from "./TemplateCard";
 
 const templates: DocumentTemplate[] = [

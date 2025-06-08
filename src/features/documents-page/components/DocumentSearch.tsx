@@ -1,5 +1,5 @@
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { Input } from "@/shared/components/ui/input";
+import { cn } from "@/shared/lib/utils";
 
 interface DocumentSearchProps {
   className?: string;

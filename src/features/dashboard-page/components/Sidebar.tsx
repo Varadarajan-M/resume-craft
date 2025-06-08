@@ -1,6 +1,6 @@
 import { Files, Grid, LayoutDashboard } from "lucide-react";
 
-import ResumeCraftBrand from "@/components/common/ResumeCraftBrand";
+import ResumeCraftBrand from "@/shared/components/common/ResumeCraftBrand";
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuButtonWithActiveIndicator,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/shared/components/ui/sidebar";
 import Link from "next/link";
 
 // Menu items.

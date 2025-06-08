@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { DocumentList } from "@/features/document-listing/components";
+import { Button } from "@/shared/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 

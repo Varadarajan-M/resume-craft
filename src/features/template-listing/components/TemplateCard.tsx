@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DocumentTemplate } from "@/types/document";
+import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
+import { DocumentTemplate } from "@/shared/types/document";
 import Image from "next/image";
 import React from "react";
 

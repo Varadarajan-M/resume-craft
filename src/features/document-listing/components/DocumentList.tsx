@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { Document } from "@/types/document";
+import { cn } from "@/shared/lib/utils";
+import { Document } from "@/shared/types/document";
 import { DocumentCardGrid, DocumentCardList } from "./DocumentCard";
 
 interface DocumentListProps {

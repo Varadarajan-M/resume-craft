@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { DocumentList } from "@/features/document-listing/components";
+import { Button } from "@/shared/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { DocumentList } from "@/features/document-listing/components";
+} from "@/shared/components/ui/tooltip";
 import { Grid, List } from "lucide-react";
 import { useState } from "react";
 import DocumentSearch from "./DocumentSearch";
