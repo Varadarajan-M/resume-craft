@@ -1,8 +1,9 @@
-import { Button } from "@/components/ui/button";
-import PageHeader from "@/features/dashboard-page/components/PageHeader";
-import { DocumentsSection } from "@/features/documents-page/components";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+
+import { MyDocumentsSection } from "@/features/documents";
+import { PageHeader } from "@/shared/components/common/PageHeader";
+import { Button } from "@/shared/components/ui/button";
 
 const DocumentsPage = () => {
   return (
@@ -23,7 +24,7 @@ const DocumentsPage = () => {
           </Button>
         )}
       />
-      <DocumentsSection />
+      <MyDocumentsSection />
     </section>
   );
 };

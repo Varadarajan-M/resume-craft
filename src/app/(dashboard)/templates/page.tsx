@@ -1,12 +1,14 @@
-import PageHeader from "@/features/dashboard-page/components/PageHeader";
+import { AllTemplatesSection } from "@/features/templates";
+import { PageHeader } from "@/shared/components/common/PageHeader";
 
 const TemplatesPage = () => {
   return (
-    <section id="templates">
+    <section id="templates" className="flex flex-col gap-12">
       <PageHeader
         title="Templates"
         description="Browse and select from a variety of resume templates to kickstart your job application process."
       />
+      <AllTemplatesSection />
     </section>
   );
 };
