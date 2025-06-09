@@ -1,7 +1,9 @@
 import { Files, Grid, LayoutDashboard } from "lucide-react";
 
-import FadeInChildren from "@/shared/components/animated/FadeIn";
+import FadeInChildren, { FadeIn } from "@/shared/components/animated/FadeIn";
 import ResumeCraftBrand from "@/shared/components/common/ResumeCraftBrand";
+import UserButton from "@/shared/components/common/UserButton";
+import { Button } from "@/shared/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -13,6 +15,7 @@ import {
   SidebarMenuButtonWithActiveIndicator,
   SidebarMenuItem,
 } from "@/shared/components/ui/sidebar";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 // Menu items.
@@ -61,7 +64,18 @@ export default function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>{/* <ThemeSwitch /> */}</SidebarFooter>
+      <SidebarFooter>
+        <SignedOut>
+          <FadeIn transition={{ delay: 0.2 }}>
+            <SignInButton mode="modal">
+              <Button>Sign In</Button>
+            </SignInButton>
+          </FadeIn>
+        </SignedOut>
+        <SignedIn>
+          <UserButton></UserButton>
+        </SignedIn>
+      </SidebarFooter>
     </Sidebar>
   );
 }

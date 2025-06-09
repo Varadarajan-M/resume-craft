@@ -10,6 +10,7 @@ export interface Document {
   createdAt: Date;
   updatedAt: Date;
   status: DocumentStatus;
+  templateId: string; // or templateKey
 }
 
 export interface DocumentTemplate {
