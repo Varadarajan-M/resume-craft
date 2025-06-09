@@ -3,6 +3,7 @@
 import { Grid, List } from "lucide-react";
 import { useState } from "react";
 
+import { FadeIn } from "@/shared/components/animated/FadeIn";
 import ViewTypeButton from "@/shared/components/common/ViewTypeButton";
 import TemplateList from "./TemplateList";
 import TemplateSearch from "./TemplateSearch";
@@ -15,7 +16,7 @@ const AllTemplatesSection = () => {
 
   return (
     <>
-      <div className="flex gap-4">
+      <FadeIn transition={{ delay: 0.4 }} className="flex flex-row gap-4">
         <TemplateSearch />
         <div className="flex gap-2 items-center">
           <ViewTypeButton
@@ -31,8 +32,10 @@ const AllTemplatesSection = () => {
             tooltipText="List View"
           />
         </div>
-      </div>
-      <TemplateList templates={templates} />
+      </FadeIn>
+      <FadeIn transition={{ delay: 0.4 }} className="w-full">
+        <TemplateList templates={templates} />
+      </FadeIn>
     </>
   );
 };

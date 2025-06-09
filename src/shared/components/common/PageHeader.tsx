@@ -1,4 +1,5 @@
 import React from "react";
+import { FadeIn } from "../animated/FadeIn";
 
 interface PageHeaderProps {
   title: React.ReactNode;
@@ -14,14 +15,28 @@ export const PageHeader = ({
   return (
     <header className="flex justify-between flex-wrap gap-5 items-center">
       <div className="flex flex-col gap-1">
-        <h1 className="md:text-2xl text-lg font-bold tracking-tight">
+        <FadeIn
+          as="h1"
+          transition={{ delay: 0.1 }}
+          className="md:text-2xl text-lg font-bold tracking-tight"
+        >
           {title}
-        </h1>
-        <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
+        </FadeIn>
+        <FadeIn
+          as="p"
+          transition={{ delay: 0.3 }}
+          className="text-xs md:text-sm text-gray-600 dark:text-gray-400"
+        >
           {description}
-        </p>
+        </FadeIn>
       </div>
-      {renderAction?.()}
+      <FadeIn
+        as="div"
+        transition={{ delay: 0.5 }}
+        className="flex items-center gap-2"
+      >
+        {renderAction?.()}
+      </FadeIn>
     </header>
   );
 };

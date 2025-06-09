@@ -1,3 +1,4 @@
+import FadeInChildren from "@/shared/components/animated/FadeIn";
 import { cn } from "@/shared/lib/utils";
 import { Document } from "@/shared/types/document";
 import { DocumentCardGrid, DocumentCardList } from "./DocumentCard";
@@ -14,7 +15,8 @@ const DocumentList: React.FC<DocumentListProps> = ({
   const isList = viewType === "list";
 
   return (
-    <div
+    <FadeInChildren
+      key={isList ? "list" : "grid"}
       className={cn(
         isList
           ? "flex flex-col gap-4"
@@ -28,7 +30,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
           <DocumentCardGrid key={document._id} document={document} />
         )
       )}
-    </div>
+    </FadeInChildren>
   );
 };
 

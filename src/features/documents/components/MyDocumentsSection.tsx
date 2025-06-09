@@ -7,6 +7,7 @@ import ViewTypeButton from "@/shared/components/common/ViewTypeButton";
 import DocumentList from "./DocumentList";
 import DocumentSearch from "./DocumentSearch";
 
+import { FadeIn } from "@/shared/components/animated/FadeIn";
 import useDocumentListQuery from "../hooks/useDocumentListQuery";
 
 const DocumentsSection = () => {
@@ -15,7 +16,7 @@ const DocumentsSection = () => {
 
   return (
     <>
-      <div className="flex gap-4">
+      <FadeIn transition={{ delay: 0.3 }} className="flex flex-row gap-4">
         <DocumentSearch />
         <div className="flex gap-2 items-center">
           <ViewTypeButton
@@ -31,8 +32,10 @@ const DocumentsSection = () => {
             tooltipText="List View"
           />
         </div>
-      </div>
-      <DocumentList viewType={activeView} documents={documents} />
+      </FadeIn>
+      <FadeIn transition={{ delay: 0.3 }} className="w-full">
+        <DocumentList viewType={activeView} documents={documents} />
+      </FadeIn>
     </>
   );
 };

@@ -1,5 +1,6 @@
 import { Files, Grid, LayoutDashboard } from "lucide-react";
 
+import FadeInChildren from "@/shared/components/animated/FadeIn";
 import ResumeCraftBrand from "@/shared/components/common/ResumeCraftBrand";
 import {
   Sidebar,
@@ -43,17 +44,19 @@ export default function DashboardSidebar() {
       <SidebarContent>
         <SidebarGroup className="-ml-0.5">
           <SidebarGroupContent>
-            <SidebarMenu className="gap-4">
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButtonWithActiveIndicator path={item.url}>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButtonWithActiveIndicator>
-                </SidebarMenuItem>
-              ))}
+            <SidebarMenu>
+              <FadeInChildren className="gap-4">
+                {items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButtonWithActiveIndicator path={item.url}>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButtonWithActiveIndicator>
+                  </SidebarMenuItem>
+                ))}
+              </FadeInChildren>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
