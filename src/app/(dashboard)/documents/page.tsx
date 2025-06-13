@@ -7,7 +7,10 @@ import { Button } from "@/shared/components/ui/button";
 
 const DocumentsPage = () => {
   return (
-    <section id="documents" className="flex flex-col gap-12">
+    <section
+      id="documents"
+      className="flex flex-col gap-12  transition-all duration-200"
+    >
       <PageHeader
         title="My Documents"
         description="Manage your resumes, cover letters, and other documents here."

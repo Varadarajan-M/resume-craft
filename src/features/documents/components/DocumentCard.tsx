@@ -8,6 +8,7 @@ import React from "react";
 
 interface DocumentCardProps {
   document: Document;
+  onClick?: (document: Document) => void;
 }
 
 const statusColorMap: Record<Document["status"], string> = {
@@ -33,7 +34,10 @@ const DocumentStatusTag: React.FC<{
   );
 };
 
-export const DocumentCardGrid: React.FC<DocumentCardProps> = ({ document }) => {
+export const DocumentCardGrid: React.FC<DocumentCardProps> = ({
+  document,
+  onClick,
+}) => {
   return (
     <Card
       tabIndex={0}
@@ -47,10 +51,15 @@ export const DocumentCardGrid: React.FC<DocumentCardProps> = ({ document }) => {
           width={200}
           height={200}
           className="m-auto object-cover w-full h-full rounded-md"
+          loading="lazy"
+          onClick={() => onClick?.(document)}
         />
       </CardHeader>
       <CardContent className="px-4 pb-4 flex flex-col gap-1">
-        <h3 className="text-md font-semibold text-foreground line-clamp-1 tracking-tight">
+        <h3
+          onClick={() => onClick?.(document)}
+          className="text-md font-semibold text-foreground line-clamp-1 tracking-tight cursor-pointer underline transition-colors hover:text-gray-400"
+        >
           {document.title}
         </h3>
         <div className="flex items-center gap-1 mt-1 text-sm text-muted-foreground">
@@ -67,8 +76,9 @@ export const DocumentCardGrid: React.FC<DocumentCardProps> = ({ document }) => {
   );
 };
 
-export const DocumentCardList: React.FC<{ document: Document }> = ({
+export const DocumentCardList: React.FC<DocumentCardProps> = ({
   document,
+  onClick,
 }) => {
   return (
     <Card
@@ -77,16 +87,21 @@ export const DocumentCardList: React.FC<{ document: Document }> = ({
       className="flex flex-row items-center gap-4 px-4 py-3 border border-border hover:shadow-sm bg-background transition-shadow"
     >
       <Image
-        src={document.image || "/placeholder.svg"}
+        src={document?.image || "/placeholder.svg"}
         alt="Document Icon"
         width={48}
         height={48}
         className="rounded-md w-18 h-18 object-cover"
+        loading="lazy"
+        onClick={() => onClick?.(document)}
       />
       <div className="flex flex-col gap-1 justify-center flex-1">
         <div className="flex justify-between items-center w-full">
-          <h3 className="font-medium text-sm line-clamp-1 text-foreground">
-            {document.title}
+          <h3
+            onClick={() => onClick?.(document)}
+            className="font-medium text-sm line-clamp-1 text-foreground cursor-pointer underline transition-colors hover:text-gray-400"
+          >
+            {document?.title}
           </h3>
         </div>
         <p className="text-xs text-muted-foreground flex items-center gap-1">

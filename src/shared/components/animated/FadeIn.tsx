@@ -29,6 +29,9 @@ export const FadeIn = ({
   const Component =
     (motionComponents as Record<string, React.ElementType>)[as] || motion.div;
 
+  const initial = typeof props.initial === "object" ? props.initial : {};
+  const animate = typeof props.animate === "object" ? props.animate : {};
+
   return (
     <Component
       className={cn("flex flex-col gap-2", className)}
@@ -36,12 +39,18 @@ export const FadeIn = ({
       animate="visible"
       // viewport={{ once: true, amount: 0.2 }}
       variants={{
-        hidden: { opacity: 0, y: 10, filter: "blur(20px)" },
+        hidden: {
+          opacity: 0,
+          y: 10,
+          filter: "blur(20px)",
+          ...initial,
+        },
         visible: {
           opacity: 1,
           y: 0,
           filter: "blur(0px)",
           transition: { duration: 0.5, ...props.transition },
+          ...animate,
         },
       }}
       {...props}

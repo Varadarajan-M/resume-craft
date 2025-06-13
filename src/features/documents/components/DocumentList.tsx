@@ -6,11 +6,13 @@ import { DocumentCardGrid, DocumentCardList } from "./DocumentCard";
 interface DocumentListProps {
   viewType?: "grid" | "list";
   documents: Document[];
+  onDocumentClick?: (document: Document) => void;
 }
 
 const DocumentList: React.FC<DocumentListProps> = ({
   documents,
   viewType = "grid",
+  onDocumentClick,
 }) => {
   const isList = viewType === "list";
 
@@ -25,9 +27,17 @@ const DocumentList: React.FC<DocumentListProps> = ({
     >
       {documents?.map((document) =>
         isList ? (
-          <DocumentCardList key={document._id} document={document} />
+          <DocumentCardList
+            key={document._id}
+            document={document}
+            onClick={onDocumentClick}
+          />
         ) : (
-          <DocumentCardGrid key={document._id} document={document} />
+          <DocumentCardGrid
+            key={document._id}
+            document={document}
+            onClick={onDocumentClick}
+          />
         )
       )}
     </FadeInChildren>

@@ -8,11 +8,21 @@ import DocumentList from "./DocumentList";
 import DocumentSearch from "./DocumentSearch";
 
 import { FadeIn } from "@/shared/components/animated/FadeIn";
+import { Document } from "@/shared/types/document";
+import { useRouter } from "next/navigation";
 import useDocumentListQuery from "../hooks/useDocumentListQuery";
 
 const DocumentsSection = () => {
   const [activeView, setActiveView] = useState<"grid" | "list">("grid");
   const documents = useDocumentListQuery();
+
+  const router = useRouter();
+
+  const handleDocumentClick = <T extends Document>(document: T) => {
+    // Handle document click logic here, e.g., navigate to document details
+    console.log("Document clicked:", document);
+    router.push(`/builder`);
+  };
 
   return (
     <>
@@ -34,7 +44,11 @@ const DocumentsSection = () => {
         </div>
       </FadeIn>
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
-        <DocumentList viewType={activeView} documents={documents} />
+        <DocumentList
+          viewType={activeView}
+          documents={documents}
+          onDocumentClick={handleDocumentClick}
+        />
       </FadeIn>
     </>
   );

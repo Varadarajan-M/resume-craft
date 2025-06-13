@@ -13,7 +13,7 @@ const SuggestedTemplatesSection = () => {
         <FadeIn
           as="h2"
           transition={{ delay: 0.3 }}
-          className="text-base md:text-xl font-bold tracking-tight"
+          className="text-base md:text-xl font-semibold tracking-tight"
         >
           Suggested Templates
         </FadeIn>

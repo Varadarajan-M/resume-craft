@@ -1,13 +1,26 @@
+import { cn } from "@/shared/lib/utils";
 import Link from "next/link";
 import { FadeIn } from "../animated/FadeIn";
 import ResumeCraftIcon from "./ResumeCraftIcon";
 
-const ResumeCraftBrand = () => {
+interface ResumeCraftBrandProps {
+  className?: string;
+  iconClassName?: string;
+}
+const ResumeCraftBrand: React.FC<ResumeCraftBrandProps> = ({
+  className,
+  iconClassName,
+}) => {
   return (
     <FadeIn>
       <Link href="/" className="flex items-center gap-1 ">
-        <ResumeCraftIcon className="w-5 h-5" />
-        <h3 className="text-lg font-bold text-foreground tracking-tight">
+        <ResumeCraftIcon className={cn("w-5 h-5", iconClassName)} />
+        <h3
+          className={cn(
+            "text-lg font-bold text-foreground tracking-tight",
+            className
+          )}
+        >
           ResumeCraft
         </h3>
       </Link>
