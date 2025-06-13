@@ -19,15 +19,17 @@ const motionComponents = {
 export const FadeIn = ({
   children,
   className,
+  as,
   ...props
 }: {
   children: React.ReactNode;
   className?: string;
   as?: HTMLElementType; // Allow specifying the HTML element type
 } & HTMLMotionProps<"div">) => {
-  const as = props.as ?? "div";
+  const asProp = as ?? "div";
   const Component =
-    (motionComponents as Record<string, React.ElementType>)[as] || motion.div;
+    (motionComponents as Record<string, React.ElementType>)[asProp] ||
+    motion.div;
 
   const initial = typeof props.initial === "object" ? props.initial : {};
   const animate = typeof props.animate === "object" ? props.animate : {};
@@ -63,13 +65,26 @@ export const FadeIn = ({
 export const FadeInChildren = ({
   children,
   className,
+  as,
+  childrenAs,
   ...props
 }: {
   children: React.ReactNode;
   className?: string;
+  as?: HTMLElementType; // Allow specifying the HTML element type
+  childrenAs?: HTMLElementType; // Allow specifying the HTML element type for children
 } & HTMLMotionProps<"div">) => {
+  const asProp = as ?? "div";
+  const Component =
+    (motionComponents as Record<string, React.ElementType>)[asProp] ||
+    motion.div;
+  const childrenAsProp = childrenAs ?? "div";
+  const ChildComponent =
+    (motionComponents as Record<string, React.ElementType>)[childrenAsProp] ||
+    motion.div;
+
   return (
-    <motion.div
+    <Component
       className={cn("flex flex-col gap-2", className)}
       initial="hidden"
       animate="visible"
@@ -85,7 +100,7 @@ export const FadeInChildren = ({
       {...props}
     >
       {React.Children.map(children, (child, i) => (
-        <motion.div
+        <ChildComponent
           variants={{
             hidden: { opacity: 0, y: 10, filter: "blur(20px)" },
             visible: {
@@ -98,9 +113,9 @@ export const FadeInChildren = ({
           key={i}
         >
           {child}
-        </motion.div>
+        </ChildComponent>
       ))}
-    </motion.div>
+    </Component>
   );
 };
 

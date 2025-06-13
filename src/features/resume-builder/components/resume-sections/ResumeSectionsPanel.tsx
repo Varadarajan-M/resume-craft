@@ -1,3 +1,4 @@
+import FadeInChildren from "@/shared/components/animated/FadeIn";
 import { cn } from "@/shared/lib/utils";
 import { Award, Book, Briefcase, Globe, Star, User } from "lucide-react";
 import ResumeSection from "./ResumeSection";
@@ -8,11 +9,16 @@ interface ResumeSectionsPanelProps {
 
 const ResumeSectionsPanel = ({ className }: ResumeSectionsPanelProps) => {
   return (
-    <aside className={cn("h-full border-r p-4 flex flex-col gap-4", className)}>
+    <FadeInChildren
+      as="aside"
+      childrenAs="section"
+      className={cn("h-full border-r p-4 flex flex-col gap-4", className)}
+    >
       <ResumeSection
         icon={<User className="w-4 h-4" />}
         title="Personal Information"
         subtitle="Basic contact details and personal info."
+        defaultOpen
       >
         <div className="flex flex-col gap-2">
           <p className="text-sm text-muted-foreground">
@@ -32,6 +38,7 @@ const ResumeSectionsPanel = ({ className }: ResumeSectionsPanelProps) => {
         icon={<Briefcase className="w-4 h-4" />}
         title="Work Experience"
         subtitle="Your professional background."
+        defaultOpen
       >
         <div className="flex flex-col gap-2">
           <p className="text-sm text-muted-foreground">
@@ -102,7 +109,7 @@ const ResumeSectionsPanel = ({ className }: ResumeSectionsPanelProps) => {
           </p>
         </div>
       </ResumeSection>
-    </aside>
+    </FadeInChildren>
   );
 };
 

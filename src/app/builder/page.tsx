@@ -8,7 +8,7 @@ const ResumeBuilderPage = () => {
     >
       <Navbar />
       <div className="flex-1 flex gap-4">
-        <ResumeSectionsPanel className="basis-full md:basis-1/5" />
+        <ResumeSectionsPanel className="basis-full md:basis-1/4" />
       </div>
     </section>
   );
