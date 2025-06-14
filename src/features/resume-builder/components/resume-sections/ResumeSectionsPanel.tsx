@@ -1,7 +1,14 @@
+import { Award, Globe, Star } from "lucide-react";
+
 import FadeInChildren from "@/shared/components/animated/FadeIn";
-import { cn } from "@/shared/lib/utils";
-import { Award, Book, Briefcase, Globe, Star, User } from "lucide-react";
 import ResumeSection from "./ResumeSection";
+
+import { PersonalInformationSection } from "./personal-info";
+import { ProfessionalSummarySection } from "./professional-summary";
+
+import { cn } from "@/shared/lib/utils";
+import { EducationSection } from "./education";
+import { WorkExperienceSection } from "./work-experience";
 
 interface ResumeSectionsPanelProps {
   className?: string;
@@ -12,58 +19,18 @@ const ResumeSectionsPanel = ({ className }: ResumeSectionsPanelProps) => {
     <FadeInChildren
       as="aside"
       childrenAs="section"
-      className={cn("h-full border-r p-4 flex flex-col gap-4", className)}
+      className={cn(
+        "h-[calc(100dvh_-_56px)] border-r py-4 px-5 flex flex-col gap-4 overflow-y-auto",
+        className
+      )}
     >
-      <ResumeSection
-        icon={<User className="w-4 h-4" />}
-        title="Personal Information"
-        subtitle="Basic contact details and personal info."
-        defaultOpen
-      >
-        <div className="flex flex-col gap-2">
-          <p className="text-sm text-muted-foreground">
-            Add your name, email, phone number, and location.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            These details appear at the top of your resume.
-          </p>
-          <div className="rounded-md bg-muted p-2 text-xs text-muted-foreground border">
-            💡 Tip: Use a professional email address and include your LinkedIn
-            or portfolio link.
-          </div>
-        </div>
-      </ResumeSection>
+      <PersonalInformationSection />
 
-      <ResumeSection
-        icon={<Briefcase className="w-4 h-4" />}
-        title="Work Experience"
-        subtitle="Your professional background."
-        defaultOpen
-      >
-        <div className="flex flex-col gap-2">
-          <p className="text-sm text-muted-foreground">
-            Add jobs you've held, responsibilities, and accomplishments.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            List them in reverse chronological order for best results.
-          </p>
-        </div>
-      </ResumeSection>
+      <ProfessionalSummarySection />
 
-      <ResumeSection
-        icon={<Book className="w-4 h-4" />}
-        title="Education"
-        subtitle="Your academic qualifications."
-      >
-        <div className="flex flex-col gap-2">
-          <p className="text-sm text-muted-foreground">
-            Include schools, degrees, and graduation dates.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Highlight relevant coursework or honors if applicable.
-          </p>
-        </div>
-      </ResumeSection>
+      <WorkExperienceSection />
+
+      <EducationSection />
 
       <ResumeSection
         icon={<Award className="w-4 h-4" />}

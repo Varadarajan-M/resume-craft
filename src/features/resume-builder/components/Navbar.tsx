@@ -6,11 +6,8 @@ import { Download, Share2 } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center-safe sticky top-0 bg-background z-50 border-b border-border px-3 py-2   justify-between transition-all duration-200">
-      <ResumeCraftBrand
-        iconClassName="w-4 h-4"
-        className="text-sm md:text-base"
-      />
+    <nav className="flex items-center-safe sticky top-0 bg-background z-50 border-b border-border px-5 py-2   justify-between transition-all duration-200">
+      <ResumeCraftBrand />
       <FadeIn className=" flex flex-row justify-end gap-4">
         <ThemeSwitch />
         <Button

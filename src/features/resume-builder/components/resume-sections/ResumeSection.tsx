@@ -24,7 +24,7 @@ const ResumeSection = ({
   children,
   defaultOpen = false,
 }: ResumeSectionProps) => {
-  const classes = cn("flex flex-col gap-7 mb-2", className);
+  const classes = cn("flex flex-col gap-7 mb-2 pt-2", className);
 
   return (
     <Accordion

@@ -61,7 +61,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${poppins.className} font-sans antialiased `}>
+        <body className={`${poppins.className} font-sans antialiased`}>
           {children}
         </body>
       </html>
