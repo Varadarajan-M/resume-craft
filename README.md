@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Varadarajan-M/resume-craft)
+
 ## Getting Started
 
 First, run the development server:
