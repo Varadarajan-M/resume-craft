@@ -1,14 +1,16 @@
-import { Award, Globe, Star } from "lucide-react";
+import { Award } from "lucide-react";
 
 import FadeInChildren from "@/shared/components/animated/FadeIn";
 import ResumeSection from "./ResumeSection";
 
+import { EducationSection } from "./education";
 import { PersonalInformationSection } from "./personal-info";
 import { ProfessionalSummarySection } from "./professional-summary";
+import { SkillsSection } from "./skills";
+import { WorkExperienceSection } from "./work-experience";
 
 import { cn } from "@/shared/lib/utils";
-import { EducationSection } from "./education";
-import { WorkExperienceSection } from "./work-experience";
+import { LanguageSection } from "./languages";
 
 interface ResumeSectionsPanelProps {
   className?: string;
@@ -25,12 +27,10 @@ const ResumeSectionsPanel = ({ className }: ResumeSectionsPanelProps) => {
       )}
     >
       <PersonalInformationSection />
-
       <ProfessionalSummarySection />
-
       <WorkExperienceSection />
-
       <EducationSection />
+      <SkillsSection />
 
       <ResumeSection
         icon={<Award className="w-4 h-4" />}
@@ -47,35 +47,7 @@ const ResumeSectionsPanel = ({ className }: ResumeSectionsPanelProps) => {
         </div>
       </ResumeSection>
 
-      <ResumeSection
-        icon={<Globe className="w-4 h-4" />}
-        title="Languages"
-        subtitle="Languages you can speak or write."
-      >
-        <div className="flex flex-col gap-2">
-          <p className="text-sm text-muted-foreground">
-            Mention proficiency levels for each language.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Especially useful for international roles.
-          </p>
-        </div>
-      </ResumeSection>
-
-      <ResumeSection
-        icon={<Star className="w-4 h-4" />}
-        title="Skills"
-        subtitle="Your core competencies."
-      >
-        <div className="flex flex-col gap-2">
-          <p className="text-sm text-muted-foreground">
-            Add technical or soft skills relevant to your role.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Keep them concise and grouped where possible.
-          </p>
-        </div>
-      </ResumeSection>
+      <LanguageSection />
     </FadeInChildren>
   );
 };

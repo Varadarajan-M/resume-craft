@@ -9,6 +9,7 @@ interface ResumeItemProps {
   description?: React.ReactNode;
   className?: string;
   labelClassName?: string;
+  renderHeaderAction?: () => React.ReactNode;
 }
 const ResumeItem = ({
   label,
@@ -17,18 +18,22 @@ const ResumeItem = ({
   className,
   description,
   labelClassName,
+  renderHeaderAction,
 }: ResumeItemProps) => {
   return (
     <div
-      className={cn("flex flex-col gap-1.5 px-1", className)}
+      className={cn("flex flex-col gap-1.5 px-1 flex-1", className)}
       aria-label={`This item represents ${label} of the resume`}
     >
-      <Label
-        className={cn("text-sm text-foreground font-medium", labelClassName)}
-        htmlFor={itemId}
-      >
-        {label}
-      </Label>
+      <div className="flex justify-between items-center-safe w-full">
+        <Label
+          className={cn("text-sm text-foreground font-medium", labelClassName)}
+          htmlFor={itemId}
+        >
+          {label}
+        </Label>
+        {renderHeaderAction?.()}
+      </div>
       {description && (
         <small className="text-xs -mt-1 text-muted-foreground ">
           {description}

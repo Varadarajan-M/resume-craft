@@ -1,43 +1,46 @@
 import type { Document } from "./document";
 
-interface HeaderSection {
+export interface ResumePersonalInfoItem {
   fullName: string;
-  title: string;
+  headline: string;
   email: string;
-  phone?: string;
-  location?: string;
+  phone: string;
+  location: string;
+  website?: { label: string; url: string }; // Optional field for personal website or portfolio
   links?: { label: string; url: string }[];
 }
 
-interface ExperienceSection {
+export interface ResumeExperienceItem {
+  id: string; // Unique identifier for the experience item
   company: string;
-  position: string;
+  title: string;
   location?: string;
-  startDate: string;
-  endDate?: string;
-  currentlyWorking?: boolean;
-  summary?: string;
-  bulletPoints?: string[];
+  timePeriod: string; // e.g., "Jan 2020 - Present"
+  description?: string; // A brief description of the role
 }
 
-interface EducationSection {
+export interface ResumeEducationItem {
+  id: string; // Unique identifier for the education item
   institution: string;
-  degree: string;
   fieldOfStudy?: string;
-  startDate: string;
-  endDate?: string;
-  grade?: string;
-  bulletPoints?: string[];
+  timePeriod: string;
+  gpa?: string;
+  description?: string;
 }
 
-interface SkillSection {
-  categories: {
-    name: string;
-    skills: {
-      name: string;
-      level?: "Beginner" | "Intermediate" | "Advanced" | "Expert";
-    }[];
-  };
+export interface Skill {
+  id: string;
+  name: string;
+  level?: "Beginner" | "Intermediate" | "Advanced" | "Expert";
+}
+
+export interface SkillCategory {
+  id: string;
+  name: string;
+  skills: Skill[];
+}
+export interface ResumeSkillItem {
+  categories: SkillCategory[];
 }
 
 interface ProjectSection {
@@ -56,12 +59,12 @@ interface CertificationSection {
   issuer?: string;
   date?: string;
   expirationDate?: string;
-  credentialId?: string;
   credentialUrl?: string;
   description?: string;
 }
 
-interface LanguageSection {
+export interface ResumeLanguageItem {
+  id: string; // Unique identifier for the language item
   language: string;
   proficiency: "Native" | "Fluent" | "Professional" | "Intermediate" | "Basic";
 }
@@ -77,14 +80,14 @@ export interface Resume extends Document {
   theme: ThemeConfig;
   sectionOrder: string[]; // e.g., ['header', 'experience', 'education', 'skills'] - order of sections in the resume
   sections: {
-    header?: HeaderSection;
-    experience?: ExperienceSection[];
-    education?: EducationSection[];
-    skills?: SkillSection;
-    projects?: ProjectSection[];
+    personalInfo?: ResumePersonalInfoItem;
     summary?: SummarySection;
+    experience?: ResumeExperienceItem[];
+    education?: ResumeEducationItem[];
+    skills?: ResumeSkillItem;
+    projects?: ProjectSection[];
     certifications?: CertificationSection[];
-    languages?: LanguageSection;
+    languages?: ResumeLanguageItem;
   } & Record<string, CustomSection>; // for custom sections
 }
 

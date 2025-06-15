@@ -1,10 +1,25 @@
-import { Input } from "@/shared/components/ui/input";
+"use client";
+import { ResumePersonalInfoItem } from "@/shared/types/resume";
 import { User } from "lucide-react";
-import ResumeItem from "../ResumeItem";
+import { useState } from "react";
 import ResumeSection from "../ResumeSection";
-import TwoItemGrid from "../TwoItemGrid";
+import PersonalInfoForm from "./PersonalInfoForm";
 
 const PersonalInformationSection = () => {
+  const [personalInfo, setPersonalInfo] = useState<ResumePersonalInfoItem>(
+    {} as ResumePersonalInfoItem
+  );
+
+  const handlePersonalInfoChange = <T,>(
+    key: keyof ResumePersonalInfoItem,
+    value: T
+  ) => {
+    setPersonalInfo((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
   return (
     <ResumeSection
       icon={<User className="w-4 h-4" />}
@@ -12,49 +27,10 @@ const PersonalInformationSection = () => {
       subtitle="Basic contact details and personal info."
       defaultOpen
     >
-      <ResumeItem itemId="fullName" label="Full name">
-        <Input id="fullName" placeholder="John Doe" />
-      </ResumeItem>
-
-      <ResumeItem itemId="headline" label="Headline">
-        <Input id="headline" placeholder="Principal Software Engineer." />
-      </ResumeItem>
-
-      <ResumeItem
-        itemId="email"
-        label="Email Address"
-        description="Use a professional email address for job applications."
-      >
-        <Input
-          required
-          id="email"
-          type="email"
-          placeholder="johndoe@example.com"
-        />
-      </ResumeItem>
-
-      <TwoItemGrid>
-        <ResumeItem itemId="phone" label="Phone Number">
-          <Input
-            required
-            id="phone"
-            type="tel"
-            placeholder="+1 (555) 123-4567"
-          />
-        </ResumeItem>
-
-        <ResumeItem itemId="location" label="Location">
-          <Input id="location" placeholder="City, State" />
-        </ResumeItem>
-      </TwoItemGrid>
-
-      <ResumeItem itemId="website" label="Website/Portfolio">
-        <Input
-          id="website"
-          type="url"
-          placeholder="https://yourportfolio.com"
-        />
-      </ResumeItem>
+      <PersonalInfoForm
+        personalInfo={personalInfo}
+        onPersonalInfoChange={handlePersonalInfoChange}
+      />
     </ResumeSection>
   );
 };
