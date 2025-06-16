@@ -1,5 +1,5 @@
 import { Input } from "@/shared/components/ui/input";
-import { Textarea } from "@/shared/components/ui/textarea";
+import RichTextEditor from "@/shared/components/ui/rich-text-editor";
 import { type ResumeCertificationItem } from "@/shared/types/resume";
 import ResumeItem from "../ResumeItem";
 import TwoItemGrid from "../TwoItemGrid";
@@ -96,12 +96,11 @@ const CertificationForm = ({
         itemId={`${certification.id}-description`}
         className="p-0"
       >
-        <Textarea
+        <RichTextEditor
           id={`${certification.id}-description`}
-          value={certification.description}
-          onChange={(e) => onCertificationChange("description", e.target.value)}
+          content={certification.description}
+          onChange={(v) => onCertificationChange("description", v)}
           placeholder="Mention key highlights, relevance, or what you learned."
-          className="min-h-[100px]"
         />
       </ResumeItem>
     </div>

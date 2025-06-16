@@ -1,5 +1,5 @@
 import { Input } from "@/shared/components/ui/input";
-import { Textarea } from "@/shared/components/ui/textarea";
+import RichTextEditor from "@/shared/components/ui/rich-text-editor";
 import { ResumeExperienceItem } from "@/shared/types/resume";
 import ResumeItem from "../ResumeItem";
 
@@ -58,12 +58,11 @@ const WorkExperienceForm = ({
         label="Description"
         labelClassName="text-sm font-medium"
       >
-        <Textarea
+        <RichTextEditor
           id={`${experience}-description`}
-          value={experience.description}
-          onChange={(e) => onExperienceChange("description", e.target.value)}
+          content={experience.description}
+          onChange={(value) => onExperienceChange("description", value)}
           placeholder="Describe your responsibilities, achievements, and tools used..."
-          className="min-h-[100px]"
         />
       </ResumeItem>
     </div>

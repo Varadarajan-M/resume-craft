@@ -1,5 +1,5 @@
 import { Input } from "@/shared/components/ui/input";
-import { Textarea } from "@/shared/components/ui/textarea";
+import RichTextEditor from "@/shared/components/ui/rich-text-editor";
 import { type ResumeProjectItem } from "@/shared/types/resume";
 import ResumeItem from "../ResumeItem";
 
@@ -29,12 +29,11 @@ const ProjectForm = ({ project, onProjectChange }: ProjectFormProps) => {
         itemId={`${project.id}-desc`}
         className="p-0"
       >
-        <Textarea
+        <RichTextEditor
           id={`${project.id}-desc`}
-          value={project.description}
-          onChange={(e) => onProjectChange("description", e.target.value)}
+          content={project.description}
+          onChange={(v) => onProjectChange("description", v)}
           placeholder="Briefly describe what the project does, and what you built."
-          className="min-h-[100px]"
         />
       </ResumeItem>
 

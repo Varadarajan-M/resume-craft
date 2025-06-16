@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/shared/components/ui/input";
-import { Textarea } from "@/shared/components/ui/textarea";
+import RichTextEditor from "@/shared/components/ui/rich-text-editor";
 import { type ResumeEducationItem } from "@/shared/types/resume";
 import ResumeItem from "../ResumeItem";
 import TwoItemGrid from "../TwoItemGrid";
@@ -72,12 +72,11 @@ const EducationForm = ({
         label="Description"
         className="p-0"
       >
-        <Textarea
-          value={education.description}
-          onChange={(e) => onEducationChange("description", e.target.value)}
+        <RichTextEditor
+          content={education.description}
+          onChange={(v) => onEducationChange("description", v)}
           id={`${education.id}-description`}
           placeholder="e.g., Relevant coursework, honors, or extracurricular activities."
-          className="min-h-[100px]"
         />
       </ResumeItem>
     </div>
