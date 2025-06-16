@@ -106,7 +106,7 @@ interface EditorToolbarProps {
   editor: Editor;
 }
 
-export const EditorToolbar = memo(({ editor }: EditorToolbarProps) => {
+export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
   if (!editor) return null;
 
   const actions = [
@@ -173,6 +173,6 @@ export const EditorToolbar = memo(({ editor }: EditorToolbarProps) => {
       </div>
     </TooltipProvider>
   );
-});
+};
 
 export default memo(RichTextEditor);
