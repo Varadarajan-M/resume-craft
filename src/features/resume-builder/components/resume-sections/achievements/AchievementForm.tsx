@@ -1,5 +1,5 @@
 import { Input } from "@/shared/components/ui/input";
-import { Textarea } from "@/shared/components/ui/textarea";
+import RichTextEditor from "@/shared/components/ui/rich-text-editor";
 import { type ResumeAchievementItem } from "@/shared/types/resume";
 import ResumeItem from "../ResumeItem";
 
@@ -35,12 +35,11 @@ const AchievementForm = ({
         itemId={`${achievement.id}-description`}
         className="p-0"
       >
-        <Textarea
+        <RichTextEditor
           id={`${achievement.id}-description`}
-          value={achievement.description}
-          onChange={(e) => onAchievementChange("description", e.target.value)}
+          content={achievement.description}
+          onChange={(v) => onAchievementChange("description", v)}
           placeholder="Explain the context, what you did, and the result. e.g., Built an AI-powered resume parser that ranked 1st out of 100 teams."
-          className="min-h-[100px]"
         />
       </ResumeItem>
     </div>
