@@ -1,7 +1,4 @@
-import { Award } from "lucide-react";
-
 import FadeInChildren from "@/shared/components/animated/FadeIn";
-import ResumeSection from "./ResumeSection";
 
 import { EducationSection } from "./education";
 import { PersonalInformationSection } from "./personal-info";
@@ -10,7 +7,10 @@ import { SkillsSection } from "./skills";
 import { WorkExperienceSection } from "./work-experience";
 
 import { cn } from "@/shared/lib/utils";
+import { AchievementSection } from "./achievements";
+import { CertificationSection } from "./certifications";
 import { LanguageSection } from "./languages";
+import { ProjectSection } from "./projects";
 
 interface ResumeSectionsPanelProps {
   className?: string;
@@ -31,22 +31,9 @@ const ResumeSectionsPanel = ({ className }: ResumeSectionsPanelProps) => {
       <WorkExperienceSection />
       <EducationSection />
       <SkillsSection />
-
-      <ResumeSection
-        icon={<Award className="w-4 h-4" />}
-        title="Achievements"
-        subtitle="Notable awards and recognitions."
-      >
-        <div className="flex flex-col gap-2">
-          <p className="text-sm text-muted-foreground">
-            Add any awards, certifications, or recognitions.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Great way to stand out from the crowd.
-          </p>
-        </div>
-      </ResumeSection>
-
+      <ProjectSection />
+      <CertificationSection />
+      <AchievementSection />
       <LanguageSection />
     </FadeInChildren>
   );

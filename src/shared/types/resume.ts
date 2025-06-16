@@ -43,18 +43,19 @@ export interface ResumeSkillItem {
   categories: SkillCategory[];
 }
 
-interface ProjectSection {
+export interface ResumeProjectItem {
   name: string;
   description?: string;
   url?: string;
   technologies?: string[];
 }
 
-interface SummarySection {
+interface ResumeProfessionalSummaryItem {
   content: string;
 }
 
-interface CertificationSection {
+export interface ResumeCertificationItem {
+  id: string; // Unique identifier for the certification item
   name: string;
   issuer?: string;
   date?: string;
@@ -75,18 +76,25 @@ interface CustomSection {
   content: string | any; // can support markdown, rich text, etc.
 }
 
+export interface ResumeAchievementItem {
+  id: string;
+  title: string;
+  description?: string;
+}
+
 export interface Resume extends Document {
   category: "resume";
   theme: ThemeConfig;
   sectionOrder: string[]; // e.g., ['header', 'experience', 'education', 'skills'] - order of sections in the resume
   sections: {
     personalInfo?: ResumePersonalInfoItem;
-    summary?: SummarySection;
+    summary?: ResumeProfessionalSummaryItem;
     experience?: ResumeExperienceItem[];
     education?: ResumeEducationItem[];
     skills?: ResumeSkillItem;
-    projects?: ProjectSection[];
-    certifications?: CertificationSection[];
+    projects?: ResumeProjectItem[];
+    certifications?: ResumeCertificationItem[];
+    achievements?: ResumeAchievementItem[];
     languages?: ResumeLanguageItem;
   } & Record<string, CustomSection>; // for custom sections
 }
