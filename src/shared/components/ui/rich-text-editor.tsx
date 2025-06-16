@@ -14,7 +14,7 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Placeholder from "@tiptap/extension-placeholder";
 import Text from "@tiptap/extension-text";
 import Underline from "@tiptap/extension-underline";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
 
 import {
   Tooltip,
@@ -31,7 +31,6 @@ import {
   UnderlineIcon,
   UnlinkIcon,
 } from "lucide-react";
-import { memo } from "react";
 import { Toggle } from "./toggle";
 
 interface EditorProps {
@@ -51,6 +50,8 @@ const RichTextEditor = ({
 }: EditorProps) => {
   const editor = useEditor({
     editable: !readOnly,
+    immediatelyRender: false,
+    shouldRerenderOnTransaction: true,
     extensions: [
       Document,
       Paragraph,
@@ -107,31 +108,44 @@ interface EditorToolbarProps {
 }
 
 export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
+  const editorState = useEditorState({
+    editor,
+    // This function will be called every time the editor state changes
+    selector: ({ editor }: { editor: Editor }) => ({
+      // It will only re-render if these values change
+      isBold: editor.isActive("bold"),
+      isItalic: editor.isActive("italic"),
+      isUnderline: editor.isActive("underline"),
+      isLink: editor.isActive("link"),
+      isBulletList: editor.isActive("bulletList"),
+    }),
+  });
+
   if (!editor) return null;
 
   const actions = [
     {
       icon: BoldIcon,
       label: "Bold",
-      isActive: editor.isActive("bold"),
+      isActive: editorState.isBold,
       onClick: () => editor.chain().focus().toggleBold().run(),
     },
     {
       icon: ItalicIcon,
       label: "Italic",
-      isActive: editor.isActive("italic"),
+      isActive: editorState.isItalic,
       onClick: () => editor.chain().focus().toggleItalic().run(),
     },
     {
       icon: UnderlineIcon,
       label: "Underline",
-      isActive: editor.isActive("underline"),
+      isActive: editorState.isUnderline,
       onClick: () => editor.chain().focus().toggleUnderline().run(),
     },
     {
       icon: LinkIcon,
       label: "Add Link",
-      isActive: editor.isActive("link"),
+      isActive: editorState.isLink,
       onClick: () => {
         const url = window.prompt("Enter URL:");
         if (url) {
@@ -148,7 +162,7 @@ export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
     {
       icon: ListIcon,
       label: "Bullet List",
-      isActive: editor.isActive("bulletList"),
+      isActive: editorState.isBulletList,
       onClick: () => editor.chain().focus().toggleBulletList().run(),
     },
   ];
@@ -175,4 +189,4 @@ export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
   );
 };
 
-export default memo(RichTextEditor);
+export default RichTextEditor;
