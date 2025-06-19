@@ -1,27 +1,26 @@
+"use client";
+
+import { useResumeStore } from "@/features/resume-builder/store/resume";
+
 import { Input } from "@/shared/components/ui/input";
-import { ResumePersonalInfoItem } from "@/shared/types/resume";
 import ResumeItem from "../ResumeItem";
 import TwoItemGrid from "../TwoItemGrid";
 
-interface PersonalInfoFormProps {
-  personalInfo: ResumePersonalInfoItem;
-  onPersonalInfoChange: <T>(
-    key: keyof ResumePersonalInfoItem,
-    value: T
-  ) => void;
-}
+import type { ResumePersonalInfoItem } from "@/shared/types/resume";
 
-const PersonalInfoForm = ({
-  personalInfo,
-  onPersonalInfoChange,
-}: PersonalInfoFormProps) => {
+const PersonalInfoForm = () => {
+  const personalInfo = useResumeStore(
+    (s) => s.resume?.sections?.personalInfo as ResumePersonalInfoItem
+  );
+  const update = useResumeStore((s) => s.updatePersonalInfoField);
+
   return (
     <>
-      <ResumeItem itemId="fullName" label="Full name">
+      <ResumeItem itemId="fullName" label="Full Name">
         <Input
-          value={personalInfo?.fullName}
           id="fullName"
-          onChange={(e) => onPersonalInfoChange("fullName", e.target.value)}
+          value={personalInfo?.fullName || ""}
+          onChange={(e) => update("fullName", e.target.value)}
           placeholder="John Doe"
         />
       </ResumeItem>
@@ -29,9 +28,9 @@ const PersonalInfoForm = ({
       <ResumeItem itemId="headline" label="Headline">
         <Input
           id="headline"
-          value={personalInfo?.headline}
-          onChange={(e) => onPersonalInfoChange("headline", e.target.value)}
-          placeholder="Principal Software Engineer."
+          value={personalInfo?.headline || ""}
+          onChange={(e) => update("headline", e.target.value)}
+          placeholder="Principal Software Engineer"
         />
       </ResumeItem>
 
@@ -41,32 +40,30 @@ const PersonalInfoForm = ({
         description="Use a professional email address for job applications."
       >
         <Input
-          required
           id="email"
-          value={personalInfo?.email}
-          onChange={(e) => onPersonalInfoChange("email", e.target.value)}
-          type="email"
+          value={personalInfo?.email || ""}
+          onChange={(e) => update("email", e.target.value)}
           placeholder="johndoe@example.com"
+          type="email"
         />
       </ResumeItem>
 
       <TwoItemGrid>
         <ResumeItem itemId="phone" label="Phone Number">
           <Input
-            required
             id="phone"
-            value={personalInfo?.phone}
-            onChange={(e) => onPersonalInfoChange("phone", e.target.value)}
-            type="tel"
+            value={personalInfo?.phone || ""}
+            onChange={(e) => update("phone", e.target.value)}
             placeholder="+1 (555) 123-4567"
+            type="tel"
           />
         </ResumeItem>
 
         <ResumeItem itemId="location" label="Location">
           <Input
             id="location"
-            value={personalInfo?.location}
-            onChange={(e) => onPersonalInfoChange("location", e.target.value)}
+            value={personalInfo?.location || ""}
+            onChange={(e) => update("location", e.target.value)}
             placeholder="City, State"
           />
         </ResumeItem>
@@ -77,8 +74,8 @@ const PersonalInfoForm = ({
           id="website"
           value={personalInfo?.website?.url || ""}
           onChange={(e) =>
-            onPersonalInfoChange("website", {
-              label: "Portfolio",
+            update("website", {
+              label: personalInfo?.website?.label ?? "Website",
               url: e.target.value,
             })
           }

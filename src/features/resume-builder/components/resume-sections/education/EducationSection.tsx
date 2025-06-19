@@ -1,65 +1,15 @@
 "use client";
 
-import { Book } from "lucide-react";
-import { useState } from "react";
-
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import Tip from "@/shared/components/common/Tip";
-import ResumeSection from "../ResumeSection";
-
-import { type ResumeEducationItem } from "@/shared/types/resume";
+import { Book } from "lucide-react";
 import AddNewButton from "../AddNewItemButton";
-import EducationForm from "./EducationForm";
+import ResumeSection from "../ResumeSection";
 import EducationItem from "./EducationItem";
 
-const createNeEducationItem = (): ResumeEducationItem => ({
-  id: "edu-" + Math.random().toString(36).substr(2, 9),
-  institution: "",
-  fieldOfStudy: "",
-  timePeriod: "",
-  gpa: "",
-  description: "",
-});
-
 const EducationSection = () => {
-  const [educations, setEducations] = useState<ResumeEducationItem[]>([
-    createNeEducationItem(),
-    createNeEducationItem(),
-  ]);
-
-  const handleAddEducationClick = () => {
-    setEducations((prev) => [...prev, createNeEducationItem()]);
-  };
-
-  const handleEducationItemChange = (
-    id: string,
-    key: keyof ResumeEducationItem,
-    value: string
-  ) =>
-    setEducations((prev) =>
-      prev.map((education) =>
-        education.id === id ? { ...education, [key]: value } : education
-      )
-    );
-
-  const handleDeleteEducation = (id: string) =>
-    setEducations((prev) => prev.filter((education) => education?.id !== id));
-
-  const handleDuplicateEducation = (
-    id: string,
-    index: number,
-    education: ResumeEducationItem
-  ) => {
-    const newEducation = {
-      ...education,
-      institution: education.institution + " (Copy)",
-      id: "edu-" + Math.random().toString(36).substr(2, 9),
-    };
-    setEducations((prev) => {
-      const updatedEducations = [...prev];
-      updatedEducations.splice(index + 1, 0, newEducation);
-      return updatedEducations;
-    });
-  };
+  const education = useResumeStore((s) => s.resume?.sections.education ?? []);
+  const handleAddEducationItem = useResumeStore((s) => s.addEducationItem);
 
   return (
     <ResumeSection
@@ -67,35 +17,22 @@ const EducationSection = () => {
       title="Education"
       subtitle="Your academic qualifications."
     >
-      {educations.map((education, index) => (
-        <EducationItem
-          key={education.id}
-          education={education}
-          index={index}
-          onDeleteEducation={handleDeleteEducation}
-          onDuplicateEducation={handleDuplicateEducation}
-        >
-          <EducationForm
-            key={education.id}
-            education={education}
-            onEducationChange={(key, value) =>
-              handleEducationItemChange(education?.id, key, value)
-            }
-          />
-        </EducationItem>
+      {education?.map(({ id }, index) => (
+        <EducationItem key={id} id={id} index={index} />
       ))}
 
       <AddNewButton
         className="ml-1"
-        onClick={handleAddEducationClick}
-        label={"Add Education"}
+        onClick={handleAddEducationItem}
+        label="Add Education"
       />
 
       <Tip>
         Include schools, degrees, and graduation dates. Highlight relevant
-        coursework or honors if applicable.
+        coursework or honors.
       </Tip>
     </ResumeSection>
   );
 };
+
 export default EducationSection;

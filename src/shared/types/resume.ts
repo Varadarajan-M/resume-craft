@@ -96,7 +96,8 @@ export interface Resume extends Document {
     certifications?: ResumeCertificationItem[];
     achievements?: ResumeAchievementItem[];
     languages?: ResumeLanguageItem;
-  } & Record<string, CustomSection>; // for custom sections
+    // [k ]: CustomSection;
+  }; // for custom sections
 }
 
 interface ThemeConfig {

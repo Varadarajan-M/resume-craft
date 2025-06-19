@@ -1,64 +1,17 @@
 "use client";
 
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import Tip from "@/shared/components/common/Tip";
-import { ResumeExperienceItem } from "@/shared/types/resume";
 import { Briefcase } from "lucide-react";
-import { useState } from "react";
 import AddNewButton from "../AddNewItemButton";
 import ResumeSection from "../ResumeSection";
-import WorkExperienceForm from "./WorkExperienceForm";
 import WorkExperienceItem from "./WorkExperienceItem";
 
-const createNewExperienceItem = (): ResumeExperienceItem => ({
-  id: `experience-${Date.now()}`,
-  title: "",
-  company: "",
-  timePeriod: "",
-  description: "",
-});
-
 const ExperienceSection = () => {
-  const [experiences, setExperiences] = useState<ResumeExperienceItem[]>([
-    createNewExperienceItem(),
-  ]);
-
-  const handleAddExperienceClick = () => {
-    const newId = `experience-${Date.now()}`;
-    setExperiences((prev) => [
-      ...prev,
-      { ...createNewExperienceItem(), id: newId },
-    ]);
-  };
-
-  const handleExperienceItemChange = (
-    id: string,
-    key: keyof ResumeExperienceItem,
-    value: string
-  ) =>
-    setExperiences((prev) =>
-      prev.map((experience) =>
-        experience.id === id ? { ...experience, [key]: value } : experience
-      )
-    );
-  const handleDeleteExperience = (id: string) =>
-    setExperiences((prev) => prev.filter((experience) => experience.id !== id));
-
-  const handleDuplicateExperience = (
-    id: string,
-    index: number,
-    experience: ResumeExperienceItem
-  ) => {
-    const newExperience = {
-      ...experience,
-      title: experience.title + " (Copy)",
-      id: `experience-${Date.now()}`,
-    };
-    setExperiences((prev) => {
-      const updatedExperiences = [...prev];
-      updatedExperiences.splice(index + 1, 0, newExperience);
-      return updatedExperiences;
-    });
-  };
+  const experiences = useResumeStore(
+    (s) => s.resume?.sections.experience ?? []
+  );
+  const handleAddExperienceItem = useResumeStore((s) => s.addExperienceItem);
 
   return (
     <ResumeSection
@@ -68,27 +21,13 @@ const ExperienceSection = () => {
       defaultOpen
     >
       <div className="flex flex-col gap-6">
-        {experiences.map((experience, index) => (
-          <WorkExperienceItem
-            key={experience.id}
-            experience={experience}
-            index={index}
-            onDeleteExperience={handleDeleteExperience}
-            onDuplicateExperience={handleDuplicateExperience}
-          >
-            <WorkExperienceForm
-              key={experience.id}
-              experience={experience}
-              onExperienceChange={(key, value) =>
-                handleExperienceItemChange(experience.id, key, value)
-              }
-            />
-          </WorkExperienceItem>
+        {experiences.map((exp, index) => (
+          <WorkExperienceItem key={exp.id} id={exp.id} index={index} />
         ))}
 
         <AddNewButton
           className="ml-1.5"
-          onClick={handleAddExperienceClick}
+          onClick={handleAddExperienceItem}
           label="Add Experience"
         />
 

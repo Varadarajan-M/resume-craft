@@ -1,65 +1,19 @@
-// CertificationSection.tsx
-
 "use client";
 
-import { BadgeCheck } from "lucide-react";
-import { useState } from "react";
-
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import Tip from "@/shared/components/common/Tip";
+import { BadgeCheck } from "lucide-react";
 import AddNewButton from "../AddNewItemButton";
 import ResumeSection from "../ResumeSection";
-
-import { type ResumeCertificationItem } from "@/shared/types/resume";
-import CertificationForm from "./CertificationForm";
 import CertificationItem from "./CertificationItem";
 
-const createNewCertificationItem = (): ResumeCertificationItem => ({
-  id: "cert-" + Math.random().toString(36).substr(2, 9),
-  name: "",
-  issuer: "",
-  date: "",
-  expirationDate: "",
-  credentialUrl: "",
-  description: "",
-});
-
 const CertificationSection = () => {
-  const [certifications, setCertifications] = useState<
-    ResumeCertificationItem[]
-  >([createNewCertificationItem()]);
-
-  const handleAddCertification = () => {
-    setCertifications((prev) => [...prev, createNewCertificationItem()]);
-  };
-
-  const handleCertificationChange = (
-    id: string,
-    key: keyof ResumeCertificationItem,
-    value: string
-  ) =>
-    setCertifications((prev) =>
-      prev.map((cert) => (cert.id === id ? { ...cert, [key]: value } : cert))
-    );
-
-  const handleDeleteCertification = (id: string) =>
-    setCertifications((prev) => prev.filter((cert) => cert.id !== id));
-
-  const handleDuplicateCertification = (
-    id: string,
-    index: number,
-    cert: ResumeCertificationItem
-  ) => {
-    const newCert = {
-      ...cert,
-      name: cert.name + " (Copy)",
-      id: "cert-" + Math.random().toString(36).substr(2, 9),
-    };
-    setCertifications((prev) => {
-      const updated = [...prev];
-      updated.splice(index + 1, 0, newCert);
-      return updated;
-    });
-  };
+  const certifications = useResumeStore(
+    (s) => s.resume?.sections.certifications ?? []
+  );
+  const handleAddCertificationItem = useResumeStore(
+    (s) => s.addCertificationItem
+  );
 
   return (
     <ResumeSection
@@ -67,27 +21,14 @@ const CertificationSection = () => {
       title="Certifications"
       subtitle="Relevant certifications and credentials."
     >
-      {certifications.map((cert, index) => (
-        <CertificationItem
-          key={cert.id}
-          certification={cert}
-          index={index}
-          onDeleteCertification={handleDeleteCertification}
-          onDuplicateCertification={handleDuplicateCertification}
-        >
-          <CertificationForm
-            certification={cert}
-            onCertificationChange={(key, value) =>
-              handleCertificationChange(cert.id, key, value)
-            }
-          />
-        </CertificationItem>
+      {certifications?.map((cert, index) => (
+        <CertificationItem key={cert.id} id={cert.id} index={index} />
       ))}
 
       <AddNewButton
         className="ml-1"
-        onClick={handleAddCertification}
-        label={"Add Certification"}
+        onClick={handleAddCertificationItem}
+        label="Add Certification"
       />
 
       <Tip>

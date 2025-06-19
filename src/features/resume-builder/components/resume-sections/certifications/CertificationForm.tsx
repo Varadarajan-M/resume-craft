@@ -1,110 +1,104 @@
+"use client";
+
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import { Input } from "@/shared/components/ui/input";
 import RichTextEditor from "@/shared/components/ui/rich-text-editor";
-import { type ResumeCertificationItem } from "@/shared/types/resume";
+import { memo } from "react";
 import ResumeItem from "../ResumeItem";
 import TwoItemGrid from "../TwoItemGrid";
 
-interface CertificationFormProps {
-  certification: ResumeCertificationItem;
-  onCertificationChange: (
-    key: keyof ResumeCertificationItem,
-    value: string
-  ) => void;
-}
+const CertificationForm = ({ id }: { id: string }) => {
+  const cert = useResumeStore((s) =>
+    s.resume?.sections.certifications?.find((c) => c.id === id)
+  );
+  const handleUpdateCertificationItem = useResumeStore(
+    (s) => s.updateCertificationItem
+  );
 
-const CertificationForm = ({
-  certification,
-  onCertificationChange,
-}: CertificationFormProps) => {
+  if (!cert) return null;
+
   return (
     <div className="flex flex-col gap-4">
-      <ResumeItem
-        label="Certification Name"
-        itemId={`${certification.id}-name`}
-        className="p-0"
-      >
+      <ResumeItem label="Certification Name" itemId={`${id}-name`}>
         <Input
-          id={`${certification.id}-name`}
-          value={certification.name}
-          onChange={(e) => onCertificationChange("name", e.target.value)}
+          value={cert.name}
+          onChange={(e) =>
+            handleUpdateCertificationItem(id, { name: e.target.value })
+          }
           placeholder="e.g., AWS Certified Developer"
         />
       </ResumeItem>
 
       <TwoItemGrid>
-        <ResumeItem
-          label="Issuer"
-          itemId={`${certification.id}-issuer`}
-          className="p-0"
-        >
+        <ResumeItem label="Issuer" itemId={`${id}-issuer`}>
           <Input
-            id={`${certification.id}-issuer`}
-            value={certification.issuer}
-            onChange={(e) => onCertificationChange("issuer", e.target.value)}
+            value={cert.issuer}
+            onChange={(e) =>
+              handleUpdateCertificationItem(id, { issuer: e.target.value })
+            }
             placeholder="e.g., Amazon Web Services"
           />
         </ResumeItem>
-
-        <ResumeItem
-          label="Issued Date"
-          itemId={`${certification.id}-date`}
-          className="p-0"
-        >
+        <ResumeItem label="Issued Date" itemId={`${id}-date`}>
           <Input
-            id={`${certification.id}-date`}
-            value={certification.date}
-            onChange={(e) => onCertificationChange("date", e.target.value)}
+            value={cert.date}
+            onChange={(e) =>
+              handleUpdateCertificationItem(id, { date: e.target.value })
+            }
             placeholder="e.g., June 2023"
           />
         </ResumeItem>
       </TwoItemGrid>
 
       <TwoItemGrid>
-        <ResumeItem
-          label="Expiration Date"
-          itemId={`${certification.id}-expirationDate`}
-          className="p-0"
-        >
+        <ResumeItem label="Expiration Date" itemId={`${id}-expirationDate`}>
           <Input
-            id={`${certification.id}-expirationDate`}
-            value={certification.expirationDate}
+            value={cert.expirationDate}
             onChange={(e) =>
-              onCertificationChange("expirationDate", e.target.value)
+              handleUpdateCertificationItem(id, {
+                expirationDate: e.target.value,
+              })
             }
             placeholder="Optional"
           />
         </ResumeItem>
-
-        <ResumeItem
-          label="Credential URL"
-          itemId={`${certification.id}-credentialUrl`}
-          className="p-0"
-        >
+        <ResumeItem label="Credential URL" itemId={`${id}-credentialUrl`}>
           <Input
-            id={`${certification.id}-credentialUrl`}
-            value={certification.credentialUrl}
+            value={cert.credentialUrl}
             onChange={(e) =>
-              onCertificationChange("credentialUrl", e.target.value)
+              handleUpdateCertificationItem(id, {
+                credentialUrl: e.target.value,
+              })
             }
             placeholder="https://..."
           />
         </ResumeItem>
       </TwoItemGrid>
 
-      <ResumeItem
-        label="Description"
-        itemId={`${certification.id}-description`}
-        className="p-0"
-      >
-        <RichTextEditor
-          id={`${certification.id}-description`}
-          content={certification.description}
-          onChange={(v) => onCertificationChange("description", v)}
-          placeholder="Mention key highlights, relevance, or what you learned."
-        />
-      </ResumeItem>
+      <DescriptionEditor id={id} />
     </div>
   );
 };
+
+const DescriptionEditor = memo(({ id }: { id: string }) => {
+  const description = useResumeStore(
+    (s) =>
+      s.resume?.sections.certifications?.find((c) => c.id === id)
+        ?.description || ""
+  );
+  const handleUpdateCertificationItem = useResumeStore(
+    (s) => s.updateCertificationItem
+  );
+
+  return (
+    <ResumeItem label="Description" itemId={`${id}-description`}>
+      <RichTextEditor
+        content={description}
+        onChange={(v) => handleUpdateCertificationItem(id, { description: v })}
+        placeholder="Mention key highlights, relevance, or what you learned."
+      />
+    </ResumeItem>
+  );
+});
 
 export default CertificationForm;

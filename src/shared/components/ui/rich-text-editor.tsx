@@ -39,6 +39,7 @@ interface EditorProps {
   placeholder?: string;
   readOnly?: boolean;
   id?: string; // Optional ID for the editor
+  className?: string; // Optional className for custom styling
 }
 
 const RichTextEditor = ({
@@ -47,6 +48,7 @@ const RichTextEditor = ({
   onChange,
   placeholder,
   readOnly,
+  className,
 }: EditorProps) => {
   const editor = useEditor({
     editable: !readOnly,
@@ -98,7 +100,7 @@ const RichTextEditor = ({
   return (
     <div className="flex flex-col gap-2">
       <EditorToolbar editor={editor} />
-      <EditorContent id={id} editor={editor} />
+      <EditorContent id={id} editor={editor} className={className ?? ""} />
     </div>
   );
 };

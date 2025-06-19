@@ -1,71 +1,75 @@
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import { Input } from "@/shared/components/ui/input";
 import RichTextEditor from "@/shared/components/ui/rich-text-editor";
-import { ResumeExperienceItem } from "@/shared/types/resume";
 import ResumeItem from "../ResumeItem";
 
-interface WorkExperienceFormProps {
-  experience: ResumeExperienceItem;
-  onExperienceChange: (key: keyof ResumeExperienceItem, value: string) => void;
-}
+const WorkExperienceForm = ({ id }: { id: string }) => {
+  const experience = useResumeStore((s) =>
+    s.resume?.sections.experience?.find((e) => e.id === id)
+  );
+  const handleUpdateExperienceField = useResumeStore(
+    (s) => s.updateExperienceItem
+  );
 
-const WorkExperienceForm = ({
-  experience,
-  onExperienceChange,
-}: WorkExperienceFormProps) => {
+  if (!experience) return null;
+
   return (
-    <div key={experience.id} className="flex flex-col gap-4">
-      <ResumeItem
-        itemId={`${experience.id}-title`}
-        label="Job Title"
-        labelClassName="text-sm font-medium"
-      >
+    <div className="flex flex-col gap-4">
+      <ResumeItem label="Job Title" itemId={`${id}-title`}>
         <Input
           value={experience.title}
-          id={`${experience}-title`}
-          onChange={(e) => onExperienceChange("title", e.target.value)}
+          onChange={(e) =>
+            handleUpdateExperienceField(id, { title: e.target.value })
+          }
           placeholder="e.g., Frontend Engineer"
         />
       </ResumeItem>
 
-      <ResumeItem
-        itemId={`${experience}-company`}
-        label="Company"
-        labelClassName="text-sm font-medium"
-      >
+      <ResumeItem label="Company" itemId={`${id}-company`}>
         <Input
           value={experience.company}
-          id={`${experience}-company`}
-          onChange={(e) => onExperienceChange("company", e.target.value)}
+          onChange={(e) =>
+            handleUpdateExperienceField(id, { company: e.target.value })
+          }
           placeholder="e.g., OpenAI"
         />
       </ResumeItem>
 
-      <ResumeItem
-        itemId={`${experience}-duration`}
-        label="Duration"
-        labelClassName="text-sm font-medium"
-      >
+      <ResumeItem label="Duration" itemId={`${id}-duration`}>
         <Input
-          id={`${experience}-duration`}
           value={experience.timePeriod}
-          onChange={(e) => onExperienceChange("timePeriod", e.target.value)}
+          onChange={(e) =>
+            handleUpdateExperienceField(id, { timePeriod: e.target.value })
+          }
           placeholder="e.g., Jan 2020 – Present"
         />
       </ResumeItem>
-
-      <ResumeItem
-        itemId={`${experience}-description`}
-        label="Description"
-        labelClassName="text-sm font-medium"
-      >
-        <RichTextEditor
-          id={`${experience}-description`}
-          content={experience.description}
-          onChange={(value) => onExperienceChange("description", value)}
-          placeholder="Describe your responsibilities, achievements, and tools used..."
-        />
-      </ResumeItem>
+      <ExperienceDescription id={id} />
     </div>
+  );
+};
+
+// rendering rich text editor in every unreleated keystroke causes performance issues
+// so using a separate component with selective rendering for description to avoid re-rendering when other fields change
+const ExperienceDescription = ({ id }: { id: string }) => {
+  const description = useResumeStore(
+    (s) =>
+      s.resume?.sections.experience?.find((e) => e.id === id)?.description || ""
+  );
+  const handleUpdateExperienceField = useResumeStore(
+    (s) => s.updateExperienceItem
+  );
+
+  return (
+    <ResumeItem label="Description" itemId={`${id}-description`}>
+      <RichTextEditor
+        content={description}
+        onChange={(content) =>
+          handleUpdateExperienceField(id, { description: content })
+        }
+        placeholder="Describe your key responsibilities and achievements in this role..."
+      />
+    </ResumeItem>
   );
 };
 

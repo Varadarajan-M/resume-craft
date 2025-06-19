@@ -20,6 +20,7 @@ const ResumeItem = ({
   labelClassName,
   renderHeaderAction,
 }: ResumeItemProps) => {
+  console.log("Rendering ResumeItem", itemId, label); // Debugging render count
   return (
     <div
       className={cn("flex flex-col gap-1.5 px-1 flex-1", className)}
