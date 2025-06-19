@@ -1,49 +1,63 @@
+"use client";
+
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import { Input } from "@/shared/components/ui/input";
 import RichTextEditor from "@/shared/components/ui/rich-text-editor";
-import { type ResumeAchievementItem } from "@/shared/types/resume";
+import { memo } from "react";
 import ResumeItem from "../ResumeItem";
 
-interface AchievementFormProps {
-  achievement: ResumeAchievementItem;
-  onAchievementChange: (
-    key: keyof ResumeAchievementItem,
-    value: string
-  ) => void;
-}
+const AchievementForm = ({ id }: { id: string }) => {
+  const title = useResumeStore(
+    (s) => s.resume?.sections.achievements?.find((a) => a.id === id)?.title
+  );
 
-const AchievementForm = ({
-  achievement,
-  onAchievementChange,
-}: AchievementFormProps) => {
+  const handleUpdateAchievement = useResumeStore(
+    (s) => s.updateAchievementItem
+  );
+
   return (
     <div className="flex flex-col gap-4">
-      <ResumeItem
-        label="Title"
-        itemId={`${achievement.id}-title`}
-        className="p-0"
-      >
+      <ResumeItem label="Title" itemId={`${id}-title`} className="p-0">
         <Input
-          id={`${achievement.id}-title`}
-          value={achievement.title}
-          onChange={(e) => onAchievementChange("title", e.target.value)}
+          id={`${id}-title`}
+          value={title || ""}
+          onChange={(e) =>
+            handleUpdateAchievement(id, { title: e.target.value })
+          }
           placeholder="e.g., Winner - Hackathon 2024"
         />
       </ResumeItem>
 
-      <ResumeItem
-        label="Description"
-        itemId={`${achievement.id}-description`}
-        className="p-0"
-      >
-        <RichTextEditor
-          id={`${achievement.id}-description`}
-          content={achievement.description}
-          onChange={(v) => onAchievementChange("description", v)}
-          placeholder="Explain the context, what you did, and the result. e.g., Built an AI-powered resume parser that ranked 1st out of 100 teams."
-        />
-      </ResumeItem>
+      <DescriptionEditor id={id} />
     </div>
   );
 };
+
+const DescriptionEditor = memo(({ id }: { id: string }) => {
+  const description = useResumeStore(
+    (s) =>
+      s.resume?.sections.achievements?.find((a) => a.id === id)?.description ||
+      ""
+  );
+
+  const handleUpdateAchievement = useResumeStore(
+    (s) => s.updateAchievementItem
+  );
+
+  return (
+    <ResumeItem
+      label="Description"
+      itemId={`${id}-description`}
+      className="p-0"
+    >
+      <RichTextEditor
+        id={`${id}-description`}
+        content={description}
+        onChange={(v) => handleUpdateAchievement(id, { description: v })}
+        placeholder="Explain the context, what you did, and the result."
+      />
+    </ResumeItem>
+  );
+});
 
 export default AchievementForm;

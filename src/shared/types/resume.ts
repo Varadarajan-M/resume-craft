@@ -44,6 +44,7 @@ export interface ResumeSkillItem {
 }
 
 export interface ResumeProjectItem {
+  id: string; // Unique identifier for the project item
   name: string;
   description?: string;
   url?: string;
@@ -95,7 +96,7 @@ export interface Resume extends Document {
     projects?: ResumeProjectItem[];
     certifications?: ResumeCertificationItem[];
     achievements?: ResumeAchievementItem[];
-    languages?: ResumeLanguageItem;
+    languages?: ResumeLanguageItem[];
     // [k ]: CustomSection;
   }; // for custom sections
 }

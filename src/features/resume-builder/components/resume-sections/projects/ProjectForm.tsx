@@ -1,64 +1,56 @@
+"use client";
+
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import { Input } from "@/shared/components/ui/input";
 import RichTextEditor from "@/shared/components/ui/rich-text-editor";
-import { type ResumeProjectItem } from "@/shared/types/resume";
+import { memo } from "react";
 import ResumeItem from "../ResumeItem";
 
-interface ProjectFormProps {
-  project: ResumeProjectItem & { id: string };
-  onProjectChange: (key: keyof ResumeProjectItem, value: any) => void;
-}
+const ProjectForm = ({ id }: { id: string }) => {
+  const project = useResumeStore((s) =>
+    s.resume?.sections.projects?.find((p) => p.id === id)
+  );
+  const handleUpdateProject = useResumeStore((s) => s.updateProjectItem);
 
-const ProjectForm = ({ project, onProjectChange }: ProjectFormProps) => {
+  if (!project) return null;
+
   return (
     <div className="flex flex-col gap-4">
-      <ResumeItem
-        label="Project Name"
-        itemId={`${project.id}-name`}
-        className="p-0"
-      >
+      <ResumeItem label="Project Name" itemId={`${id}-name`} className="p-0">
         <Input
-          id={`${project.id}-name`}
+          id={`${id}-name`}
           value={project.name}
-          onChange={(e) => onProjectChange("name", e.target.value)}
+          onChange={(e) => handleUpdateProject(id, { name: e.target.value })}
           placeholder="e.g., Portfolio Website"
         />
       </ResumeItem>
 
-      <ResumeItem
-        label="Description"
-        itemId={`${project.id}-desc`}
-        className="p-0"
-      >
-        <RichTextEditor
-          id={`${project.id}-desc`}
-          content={project.description}
-          onChange={(v) => onProjectChange("description", v)}
-          placeholder="Briefly describe what the project does, and what you built."
-        />
-      </ResumeItem>
+      <DescriptionEditor id={id} />
 
-      <ResumeItem label="URL" itemId={`${project.id}-url`} className="p-0">
+      <ResumeItem label="URL" itemId={`${id}-url`} className="p-0">
         <Input
-          id={`${project.id}-url`}
+          id={`${id}-url`}
           value={project.url}
-          onChange={(e) => onProjectChange("url", e.target.value)}
+          onChange={(e) => handleUpdateProject(id, { url: e.target.value })}
           placeholder="e.g., https://github.com/username/project"
         />
       </ResumeItem>
 
       <ResumeItem
         label="Technologies Used"
-        itemId={`${project.id}-tech`}
+        itemId={`${id}-tech`}
         className="p-0"
       >
         <Input
-          id={`${project.id}-tech`}
+          id={`${id}-tech`}
           value={project.technologies?.join(", ") || ""}
           onChange={(e) =>
-            onProjectChange(
-              "technologies",
-              e.target.value.split(",").map((tech) => tech?.trim())
-            )
+            handleUpdateProject(id, {
+              technologies: e.target.value
+                .split(",")
+                .map((t) => t.trim())
+                .filter(Boolean),
+            })
           }
           placeholder="e.g., React, Node.js, MongoDB"
         />
@@ -66,5 +58,24 @@ const ProjectForm = ({ project, onProjectChange }: ProjectFormProps) => {
     </div>
   );
 };
+
+const DescriptionEditor = memo(({ id }: { id: string }) => {
+  const description = useResumeStore(
+    (s) =>
+      s.resume?.sections.projects?.find((p) => p.id === id)?.description || ""
+  );
+  const handleUpdateProject = useResumeStore((s) => s.updateProjectItem);
+
+  return (
+    <ResumeItem label="Description" itemId={`${id}-desc`} className="p-0">
+      <RichTextEditor
+        id={`${id}-desc`}
+        content={description}
+        onChange={(v) => handleUpdateProject(id, { description: v })}
+        placeholder="Briefly describe what the project does, and what you built."
+      />
+    </ResumeItem>
+  );
+});
 
 export default ProjectForm;

@@ -1,46 +1,15 @@
 "use client";
 
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import Tip from "@/shared/components/common/Tip";
-import { ResumeLanguageItem } from "@/shared/types/resume";
 import { Languages as LanguagesIcon } from "lucide-react";
-import { useState } from "react";
 import AddNewButton from "../AddNewItemButton";
 import ResumeSection from "../ResumeSection";
 import LanguageItem from "./LanguageItem";
 
 const LanguageSection = () => {
-  const [languages, setLanguages] = useState<ResumeLanguageItem[]>([
-    {
-      id: `lang-${Math.random().toString().substring(1, 9)}`,
-      language: "English",
-      proficiency: "Fluent",
-    },
-  ]);
-
-  const handleUpdateLanguage = (
-    index: number,
-    field: keyof ResumeLanguageItem,
-    value: string
-  ) => {
-    setLanguages((prev) =>
-      prev.map((lang, i) => (i === index ? { ...lang, [field]: value } : lang))
-    );
-  };
-
-  const handleAddLanguage = () => {
-    setLanguages((prev) => [
-      ...prev,
-      {
-        id: `lang-${Math.random().toString().substring(1, 9)}`,
-        language: "",
-        proficiency: "Fluent",
-      },
-    ]);
-  };
-
-  const handleRemoveLanguage = (index: number) => {
-    setLanguages((prev) => prev.filter((_, i) => i !== index));
-  };
+  const languages = useResumeStore((s) => s.resume?.sections.languages ?? []);
+  const handleAddLanguage = useResumeStore((s) => s.addLanguageItem);
 
   return (
     <ResumeSection
@@ -50,14 +19,8 @@ const LanguageSection = () => {
       defaultOpen
     >
       <div className="flex flex-col gap-6">
-        {languages.map((lang, index) => (
-          <LanguageItem
-            key={index}
-            index={index}
-            language={lang}
-            onUpdate={handleUpdateLanguage}
-            onRemove={handleRemoveLanguage}
-          />
+        {languages.map((lang) => (
+          <LanguageItem key={lang.id} id={lang.id} />
         ))}
 
         <AddNewButton

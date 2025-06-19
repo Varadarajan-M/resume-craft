@@ -1,3 +1,4 @@
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import {
@@ -7,33 +8,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
-import { ResumeLanguageItem } from "@/shared/types/resume";
 import { Trash2 } from "lucide-react";
 import ResumeItem from "../ResumeItem";
 
-interface Props {
-  index: number;
-  language: ResumeLanguageItem;
-  onUpdate: (
-    index: number,
-    field: keyof ResumeLanguageItem,
-    value: string
-  ) => void;
-  onRemove: (index: number) => void;
-}
+const LanguageItem = ({ id }: { id: string }) => {
+  const lang = useResumeStore((s) =>
+    s.resume?.sections.languages?.find((l) => l.id === id)
+  );
 
-const LanguageItem = ({ index, language, onUpdate, onRemove }: Props) => {
+  const handleUpdateLanguage = useResumeStore((s) => s.updateLanguageItem);
+  const handleRemoveLanguage = useResumeStore((s) => s.deleteLanguageItem);
+
   return (
-    <ResumeItem label="" itemId={language?.id}>
+    <ResumeItem label="" itemId={id}>
       <div className="flex items-center gap-4">
         <Input
-          value={language.language}
+          value={lang?.language}
           placeholder="Language (e.g., English)"
-          onChange={(e) => onUpdate(index, "language", e.target.value)}
+          onChange={(e) =>
+            handleUpdateLanguage(id, { language: e.target.value })
+          }
         />
         <Select
-          value={language.proficiency}
-          onValueChange={(value) => onUpdate(index, "proficiency", value)}
+          value={lang?.proficiency}
+          onValueChange={(value) =>
+            handleUpdateLanguage(id, { proficiency: value as any })
+          }
         >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Proficiency" />
@@ -46,7 +46,11 @@ const LanguageItem = ({ index, language, onUpdate, onRemove }: Props) => {
             <SelectItem value="Basic">Basic</SelectItem>
           </SelectContent>
         </Select>
-        <Button size="icon" variant="ghost" onClick={() => onRemove(index)}>
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={() => handleRemoveLanguage(id)}
+        >
           <Trash2 className="w-4 h-4 text-muted-foreground" />
         </Button>
       </div>
