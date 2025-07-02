@@ -17,7 +17,7 @@ export const emptyResume = (): Resume => ({
   userId: "user-001",
   category: "resume",
   status: "draft",
-  title: "Placeholder Resume",
+  title: "Varadarajan M Resume",
   templateId: "modern",
   image: undefined,
   createdAt: new Date(),
@@ -35,74 +35,32 @@ export const emptyResume = (): Resume => ({
 
   sectionOrder: [
     "personalInfo",
-    "summary",
-    "experience",
     "education",
     "skills",
+    "experience",
     "projects",
-    "certifications",
-    "achievements",
-    "languages",
   ],
 
   sections: {
     personalInfo: {
-      fullName: "Jane Doe",
-      headline: "Full Stack Developer",
-      email: "jane.doe@example.com",
-      phone: "+1 (555) 123-4567",
-      location: "San Francisco, CA",
+      fullName: "Varadarajan M",
+      headline: "Software Engineer",
+      email: "varad2k19@gmail.com",
+      phone: "+91-8281357494",
+      location: "Palakkad, Kerala, India",
       website: {
         label: "Portfolio",
-        url: "https://janedoe.dev",
+        url: "varadarajan-m.vercel.app",
       },
-      links: [
-        { label: "GitHub", url: "https://github.com/janedoe" },
-        { label: "LinkedIn", url: "https://linkedin.com/in/janedoe" },
-      ],
+      links: [{ label: "Github", url: "github.com/Varadarajan-M" }],
     },
-    summary: {
-      content: `<p>Experienced full stack developer with a passion for building scalable web applications and delightful user experiences.</p>`,
-    },
-    experience: [
-      {
-        id: "exp-1",
-        company: "Tech Solutions Inc.",
-        title: "Senior Software Engineer",
-        location: "Remote",
-        timePeriod: "Jan 2022 – Present",
-        description: `
-        <ul>
-          <li>Led frontend architecture for a B2B SaaS platform.</li>
-          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
-          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li>
-           <li>Led frontend architecture for a B2B SaaS platform.</li>
-          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
-          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li> <li>Led frontend architecture for a B2B SaaS platform.</li>
-          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
-          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li> <li>Led frontend architecture for a B2B SaaS platform.</li>
-          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
-          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li> <li>Led frontend architecture for a B2B SaaS platform.</li>
-          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
-          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li> <li>Led frontend architecture for a B2B SaaS platform.</li>
-          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
-          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li> <li>Led frontend architecture for a B2B SaaS platform.</li>
-          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
-          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li>
-        </ul>
-      `,
-      },
-    ],
     education: [
       {
         id: "edu-1",
-        institution: "University of California, Berkeley",
-        fieldOfStudy: "B.S. in Computer Science",
-        timePeriod: "2017 – 2021",
-        gpa: "3.8/4.0",
-        description: `
-        <p><strong>Relevant coursework:</strong> Algorithms, Databases, UI/UX Design</p>
-      `,
+        institution: "SCSVMV University",
+        fieldOfStudy: "Bachelor of Computer Science and Engineering; CGPA: 8.5",
+        timePeriod: "Aug 2017 - May 2021",
+        description: "",
       },
     ],
     skills: {
@@ -111,34 +69,154 @@ export const emptyResume = (): Resume => ({
           id: "skill-cat-1",
           name: "Languages",
           skills: [
-            { id: "s1", name: "JavaScript" },
+            { id: "s1", name: "JavaScript ES6+" },
             { id: "s2", name: "TypeScript" },
-            { id: "s3", name: "Python" },
           ],
         },
         {
           id: "skill-cat-2",
-          name: "Frameworks",
+          name: "Web Technologies",
           skills: [
-            { id: "s4", name: "React" },
-            { id: "s5", name: "Node.js" },
-            { id: "s6", name: "Express" },
+            { id: "s3", name: "Next JS" },
+            { id: "s4", name: "React JS" },
+            { id: "s5", name: "HTML5" },
+            { id: "s6", name: "CSS3" },
+            { id: "s7", name: "SCSS" },
+            { id: "s8", name: "Tailwind CSS" },
+            { id: "s9", name: "Redux Toolkit" },
+            { id: "s10", name: "Zustand" },
+            { id: "s11", name: "RTK Query" },
+            { id: "s12", name: "Tanstack Query" },
+            { id: "s13", name: "Cypress" },
+            { id: "s14", name: "Angular" },
+          ],
+        },
+        {
+          id: "skill-cat-3",
+          name: "Server Side Technologies",
+          skills: [
+            { id: "s14", name: "Node JS" },
+            { id: "s15", name: "Express" },
+            { id: "s16", name: "MongoDB" },
+            { id: "s17", name: "PostgreSQL" },
+          ],
+        },
+        {
+          id: "skill-cat-4",
+          name: "Tools",
+          skills: [
+            { id: "s18", name: "Git" },
+            { id: "s19", name: "GitLab" },
+            { id: "s20", name: "Jira" },
+            { id: "s21", name: "Notion" },
+            { id: "s22", name: "GitHub" },
+            { id: "s23", name: "Vercel" },
+            { id: "s24", name: "Airtable" },
           ],
         },
       ],
     },
+    experience: [
+      {
+        id: "exp-1",
+        company: "Rize Ag-Tech.",
+        title: "Mid-level Frontend Engineer",
+        location: "Bangalore, India",
+        timePeriod: "Sept 2024 – Present",
+        description: `
+        <ul>
+          <li>Delivered a Package Tracker Dashboard (<strong>React, Spring Boot, Postgres</strong>) efficiently tracking <strong>20K+ packages</strong> with sub-200ms APIs offering advanced search, filters, <strong>G2Plot visualizations</strong> enabling operations to track and resolve stuck shipments, <strong>cutting resolution time by 40%</strong>.</li>
+          <li>Engineered a Sales Pipeline with a <strong>config-driven React UI</strong> that adapted to country specific needs leveraging <strong>Airtable APIs</strong> enabling sales team to <strong>manage over 200+ leads weekly</strong>, eliminating third-party SaaS tools and <strong>saving $50/user/month</strong>.</li>
+          <li>Optimized application performance by migrating all data fetching to <strong>TanStack Query, boosting load speed by over 50%</strong> and eliminating cumulative layout shift (<strong>CLS</strong>) via smart caching and prefetching.</li>
+          <li>Architected a robust frontend <strong>RBAC system, scaling permission control from 4 to 17+ pages</strong> via a declarative component based model.</li>
+        </ul>
+      `,
+      },
+      {
+        id: "exp-2",
+        company: "Genpro Research.",
+        title: "Frontend Engineer",
+        location: "Trivandrum, India",
+        timePeriod: "Jul 2023 – Sept 2024",
+        description: `
+        <ul>
+          <li>Delivered an <strong>AI-powered Semantic Search Chat interface</strong> for medical writers with rich features like follow-ups, response regeneration, and one-click content insertion with citation tracing <strong>accelerating authoring workflows by over 80%</strong> by streamlining cross-document research and enabling scroll-to-source <strong>PDFs</strong> in over 10k articles.</li>
+          <li>Developed and published a scalable internal UI component library as an <strong>npm package</strong> using <strong>React, Rollup.js, Storybook</strong>, and <strong>Jest</strong> which accelerated UI development by <strong>70%</strong> and improved design consistency, contributing to a <strong>50% increase</strong> in user retention across products.</li>
+        </ul>
+      `,
+      },
+      {
+        id: "exp-3",
+        company: "Infosys",
+        title: "Systems Engineer",
+        location: "Chennai, India",
+        timePeriod: "Dec 2021 – Jul 2023",
+        description: `
+        <ul>
+          <li>Contributed as a <strong>Cybersecurity Engineer</strong> on the SOAR team, developing automated workflows and an incident response workbench that increased closure rate by <strong>35%</strong> and reduced resolution time by <strong>25%</strong>.</li>
+        </ul>
+      `,
+      },
+      {
+        id: "exp-4",
+        company: "Tech RSR",
+        title: "Full Stack Engineer",
+        location: "Chennai, India",
+        timePeriod: "May 2021 – Nov 2021",
+        description: `
+        <ul>
+          <li>Designed and implemented core project management features in the <strong>HPM Web App</strong> using <strong>React.js, Material UI</strong>, and <strong>Recharts</strong> including Kanban boards, list views, and real-time comments with <strong>WebSockets</strong> boosting team collaboration and <strong>improving workflow efficiency by 60%</strong>.</li>
+          <li>Optimized search performance with <strong>debouncing</strong>, minimizing redundant API calls and enhancing responsiveness <strong>improving perceived speed and user experience</strong> during high-frequency interactions</li>
+        </ul>
+      `,
+      },
+    ],
     projects: [
       {
         id: "proj-1",
-        name: "Personal Portfolio",
+        name: "FormCraft – AI-Powered No-Code Visual Form Builder",
         description: `
         <ul>
-          <li>Designed and built a responsive portfolio using <strong>Next.js</strong> and <strong>Tailwind CSS</strong>.</li>
-          <li>Integrated analytics and deployed with <a href="https://vercel.com" target="_blank">Vercel</a>.</li>
+          <li>Architected and built an <strong>AI-powered form builder</strong> with ultra-modern drag-and-drop UI and <strong>Gemini AI-powered multi-page forms</strong> offering robust conditional logic, <strong>validations, analytics</strong>, and key integrations (<strong>Airtable, Google Sheets, webhooks</strong>), empowering users to ship complex forms in minutes.</li>
+          <li>Crafted <strong>real-time previews, form templates, mobile optimizations</strong>, and theme-based UI customizations resulting in smoother UX, faster form creation, and cut down setup effort even for non-technical users.</li>
         </ul>
       `,
-        url: "https://janedoe.dev",
-        technologies: ["Next.js", "Tailwind", "Vercel"],
+        url: "",
+        technologies: [
+          "Next.js 14",
+          "React 18",
+          "TypeScript",
+          "Tailwind CSS",
+          "MongoDB",
+          "Clerk Auth",
+          "React Hook Form",
+          "Gemini AI",
+          "DnD-Kit",
+          "Airtable",
+        ],
+      },
+      {
+        id: "proj-2",
+        name: "V1 Messenger – Real-Time Chat App",
+        description: `
+        <ul>
+          <li>Developed a <strong>feature-rich chat app from scratch</strong> with real-time personal/group chats and <strong>AI streaming responses (Llama 3)</strong> supporting diverse <strong>multimedia sharing, message reactions/replies</strong>, read receipts, online stats and so much more.</li>
+          <li>Engineered offline caching strategies leveraging <strong>service workers and Intersection Observers</strong>, decreasing media load times from <strong>2.1 seconds to 18 ms</strong> and <strong>optimizing network consumption by 98%</strong>.</li>
+        </ul>
+      `,
+        url: "",
+        technologies: [
+          "React",
+          "TypeScript",
+          "Tailwind CSS",
+          "Socket.IO",
+          "Zustand",
+          "Service workers",
+          "MongoDB",
+          "Node.js",
+          "Express JS",
+          "AI",
+        ],
       },
     ],
     certifications: [

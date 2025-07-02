@@ -1,6 +1,17 @@
-import { Navbar, ResumeSectionsPanel } from "@/features/resume-builder";
-import { ResumePreviewPanel } from "@/features/resume-builder/components/resume-preview";
+"use client";
 
+import { Navbar, ResumeSectionsPanel } from "@/features/resume-builder";
+import dynamic from "next/dynamic";
+
+const ResumePreviewPanel = dynamic(
+  () =>
+    import("@/features/resume-builder/components/resume-preview").then(
+      (mod) => mod.ResumePreviewPanel
+    ),
+  {
+    ssr: false,
+  }
+);
 const ResumeBuilderPage = () => {
   return (
     <section

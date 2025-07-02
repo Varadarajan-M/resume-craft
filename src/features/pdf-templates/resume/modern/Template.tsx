@@ -2,84 +2,114 @@
 
 import { htmlParser } from "@/shared/lib/html-parser";
 import { ResumeTemplateComponentProps } from "@/shared/types/resume";
-import {
-  BlobProvider,
-  Document,
-  Font,
-  Page,
-  StyleSheet,
-  Text,
-  View,
-} from "@react-pdf/renderer";
+import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 
-import dynamic from "next/dynamic";
-import { useEffect, useRef } from "react";
-
-const PDFViewer = dynamic(
-  () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
-  {
-    ssr: false,
-    loading: () => <p>Loading...</p>,
-  }
-);
-
-Font.register({
-  family: "Inter",
-  fonts: [
-    { src: "https://fonts.gstatic.com/s/inter/v12/UcC2gJk2kqEgLZRFO-Z0.ttf" },
-  ],
-});
+import DocumentProvider from "../../DocumentProvider";
 
 const styles = StyleSheet.create({
   page: {
-    // fontFamily: "Inter",
-    fontSize: 11,
-    padding: 40,
-    lineHeight: 1.6,
+    fontFamily: "Helvetica",
+    fontSize: 10,
+    padding: 20,
+    lineHeight: 1.2,
     color: "#000",
     backgroundColor: "#fff",
+    gap: 5,
   },
   header: {
-    alignItems: "center",
-    marginBottom: 20,
+    // marginBottom: 15,
   },
   name: {
-    fontSize: 22,
+    fontSize: 17,
     fontWeight: "bold",
-    marginBottom: 8,
+    marginBottom: 10,
   },
-  contact: {
-    fontSize: 10,
-    color: "#444",
+  contactLine: {
+    fontSize: 9,
+    color: "#000",
+    marginBottom: 1,
   },
-  section: {
-    marginBottom: 18,
-  },
+
   sectionTitle: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: "bold",
-    marginBottom: 6,
-    borderBottom: "1 solid #000",
+    marginBottom: 4,
+    borderBottom: "0.5 solid #000",
     textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
   subsection: {
-    marginBottom: 6,
+    marginTop: -1,
   },
-  titleLine: {
+  experienceHeader: {
+    marginBottom: 0,
+  },
+  jobTitle: {
+    fontSize: 10,
+    fontWeight: "bold",
+    marginBottom: 1,
+  },
+  educationSection: {
+    marginTop: -10,
+  },
+  skillsSection: {
+    marginTop: -2,
+  },
+  section: {},
+  companyLine: {
+    fontSize: 9,
+    fontStyle: "italic",
+    marginBottom: 1,
+  },
+  locationDate: {
+    fontSize: 9,
+    textAlign: "right",
+    marginTop: -12,
+  },
+  bulletPoint: {
+    fontSize: 9,
+    marginBottom: 1,
+    paddingLeft: 8,
+  },
+  educationHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 1,
   },
-  bold: {
+  institutionName: {
+    fontSize: 10,
     fontWeight: "bold",
   },
-  italic: {
+  degree: {
+    fontSize: 9,
     fontStyle: "italic",
   },
-  bulletList: {
-    paddingLeft: 4,
+  dateLocation: {
+    fontSize: 9,
+    textAlign: "right",
   },
-  bullet: {
-    marginBottom: 2,
+  skillCategory: {
+    fontSize: 9,
+    marginBottom: 1,
+  },
+  skillCategoryName: {
+    fontWeight: "bold",
+  },
+  projectHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 1,
+  },
+  projectName: {
+    fontSize: 10,
+    fontWeight: "bold",
+  },
+  projectTech: {
+    fontSize: 8,
+    fontStyle: "italic",
+    marginHorizontal: 1,
   },
 });
 
@@ -106,40 +136,59 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.name}>{personalInfo?.fullName}</Text>
-          <Text style={styles.contact}>
-            {personalInfo?.email} | {personalInfo?.phone} |{" "}
-            {personalInfo?.location}
-          </Text>
-          <Text style={styles.contact}>
-            {[
-              personalInfo?.website?.url,
-              ...(personalInfo?.links || []).map((l) => l.url),
-            ]
-              .filter(Boolean)
-              .join(" | ")}
-          </Text>
-        </View>
-
-        {/* Summary */}
-        {summary && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Summary</Text>
-            <Text>{htmlParser(summary?.content)}</Text>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.contactLine}>
+              Portfolio: {personalInfo?.website?.url}
+            </Text>
+            <Text style={styles.contactLine}>Email: {personalInfo?.email}</Text>
           </View>
-        )}
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.contactLine}>
+              Github:{" "}
+              {personalInfo?.links?.find((l) => l.url.includes("github"))?.url}
+            </Text>
+            <Text style={styles.contactLine}>
+              Mobile: {personalInfo?.phone}
+            </Text>
+          </View>
+          <View style={{ alignItems: "flex-end" }}>
+            <Text style={styles.contactLine}>
+              Location: {personalInfo?.location}
+            </Text>
+          </View>
+        </View>
 
         {/* Education */}
         {(education?.length ?? 0) > 0 && (
-          <View style={styles.section}>
+          <View style={styles.educationSection}>
             <Text style={styles.sectionTitle}>Education</Text>
             {education!.map((edu) => (
               <View key={edu.id} style={styles.subsection}>
-                <View style={styles.titleLine}>
-                  <Text style={styles.bold}>{edu.institution}</Text>
-                  <Text>{edu.timePeriod}</Text>
+                <View style={styles.educationHeader}>
+                  <Text style={styles.institutionName}>{edu.institution}</Text>
                 </View>
-                <Text style={styles.italic}>{edu.fieldOfStudy}</Text>
+                <View style={styles.educationHeader}>
+                  <Text style={styles.degree}>{edu.fieldOfStudy}</Text>
+                  <Text style={styles.dateLocation}>{edu.timePeriod}</Text>
+                </View>
               </View>
+            ))}
+          </View>
+        )}
+
+        {/* Skills */}
+        {(skills?.categories?.length ?? 0) > 0 && (
+          <View style={styles.skillsSection}>
+            <Text style={styles.sectionTitle}>Skills</Text>
+            {skills?.categories?.map((cat) => (
+              <Text key={cat.id} style={styles.skillCategory}>
+                <Text style={styles.skillCategoryName}>{cat.name}:</Text>{" "}
+                {cat?.skills?.map((s) => s.name)?.join(", ")}
+              </Text>
             ))}
           </View>
         )}
@@ -150,19 +199,15 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
             <Text style={styles.sectionTitle}>Experience</Text>
             {experience?.map((exp) => (
               <View key={exp.id} style={styles.subsection}>
-                <View style={styles.titleLine}>
-                  <Text style={styles.bold}>{exp.title}</Text>
-                  <Text>{exp.timePeriod}</Text>
+                <View style={styles.experienceHeader}>
+                  <Text style={styles.jobTitle}>{exp.company}</Text>
+                  <Text style={styles.locationDate}>{exp.location}</Text>
                 </View>
-                <Text style={styles.italic}>
-                  {exp.company}
-                  {exp.location ? ", " + exp.location : ""}
-                </Text>
-                {exp.description && (
-                  <View style={styles.bulletList}>
-                    {htmlParser(exp.description)}
-                  </View>
-                )}
+                <View style={[styles.experienceHeader, { marginBottom: 2 }]}>
+                  <Text style={styles.companyLine}>{exp.title}</Text>
+                  <Text style={styles.locationDate}>{exp.timePeriod}</Text>
+                </View>
+                {exp.description && <View>{htmlParser(exp.description)}</View>}
               </View>
             ))}
           </View>
@@ -174,30 +219,31 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
             <Text style={styles.sectionTitle}>Projects</Text>
             {projects?.map((proj, i) => (
               <View key={i} style={styles.subsection}>
-                <View style={styles.titleLine}>
-                  <Text style={styles.bold}>{proj.name}</Text>
-                  {proj.url && <Text>{proj.url}</Text>}
+                <View style={styles.projectHeader}>
+                  <Text style={styles.projectName}>{proj.name}</Text>
+                  {proj.url && (
+                    <Text style={styles.dateLocation}>{proj.url}</Text>
+                  )}
                 </View>
+                {proj.technologies && (
+                  <Text style={styles.projectTech}>
+                    {proj?.technologies?.join(", ")}
+                    {proj?.technologies?.join(", ")}
+                  </Text>
+                )}
                 {proj.description && (
-                  <View style={styles.bulletList}>
-                    {htmlParser(proj.description)}
-                  </View>
+                  <View>{htmlParser(proj.description)}</View>
                 )}
               </View>
             ))}
           </View>
         )}
 
-        {/* Skills */}
-        {(skills?.categories?.length ?? 0) > 0 && (
+        {/* Summary */}
+        {summary && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Technical Skills</Text>
-            {skills?.categories?.map((cat) => (
-              <Text key={cat.id}>
-                <Text style={styles.bold}>{cat.name}:</Text>{" "}
-                {cat?.skills?.map((s) => s.name)?.join(", ")}
-              </Text>
-            ))}
+            <Text style={styles.sectionTitle}>Summary</Text>
+            <Text style={{ fontSize: 9 }}>{htmlParser(summary?.content)}</Text>
           </View>
         )}
 
@@ -206,7 +252,7 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Certifications</Text>
             {certifications?.map((cert, i) => (
-              <Text key={i}>
+              <Text key={i} style={{ fontSize: 9 }}>
                 {cert.name} {cert.issuer ? `(${cert.issuer})` : ""}{" "}
                 {cert.date ? `- ${cert.date}` : ""}
               </Text>
@@ -219,11 +265,15 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Achievements</Text>
             {achievements?.map((a, i) => (
-              <View style={[styles.bullet]} key={i}>
-                <Text key={i} style={{ fontWeight: 700 }}>
+              <View style={{ marginBottom: 2 }} key={i}>
+                <Text style={{ fontSize: 9, fontWeight: "bold" }}>
                   {a.title}
                 </Text>
-                {a.description && htmlParser(a.description)}
+                {a.description && (
+                  <Text style={{ fontSize: 9 }}>
+                    {htmlParser(a.description)}
+                  </Text>
+                )}
               </View>
             ))}
           </View>
@@ -234,7 +284,7 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Languages</Text>
             {languages?.map((l, i) => (
-              <Text key={i}>
+              <Text key={i} style={{ fontSize: 9 }}>
                 {l.language} — {l.proficiency}
               </Text>
             ))}
@@ -246,42 +296,10 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
 };
 
 const ModernResumeTemplate = ({ resume }: ResumeTemplateComponentProps) => {
-  const ref = useRef<number>(0);
-  useEffect(() => {
-    ref.current += 1;
-  }, [resume]);
-
   return (
-    // <PDFViewer
-    //   style={{
-    //     width: "100%",
-    //     height: "100%",
-    //     border: "none",
-    //   }}
-    //   showToolbar={false}
-    //   key={ref.current} // Force re-render on resume change
-    // >
-    //   <ResumeDocument resume={resume} />
-    // </PDFViewer>
-
-    <BlobProvider document={<ResumeDocument resume={resume} />}>
-      {({ url, loading }) => {
-        if (loading) return <p>Loading PDF...</p>;
-
-        // Hide PDFViewer, use iframe with clean styling
-        return (
-          <iframe
-            src={url ?? ""}
-            style={{
-              width: "100%",
-              height: "100vh",
-              border: "none",
-              background: "#fff", // Ensures the iframe itself is white
-            }}
-          />
-        );
-      }}
-    </BlobProvider>
+    <DocumentProvider resume={resume}>
+      <ResumeDocument resume={resume} />
+    </DocumentProvider>
   );
 };
 

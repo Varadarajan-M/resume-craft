@@ -1,4 +1,4 @@
-import { Link, Text, View } from "@react-pdf/renderer";
+import { Circle, Link, Svg, Text, View } from "@react-pdf/renderer";
 import React, { JSX } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { getUniqId } from "./utils";
@@ -68,7 +68,15 @@ export const htmlParser = (taskDescription: string | null): JSX.Element => {
             break;
           case "li":
             returnContentConst.push(
-              <Text key={getUniqId()}>• {children}</Text>
+              <View
+                key={getUniqId()}
+                style={{ flexDirection: "row", gap: 4, marginBottom: 2 }}
+              >
+                <Svg width={4} height={4} style={{ marginTop: 5 }}>
+                  <Circle cx={2} cy={2} r={2} fill="#000000" />
+                </Svg>
+                <Text style={{ flex: 1 }}>{children}</Text>
+              </View>
             );
             break;
           case "br":
