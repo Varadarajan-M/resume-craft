@@ -13,13 +13,12 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 export const emptyResume = (): Resume => ({
-  _id: "",
-  userId: "",
+  _id: "resume-001",
+  userId: "user-001",
   category: "resume",
   status: "draft",
-  title: "Untitled Resume",
-  templateId: "",
-
+  title: "Placeholder Resume",
+  templateId: "modern",
   image: undefined,
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -48,38 +47,132 @@ export const emptyResume = (): Resume => ({
 
   sections: {
     personalInfo: {
-      fullName: "",
-      headline: "",
-      email: "",
-      phone: "",
-      location: "",
+      fullName: "Jane Doe",
+      headline: "Full Stack Developer",
+      email: "jane.doe@example.com",
+      phone: "+1 (555) 123-4567",
+      location: "San Francisco, CA",
       website: {
-        url: "",
-        label: "Website",
+        label: "Portfolio",
+        url: "https://janedoe.dev",
       },
-      links: [],
+      links: [
+        { label: "GitHub", url: "https://github.com/janedoe" },
+        { label: "LinkedIn", url: "https://linkedin.com/in/janedoe" },
+      ],
     },
-    summary: { content: "" },
-    experience: [],
-    education: [
+    summary: {
+      content: `<p>Experienced full stack developer with a passion for building scalable web applications and delightful user experiences.</p>`,
+    },
+    experience: [
       {
-        id: getUniqId(),
-        institution: "",
-        fieldOfStudy: "",
-        timePeriod: "",
-        gpa: "",
-        description: "",
+        id: "exp-1",
+        company: "Tech Solutions Inc.",
+        title: "Senior Software Engineer",
+        location: "Remote",
+        timePeriod: "Jan 2022 – Present",
+        description: `
+        <ul>
+          <li>Led frontend architecture for a B2B SaaS platform.</li>
+          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
+          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li>
+           <li>Led frontend architecture for a B2B SaaS platform.</li>
+          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
+          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li> <li>Led frontend architecture for a B2B SaaS platform.</li>
+          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
+          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li> <li>Led frontend architecture for a B2B SaaS platform.</li>
+          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
+          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li> <li>Led frontend architecture for a B2B SaaS platform.</li>
+          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
+          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li> <li>Led frontend architecture for a B2B SaaS platform.</li>
+          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
+          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li> <li>Led frontend architecture for a B2B SaaS platform.</li>
+          <li>Collaborated with cross-functional teams to design scalable APIs.</li>
+          <li>Improved CI/CD pipeline reducing deployment time by 40%.</li>
+        </ul>
+      `,
       },
     ],
-    skills: { categories: [] },
-    projects: [],
-    certifications: [],
-    achievements: [],
+    education: [
+      {
+        id: "edu-1",
+        institution: "University of California, Berkeley",
+        fieldOfStudy: "B.S. in Computer Science",
+        timePeriod: "2017 – 2021",
+        gpa: "3.8/4.0",
+        description: `
+        <p><strong>Relevant coursework:</strong> Algorithms, Databases, UI/UX Design</p>
+      `,
+      },
+    ],
+    skills: {
+      categories: [
+        {
+          id: "skill-cat-1",
+          name: "Languages",
+          skills: [
+            { id: "s1", name: "JavaScript" },
+            { id: "s2", name: "TypeScript" },
+            { id: "s3", name: "Python" },
+          ],
+        },
+        {
+          id: "skill-cat-2",
+          name: "Frameworks",
+          skills: [
+            { id: "s4", name: "React" },
+            { id: "s5", name: "Node.js" },
+            { id: "s6", name: "Express" },
+          ],
+        },
+      ],
+    },
+    projects: [
+      {
+        id: "proj-1",
+        name: "Personal Portfolio",
+        description: `
+        <ul>
+          <li>Designed and built a responsive portfolio using <strong>Next.js</strong> and <strong>Tailwind CSS</strong>.</li>
+          <li>Integrated analytics and deployed with <a href="https://vercel.com" target="_blank">Vercel</a>.</li>
+        </ul>
+      `,
+        url: "https://janedoe.dev",
+        technologies: ["Next.js", "Tailwind", "Vercel"],
+      },
+    ],
+    certifications: [
+      {
+        id: "cert-1",
+        name: "AWS Certified Developer – Associate",
+        issuer: "Amazon Web Services",
+        date: "June 2023",
+        expirationDate: "June 2026",
+        credentialUrl: "https://aws.amazon.com/certification/",
+        description: `
+        <p>Validated expertise in deploying and maintaining <strong>AWS</strong> applications efficiently using core services like <em>Lambda</em>, <em>API Gateway</em>, and <em>DynamoDB</em>.</p>
+      `,
+      },
+    ],
+    achievements: [
+      {
+        id: "achv-1",
+        title: "Hackathon Winner",
+        description: `
+        <p>Won <strong>1st place</strong> at <em>Reactathon 2022</em> for building a collaborative whiteboard app with real-time drawing and chat features.</p>
+      `,
+      },
+    ],
     languages: [
       {
-        id: getUniqId(),
-        language: "",
-        proficiency: "Fluent",
+        id: "lang-1",
+        language: "English",
+        proficiency: "Native",
+      },
+      {
+        id: "lang-2",
+        language: "Spanish",
+        proficiency: "Professional",
       },
     ],
   },

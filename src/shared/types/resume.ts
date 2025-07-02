@@ -110,3 +110,7 @@ interface ThemeConfig {
   headingFontSize: string;
   textFontSize: string;
 }
+
+export interface ResumeTemplateComponentProps {
+  resume: Resume;
+}
