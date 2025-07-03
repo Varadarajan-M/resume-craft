@@ -297,7 +297,7 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
 
 const ModernResumeTemplate = ({ resume }: ResumeTemplateComponentProps) => {
   return (
-    <DocumentProvider resume={resume}>
+    <DocumentProvider>
       <ResumeDocument resume={resume} />
     </DocumentProvider>
   );

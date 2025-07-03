@@ -12,6 +12,7 @@ const Worker = dynamic(
 
 import { cn } from "@/shared/lib/utils";
 import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
 import { useResumeStore } from "../../store/resume";
 import ResumeRenderer from "../resume-renderer/ResumeRenderer";
 
@@ -22,6 +23,20 @@ interface ResumePreviewPanelProps {
 const ResumePreviewPanel = ({ className }: ResumePreviewPanelProps) => {
   const resume = useResumeStore((state) => state.resume);
 
+  const [debouncedResume, setDebouncedResume] = useState(resume);
+  const timerId = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (timerId.current) {
+      clearTimeout(timerId.current);
+    }
+    timerId.current = setTimeout(() => {
+      if (resume) {
+        setDebouncedResume(resume);
+      }
+    }, 2000);
+  }, [resume]);
+
   return (
     <div
       className={cn(
@@ -30,7 +45,10 @@ const ResumePreviewPanel = ({ className }: ResumePreviewPanelProps) => {
       )}
     >
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-        <ResumeRenderer templateId={resume?.templateId!} resume={resume!} />
+        <ResumeRenderer
+          templateId={resume?.templateId!}
+          resume={debouncedResume!}
+        />
       </Worker>
     </div>
   );

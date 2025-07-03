@@ -1,7 +1,7 @@
 "use client";
 
 import type { Resume } from "@/shared/types/resume";
-import React from "react";
+import React, { memo } from "react";
 
 interface ResumeRendererProps {
   templateId: string;
@@ -46,4 +46,4 @@ const ResumeRenderer = ({ templateId, resume }: ResumeRendererProps) => {
   );
 };
 
-export default ResumeRenderer;
+export default memo(ResumeRenderer);

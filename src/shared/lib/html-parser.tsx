@@ -17,7 +17,6 @@ export const htmlParser = (taskDescription: string | null): JSX.Element => {
         // Handle string content
         returnContentConst.push(<Text key={getUniqId()}>{element}</Text>);
       } else if (React.isValidElement(element)) {
-        console.log(element);
         const elementProps = element.props as ParsedElementProps;
         const type = element.type;
         const children = parseElements(elementProps.children);
@@ -93,13 +92,10 @@ export const htmlParser = (taskDescription: string | null): JSX.Element => {
   };
 
   if (taskDescription) {
-    console.log(taskDescription);
     const parsedHtml = ReactHtmlParser(taskDescription);
 
-    console.log(parsedHtml);
     const returnContentConst = parseElements(parsedHtml);
 
-    console.log(returnContentConst);
     return <>{returnContentConst}</>;
   } else {
     return <></>;
