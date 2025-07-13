@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   page: {
     fontFamily: "Helvetica",
     fontSize: 10,
-    padding: 20,
+    padding: 24,
     lineHeight: 1.2,
     color: "#000",
     backgroundColor: "#fff",
@@ -387,7 +387,7 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
 
   return (
     <Document style={{ flex: 1 }}>
-      <Page size="A4" style={[styles.page, { padding: 24 }]}>
+      <Page size="A4" style={[styles.page, { padding: 20 }]}>
         {mainColumnSectionOrder?.map((sectionId) => {
           const renderer = sectionRenderers[sectionId];
           if (renderer) {
@@ -404,7 +404,9 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
   );
 };
 
-const ModernResumeTemplate = ({ resume }: ResumeTemplateComponentProps) => {
+const CleanMinimalResumeTemplate = ({
+  resume,
+}: ResumeTemplateComponentProps) => {
   const ref = useRef<number>(0);
 
   useEffect(() => {
@@ -412,10 +414,12 @@ const ModernResumeTemplate = ({ resume }: ResumeTemplateComponentProps) => {
   }, [resume]);
 
   return (
+    // this is used to prevent EO is not a function error in react-pdf/renderer when resume content is updated.
+    // ref: https://stackoverflow.com/a/79653680
     <DocumentProvider key={ref.current}>
       <ResumeDocument resume={resume} />
     </DocumentProvider>
   );
 };
 
-export default ModernResumeTemplate;
+export default CleanMinimalResumeTemplate;

@@ -12,9 +12,9 @@ const RESUME_TEMPLATE_MAPPING: Record<
   string,
   React.ComponentType<Pick<ResumeRendererProps, "resume">>
 > = {
-  modern: React.lazy(() =>
-    import("@/features/pdf-templates/resume/modern").then((module) => ({
-      default: module.ModernResumeTemplate,
+  "clean-minimal": React.lazy(() =>
+    import("@/features/pdf-templates/resume/clean-minimal").then((module) => ({
+      default: module.CleanMinimalResumeTemplate,
     }))
   ),
   creative: React.lazy(() =>
@@ -37,7 +37,8 @@ const PageSkeleton = () => (
 
 const ResumeRenderer = ({ templateId, resume }: ResumeRendererProps) => {
   const Component =
-    RESUME_TEMPLATE_MAPPING?.[templateId] || RESUME_TEMPLATE_MAPPING["modern"];
+    RESUME_TEMPLATE_MAPPING?.[templateId] ||
+    RESUME_TEMPLATE_MAPPING["clean-minimal"];
 
   return (
     <React.Suspense fallback={<PageSkeleton />}>
