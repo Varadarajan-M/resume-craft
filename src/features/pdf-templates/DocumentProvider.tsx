@@ -8,8 +8,8 @@ interface DocumentProviderProps {
 
 const DocumentProvider = ({ children }: DocumentProviderProps) => {
   return (
-    <BlobProvider document={children} key={Date.now()}>
-      {({ url, loading }) => {
+    <BlobProvider document={children}>
+      {({ url }) => {
         if (url)
           return (
             <>

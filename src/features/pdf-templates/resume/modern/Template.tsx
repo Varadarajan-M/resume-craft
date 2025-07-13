@@ -4,6 +4,7 @@ import { htmlParser } from "@/shared/lib/html-parser";
 import { ResumeTemplateComponentProps } from "@/shared/types/resume";
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 
+import { useEffect, useRef } from "react";
 import DocumentProvider from "../../DocumentProvider";
 
 const styles = StyleSheet.create({
@@ -296,8 +297,14 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
 };
 
 const ModernResumeTemplate = ({ resume }: ResumeTemplateComponentProps) => {
+  const ref = useRef<number>(0);
+
+  useEffect(() => {
+    ref.current += 1;
+  }, [resume]);
+
   return (
-    <DocumentProvider>
+    <DocumentProvider key={ref.current}>
       <ResumeDocument resume={resume} />
     </DocumentProvider>
   );
