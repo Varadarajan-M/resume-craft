@@ -15,6 +15,7 @@ export interface Document {
 
 export interface DocumentTemplate {
   _id: string;
+  slug: string;
   image?: string;
   title: string;
   description?: string;

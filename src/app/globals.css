@@ -138,6 +138,27 @@ body {
     pointer-events: none;
     height: 0;
   }
+
+
+  /* pdf viewer */
+
+  .rpv-default-layout__body {
+    padding: 0 !important;
+  }
+
+  .rpv-default-layout__toolbar {
+    display: none !important;
+ 
+    
+  }
+
+  .rpv-core__inner-page {
+    background-color: var(--background) !important;
+  }
+
+  .rpv-default-layout__container {
+    border:none !important;
+  }
 }
 
 
