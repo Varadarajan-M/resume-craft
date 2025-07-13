@@ -86,7 +86,7 @@ export interface ResumeAchievementItem {
 export interface Resume extends Document {
   category: "resume";
   theme: ThemeConfig;
-  sectionOrder: string[]; // e.g., ['header', 'experience', 'education', 'skills'] - order of sections in the resume
+  mainColumnSectionOrder: string[]; // e.g., ['header', 'experience', 'education', 'skills'] - order of sections in the resume
   sections: {
     personalInfo?: ResumePersonalInfoItem;
     summary?: ResumeProfessionalSummaryItem;

@@ -31,7 +31,7 @@ export const SkillLevelSelect = ({
   placeholder = "Level",
 }: SkillLevelSelectProps) => (
   <Select value={value} onValueChange={onValueChange}>
-    <SelectTrigger className="text-xs w-fit md:text-sm flex-1">
+    <SelectTrigger className="text-xs sm:max-w-[100px]  md:text-sm">
       <SelectValue placeholder={placeholder} />
     </SelectTrigger>
     <SelectContent>
@@ -78,20 +78,21 @@ export const SkillInput = ({
   onLevelChange,
   onDelete,
 }: SkillInputProps) => (
-  <div className="flex gap-4 items-center flex-wrap">
+  <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] items-center gap-2">
     <Input
       placeholder="Skill (e.g., React)"
       value={skill.name}
       onChange={(e) => onNameChange(e.target.value)}
-      className="min-w-[200px] flex-1"
     />
 
-    <SkillLevelSelect value={skill.level} onValueChange={onLevelChange} />
+    <div className="flex items-center gap-3">
+      <SkillLevelSelect value={skill.level} onValueChange={onLevelChange} />
 
-    <DeleteButton
-      onDelete={onDelete}
-      ariaLabel={`Delete ${skill.name || "skill"}`}
-    />
+      <DeleteButton
+        onDelete={onDelete}
+        ariaLabel={`Delete ${skill.name || "skill"}`}
+      />
+    </div>
   </div>
 );
 

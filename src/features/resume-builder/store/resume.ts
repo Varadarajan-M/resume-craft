@@ -13,11 +13,11 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 export const emptyResume = (): Resume => ({
-  _id: "resume-001",
-  userId: "user-001",
+  _id: "resume-000",
+  userId: "user-000",
   category: "resume",
   status: "draft",
-  title: "Varadarajan M Resume",
+  title: "Jane Doe Resume",
   templateId: "modern",
   image: undefined,
   createdAt: new Date(),
@@ -33,225 +33,172 @@ export const emptyResume = (): Resume => ({
     textFontSize: "1rem",
   },
 
-  sectionOrder: [
+  mainColumnSectionOrder: [
     "personalInfo",
+    "summary",
+    "experience",
     "education",
     "skills",
-    "experience",
     "projects",
+    "certifications",
+    "achievements",
+    "languages",
   ],
 
   sections: {
     personalInfo: {
-      fullName: "Varadarajan M",
+      fullName: "Jane Doe",
       headline: "Software Engineer",
-      email: "varad2k19@gmail.com",
-      phone: "+91-8281357494",
-      location: "Palakkad, Kerala, India",
-      website: {
-        label: "Portfolio",
-        url: "varadarajan-m.vercel.app",
-      },
-      links: [{ label: "Github", url: "github.com/Varadarajan-M" }],
+      email: "jane.doe@example.com",
+      phone: "+1 (555) 123-4567",
+      location: "San Francisco, CA, USA",
+      website: { label: "Portfolio", url: "https://janedoe.dev" },
+      links: [
+        { label: "GitHub", url: "https://github.com/janedoe" },
+        { label: "LinkedIn", url: "https://linkedin.com/in/janedoe" },
+      ],
     },
+
+    summary: {
+      content: `
+        <p>Dedicated <strong>Software Engineer</strong> with <strong>5 years of experience</strong> building web applications using React, Node.js, and cloud services. Skilled in designing scalable APIs, improving performance, and leading cross-functional teams to deliver high‑impact features on schedule.</p>
+      `,
+    },
+
+    experience: [
+      {
+        id: getUniqId(),
+        company: "TechFlow Inc.",
+        title: "Senior Frontend Engineer",
+        location: "San Francisco, CA",
+        timePeriod: "Jan 2023 – Present",
+        description: `
+          <ul>
+            <li>Led migration of a monolithic React app to micro‑frontend architecture, reducing load time by 60%.</li>
+            <li>Implemented a shared component library with Storybook, cutting new feature delivery time by 30%.</li>
+            <li>Mentored 4 junior developers, improving code quality and team velocity through code reviews and pairing.</li>
+          </ul>
+        `,
+      },
+      {
+        id: getUniqId(),
+        company: "DataSpark Corp.",
+        title: "Full Stack Developer",
+        location: "Seattle, WA",
+        timePeriod: "Jun 2020 – Dec 2022",
+        description: `
+          <ul>
+            <li>Designed and built RESTful APIs in Node.js and Express, serving over 100,000 daily users.</li>
+            <li>Optimized database queries in PostgreSQL, reducing report generation time from 120s to under 5s.</li>
+            <li>Collaborated with UX team to create responsive dashboards in React, increasing user engagement by 25%.</li>
+          </ul>
+        `,
+      },
+      {
+        id: getUniqId(),
+        company: "CloudWorks LLC",
+        title: "Software Engineer",
+        location: "Remote",
+        timePeriod: "Aug 2018 – May 2020",
+        description: `
+          <ul>
+            <li>Developed AWS Lambda functions and serverless workflows, reducing infrastructure costs by 40%.</li>
+            <li>Integrated third‑party OAuth providers (Google, GitHub) to streamline user onboarding.</li>
+            <li>Wrote unit and integration tests in Jest, achieving 95% code coverage across services.</li>
+          </ul>
+        `,
+      },
+      {
+        id: getUniqId(),
+        company: "StartupX",
+        title: "Junior Web Developer",
+        location: "Austin, TX",
+        timePeriod: "Jul 2017 – Jul 2018",
+        description: `
+          <ul>
+            <li>Built interactive UI features in Vue.js, increasing customer sign‑up conversion by 15%.</li>
+            <li>Collaborated with design team to implement mobile‑first layouts using Tailwind CSS.</li>
+            <li>Deployed applications to Docker and Kubernetes, automating CI/CD pipelines with GitLab CI.</li>
+          </ul>
+        `,
+      },
+    ],
+
     education: [
       {
-        id: "edu-1",
-        institution: "SCSVMV University",
-        fieldOfStudy: "Bachelor of Computer Science and Engineering; CGPA: 8.5",
-        timePeriod: "Aug 2017 - May 2021",
+        id: getUniqId(),
+        institution: "University of Texas at Austin",
+        fieldOfStudy: "B.S. in Computer Science",
+        timePeriod: "2013 – 2017",
         description: "",
       },
     ],
+
     skills: {
       categories: [
         {
-          id: "skill-cat-1",
+          id: getUniqId(),
           name: "Languages",
           skills: [
-            { id: "s1", name: "JavaScript ES6+" },
-            { id: "s2", name: "TypeScript" },
+            { id: getUniqId(), name: "JavaScript" },
+            { id: getUniqId(), name: "TypeScript" },
+            { id: getUniqId(), name: "Python" },
           ],
         },
         {
-          id: "skill-cat-2",
-          name: "Web Technologies",
+          id: getUniqId(),
+          name: "Frameworks",
           skills: [
-            { id: "s3", name: "Next JS" },
-            { id: "s4", name: "React JS" },
-            { id: "s5", name: "HTML5" },
-            { id: "s6", name: "CSS3" },
-            { id: "s7", name: "SCSS" },
-            { id: "s8", name: "Tailwind CSS" },
-            { id: "s9", name: "Redux Toolkit" },
-            { id: "s10", name: "Zustand" },
-            { id: "s11", name: "RTK Query" },
-            { id: "s12", name: "Tanstack Query" },
-            { id: "s13", name: "Cypress" },
-            { id: "s14", name: "Angular" },
-          ],
-        },
-        {
-          id: "skill-cat-3",
-          name: "Server Side Technologies",
-          skills: [
-            { id: "s14", name: "Node JS" },
-            { id: "s15", name: "Express" },
-            { id: "s16", name: "MongoDB" },
-            { id: "s17", name: "PostgreSQL" },
-          ],
-        },
-        {
-          id: "skill-cat-4",
-          name: "Tools",
-          skills: [
-            { id: "s18", name: "Git" },
-            { id: "s19", name: "GitLab" },
-            { id: "s20", name: "Jira" },
-            { id: "s21", name: "Notion" },
-            { id: "s22", name: "GitHub" },
-            { id: "s23", name: "Vercel" },
-            { id: "s24", name: "Airtable" },
+            { id: getUniqId(), name: "React" },
+            { id: getUniqId(), name: "Node.js" },
+            { id: getUniqId(), name: "Express" },
           ],
         },
       ],
     },
-    experience: [
-      {
-        id: "exp-1",
-        company: "Rize Ag-Tech.",
-        title: "Mid-level Frontend Engineer",
-        location: "Bangalore, India",
-        timePeriod: "Sept 2024 – Present",
-        description: `
-        <ul>
-          <li>Delivered a Package Tracker Dashboard (<strong>React, Spring Boot, Postgres</strong>) efficiently tracking <strong>20K+ packages</strong> with sub-200ms APIs offering advanced search, filters, <strong>G2Plot visualizations</strong> enabling operations to track and resolve stuck shipments, <strong>cutting resolution time by 40%</strong>.</li>
-          <li>Engineered a Sales Pipeline with a <strong>config-driven React UI</strong> that adapted to country specific needs leveraging <strong>Airtable APIs</strong> enabling sales team to <strong>manage over 200+ leads weekly</strong>, eliminating third-party SaaS tools and <strong>saving $50/user/month</strong>.</li>
-          <li>Optimized application performance by migrating all data fetching to <strong>TanStack Query, boosting load speed by over 50%</strong> and eliminating cumulative layout shift (<strong>CLS</strong>) via smart caching and prefetching.</li>
-          <li>Architected a robust frontend <strong>RBAC system, scaling permission control from 4 to 17+ pages</strong> via a declarative component based model.</li>
-        </ul>
-      `,
-      },
-      {
-        id: "exp-2",
-        company: "Genpro Research.",
-        title: "Frontend Engineer",
-        location: "Trivandrum, India",
-        timePeriod: "Jul 2023 – Sept 2024",
-        description: `
-        <ul>
-          <li>Delivered an <strong>AI-powered Semantic Search Chat interface</strong> for medical writers with rich features like follow-ups, response regeneration, and one-click content insertion with citation tracing <strong>accelerating authoring workflows by over 80%</strong> by streamlining cross-document research and enabling scroll-to-source <strong>PDFs</strong> in over 10k articles.</li>
-          <li>Developed and published a scalable internal UI component library as an <strong>npm package</strong> using <strong>React, Rollup.js, Storybook</strong>, and <strong>Jest</strong> which accelerated UI development by <strong>70%</strong> and improved design consistency, contributing to a <strong>50% increase</strong> in user retention across products.</li>
-        </ul>
-      `,
-      },
-      {
-        id: "exp-3",
-        company: "Infosys",
-        title: "Systems Engineer",
-        location: "Chennai, India",
-        timePeriod: "Dec 2021 – Jul 2023",
-        description: `
-        <ul>
-          <li>Contributed as a <strong>Cybersecurity Engineer</strong> on the SOAR team, developing automated workflows and an incident response workbench that increased closure rate by <strong>35%</strong> and reduced resolution time by <strong>25%</strong>.</li>
-        </ul>
-      `,
-      },
-      {
-        id: "exp-4",
-        company: "Tech RSR",
-        title: "Full Stack Engineer",
-        location: "Chennai, India",
-        timePeriod: "May 2021 – Nov 2021",
-        description: `
-        <ul>
-          <li>Designed and implemented core project management features in the <strong>HPM Web App</strong> using <strong>React.js, Material UI</strong>, and <strong>Recharts</strong> including Kanban boards, list views, and real-time comments with <strong>WebSockets</strong> boosting team collaboration and <strong>improving workflow efficiency by 60%</strong>.</li>
-          <li>Optimized search performance with <strong>debouncing</strong>, minimizing redundant API calls and enhancing responsiveness <strong>improving perceived speed and user experience</strong> during high-frequency interactions</li>
-        </ul>
-      `,
-      },
-    ],
+
     projects: [
       {
-        id: "proj-1",
-        name: "FormCraft – AI-Powered No-Code Visual Form Builder",
+        id: getUniqId(),
+        name: "RealTime Chat Platform",
         description: `
-        <ul>
-          <li>Architected and built an <strong>AI-powered form builder</strong> with ultra-modern drag-and-drop UI and <strong>Gemini AI-powered multi-page forms</strong> offering robust conditional logic, <strong>validations, analytics</strong>, and key integrations (<strong>Airtable, Google Sheets, webhooks</strong>), empowering users to ship complex forms in minutes.</li>
-          <li>Crafted <strong>real-time previews, form templates, mobile optimizations</strong>, and theme-based UI customizations resulting in smoother UX, faster form creation, and cut down setup effort even for non-technical users.</li>
-        </ul>
-      `,
-        url: "",
-        technologies: [
-          "Next.js 14",
-          "React 18",
-          "TypeScript",
-          "Tailwind CSS",
-          "MongoDB",
-          "Clerk Auth",
-          "React Hook Form",
-          "Gemini AI",
-          "DnD-Kit",
-          "Airtable",
-        ],
-      },
-      {
-        id: "proj-2",
-        name: "V1 Messenger – Real-Time Chat App",
-        description: `
-        <ul>
-          <li>Developed a <strong>feature-rich chat app from scratch</strong> with real-time personal/group chats and <strong>AI streaming responses (Llama 3)</strong> supporting diverse <strong>multimedia sharing, message reactions/replies</strong>, read receipts, online stats and so much more.</li>
-          <li>Engineered offline caching strategies leveraging <strong>service workers and Intersection Observers</strong>, decreasing media load times from <strong>2.1 seconds to 18 ms</strong> and <strong>optimizing network consumption by 98%</strong>.</li>
-        </ul>
-      `,
-        url: "",
-        technologies: [
-          "React",
-          "TypeScript",
-          "Tailwind CSS",
-          "Socket.IO",
-          "Zustand",
-          "Service workers",
-          "MongoDB",
-          "Node.js",
-          "Express JS",
-          "AI",
-        ],
+          <ul>
+            <li>Engineered a Node.js and Socket.IO chat service supporting 5,000+ concurrent users with end‑to‑end encryption.</li>
+            <li>Built React dashboard for moderators with live analytics and message moderation tools.</li>
+          </ul>
+        `,
+        url: "https://github.com/janedoe/chat-platform",
+        technologies: ["React", "Node.js", "Socket.IO", "Docker"],
       },
     ],
+
     certifications: [
       {
-        id: "cert-1",
-        name: "AWS Certified Developer – Associate",
+        id: getUniqId(),
+        name: "AWS Certified Solutions Architect – Associate",
         issuer: "Amazon Web Services",
-        date: "June 2023",
-        expirationDate: "June 2026",
+        date: "April 2022",
+        expirationDate: "April 2025",
         credentialUrl: "https://aws.amazon.com/certification/",
         description: `
-        <p>Validated expertise in deploying and maintaining <strong>AWS</strong> applications efficiently using core services like <em>Lambda</em>, <em>API Gateway</em>, and <em>DynamoDB</em>.</p>
-      `,
+          <p>Validated proficiency in designing scalable, cost‑efficient architectures on AWS using EC2, S3, RDS, and Lambda.</p>
+        `,
       },
     ],
+
     achievements: [
       {
-        id: "achv-1",
-        title: "Hackathon Winner",
+        id: getUniqId(),
+        title: "Hackathon Champion",
         description: `
-        <p>Won <strong>1st place</strong> at <em>Reactathon 2022</em> for building a collaborative whiteboard app with real-time drawing and chat features.</p>
-      `,
+          <p>Awarded 1st place in TechCrunch Disrupt 2019 Hackathon for building an AI‑powered health monitoring app.</p>
+        `,
       },
     ],
+
     languages: [
-      {
-        id: "lang-1",
-        language: "English",
-        proficiency: "Native",
-      },
-      {
-        id: "lang-2",
-        language: "Spanish",
-        proficiency: "Professional",
-      },
+      { id: getUniqId(), language: "English", proficiency: "Native" },
+      { id: getUniqId(), language: "Spanish", proficiency: "Professional" },
     ],
   },
 });
