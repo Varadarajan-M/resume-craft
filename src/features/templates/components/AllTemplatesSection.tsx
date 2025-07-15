@@ -8,11 +8,21 @@ import ViewTypeButton from "@/shared/components/common/ViewTypeButton";
 import TemplateList from "./TemplateList";
 import TemplateSearch from "./TemplateSearch";
 
+import { DocumentTemplate } from "@/shared/types/document";
 import useTemplatesQuery from "../hooks/useTemplatesQuery";
+import { useRouter } from "next/navigation";
 
 const AllTemplatesSection = () => {
   const [activeView, setActiveView] = useState<"grid" | "list">("grid");
   const templates = useTemplatesQuery();
+
+   const router = useRouter();
+  
+    const handleTemplateClick = <T extends DocumentTemplate>(template: T) => {
+      // Handle template click logic here, e.g., navigate to template details
+      console.log("template clicked:", template);
+      router.push(`/builder`);
+    };
 
   return (
     <>
@@ -34,7 +44,11 @@ const AllTemplatesSection = () => {
         </div>
       </FadeIn>
       <FadeIn transition={{ delay: 0.4 }} className="w-full">
-        <TemplateList templates={templates} />
+        <TemplateList
+          viewType={activeView}
+          templates={templates}
+          onTemplateClick={handleTemplateClick}
+        />
       </FadeIn>
     </>
   );
