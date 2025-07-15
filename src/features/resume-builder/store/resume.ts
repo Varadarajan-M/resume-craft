@@ -52,10 +52,22 @@ export const emptyResume = (): Resume => ({
       email: "jane.doe@example.com",
       phone: "+1 (555) 123-4567",
       location: "San Francisco, CA, USA",
-      website: { label: "Portfolio", url: "https://janedoe.dev" },
       links: [
-        { label: "GitHub", url: "https://github.com/janedoe" },
-        { label: "LinkedIn", url: "https://linkedin.com/in/janedoe" },
+        {
+          id: getUniqId(),
+          label: "Portfolio",
+          url: "https://janedoe.dev",
+        },
+        {
+          label: "GitHub",
+          url: "https://github.com/janedoe",
+          id: getUniqId(),
+        },
+        {
+          id: getUniqId(),
+          label: "LinkedIn",
+          url: "https://linkedin.com/in/janedoe",
+        },
       ],
     },
 
@@ -211,6 +223,7 @@ type ResumeStore = {
     key: keyof ResumePersonalInfoItem,
     value: T
   ) => void;
+
   updateSummary: (content: string) => void;
 
   // experience section

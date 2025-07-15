@@ -20,11 +20,11 @@ const ResumeItem = ({
   labelClassName,
   renderHeaderAction,
 }: ResumeItemProps) => {
-  console.log("Rendering ResumeItem", itemId, label); // Debugging render count
   return (
     <div
       className={cn("flex flex-col gap-1.5 px-1 flex-1", className)}
-      aria-label={`This item represents ${label} of the resume`}
+      aria-label={`This item represents ${label} in the resume`}
+      aria-live="polite"
     >
       <div className="flex justify-between items-center-safe w-full">
         <Label

@@ -160,7 +160,12 @@ const sectionRenderers: Record<
         </View>
         <View style={styles.headerRowSpaceBetween}>
           <Text style={styles.contactLine}>
-            Portfolio: {personalInfo?.website?.url}
+            Portfolio:{" "}
+            {
+              personalInfo?.links?.find((l) =>
+                l.label?.toLowerCase()?.includes("portfolio")
+              )?.url
+            }
           </Text>
           <Text style={styles.contactLine}>Mobile: {personalInfo?.phone}</Text>
         </View>

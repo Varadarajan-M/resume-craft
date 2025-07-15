@@ -1,5 +1,11 @@
 import type { Document } from "./document";
 
+export type ResumeLinkItem = {
+  id: string;
+  label: string;
+  url: string;
+  iconName?: string; // Optional field for icon name
+};
 export interface ResumePersonalInfoItem {
   fullName: string;
   headline: string;
@@ -7,7 +13,7 @@ export interface ResumePersonalInfoItem {
   phone: string;
   location: string;
   website?: { label: string; url: string }; // Optional field for personal website or portfolio
-  links?: { label: string; url: string }[];
+  links?: ResumeLinkItem[];
 }
 
 export interface ResumeExperienceItem {

@@ -3,9 +3,13 @@
 import { useResumeStore } from "@/features/resume-builder/store/resume";
 
 import { Input } from "@/shared/components/ui/input";
+
+import AddNewButton from "../AddNewItemButton";
 import ResumeItem from "../ResumeItem";
 import TwoItemGrid from "../TwoItemGrid";
 
+import { ResumeLinkInput } from "@/shared/components/common/ResumeLinkInput";
+import { getUniqId } from "@/shared/lib/utils";
 import type { ResumePersonalInfoItem } from "@/shared/types/resume";
 
 const PersonalInfoForm = () => {
@@ -69,21 +73,57 @@ const PersonalInfoForm = () => {
         </ResumeItem>
       </TwoItemGrid>
 
-      <ResumeItem itemId="website" label="Website/Portfolio">
-        <Input
-          id="website"
-          value={personalInfo?.website?.url || ""}
-          onChange={(e) =>
-            update("website", {
-              label: personalInfo?.website?.label ?? "Website",
-              url: e.target.value,
-            })
-          }
-          type="url"
-          placeholder="https://yourportfolio.com"
-        />
-      </ResumeItem>
+      <UserLinks />
     </>
+  );
+};
+
+const UserLinks = () => {
+  const links = useResumeStore((s) => s.resume?.sections?.personalInfo?.links);
+  const update = useResumeStore((s) => s.updatePersonalInfoField);
+
+  const handleAddLink = () => {
+    const newLink = {
+      id: getUniqId(),
+      label: "",
+      url: "",
+      iconName: "",
+    };
+    update("links", [...(links || []), newLink]);
+  };
+
+  const handleLinkChange = (
+    id: string,
+    field: "label" | "url" | "iconName",
+    value: string
+  ) => {
+    const updatedLinks = links?.map((link) =>
+      link.id === id ? { ...link, [field]: value } : link
+    );
+    update("links", updatedLinks || []);
+  };
+
+  const handleLinkRemove = (id: string) => {
+    const updatedLinks = links?.filter((link) => link.id !== id);
+    update("links", updatedLinks || []);
+  };
+
+  return (
+    <ResumeItem itemId="urls" label="Your Links">
+      <div className="md:space-y-4 space-y-6">
+        {links?.map((link) => (
+          <ResumeLinkInput
+            id={link?.id}
+            label={link?.label}
+            url={link?.url}
+            iconName={link?.iconName}
+            onChange={handleLinkChange}
+            onRemove={handleLinkRemove}
+          />
+        ))}
+        <AddNewButton label="Add Link" onClick={handleAddLink} />
+      </div>
+    </ResumeItem>
   );
 };
 

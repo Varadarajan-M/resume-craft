@@ -7,3 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const getUniqId = () => uuid();
+
+export const kebabToPascalCase = (slug: string): string => {
+  return slug
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join("");
+};
