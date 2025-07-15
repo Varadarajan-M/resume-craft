@@ -2,8 +2,16 @@
 
 import { htmlParser } from "@/shared/lib/html-parser";
 import { Resume, ResumeTemplateComponentProps } from "@/shared/types/resume";
-import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
+import {
+  Document,
+  Link,
+  Page,
+  StyleSheet,
+  Text,
+  View,
+} from "@react-pdf/renderer";
 
+import { PdfLucideIcon } from "@/shared/components/common/LucideToReactPdfIcon";
 import { Fragment, JSX, useEffect, useRef } from "react";
 import DocumentProvider from "../../DocumentProvider";
 
@@ -17,21 +25,36 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     gap: 5,
   },
-  header: {},
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
+  header: {
+    alignItems: "center",
+    gap: 5,
   },
-  headerRowSpaceBetween: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  headline: {
+    fontSize: 14,
+    color: "#444",
+    marginBottom: 5,
   },
-  headerAlignEnd: {
-    alignItems: "flex-end",
+  contactRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    columnGap: 12,
+    rowGap: 5,
+    marginBottom: 7,
+  },
+  contactItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
+  contactLink: {
+    fontSize: 10,
+    textDecoration: "underline",
+    color: "black",
+    textAlign: "center",
   },
   name: {
-    fontSize: 17,
+    fontSize: 22,
     fontWeight: "bold",
     marginBottom: 10,
   },
@@ -154,31 +177,54 @@ const sectionRenderers: Record<
 
     return (
       <View style={styles.header}>
-        <View style={styles.headerRow}>
-          <Text style={styles.name}>{personalInfo?.fullName}</Text>
-          <Text style={styles.contactLine}>Email: {personalInfo?.email}</Text>
+        <Text style={styles.name}>{personalInfo?.fullName}</Text>
+
+        {personalInfo.headline && (
+          <Text style={styles.headline}>{personalInfo.headline}</Text>
+        )}
+
+        {/* Contact Row */}
+        <View style={styles.contactRow}>
+          {personalInfo?.email && (
+            <View style={styles.contactItem}>
+              <PdfLucideIcon name="mail" size={10} />
+              <Link
+                src={`mailto:${personalInfo.email}`}
+                style={styles.contactLink}
+              >
+                {personalInfo.email}
+              </Link>
+            </View>
+          )}
+
+          {personalInfo?.phone && (
+            <View style={styles.contactItem}>
+              <PdfLucideIcon name="phone" size={10} />
+              <Link
+                src={`tel:${personalInfo.phone}`}
+                style={styles.contactLink}
+              >
+                {personalInfo.phone}
+              </Link>
+            </View>
+          )}
+
+          {personalInfo?.location && (
+            <View style={styles.contactItem}>
+              <PdfLucideIcon name="map-pin" size={10} />
+              <Text style={styles.contactLink}>{personalInfo.location}</Text>
+            </View>
+          )}
+
+          {personalInfo.links?.map((link) => (
+            <View key={link.id} style={styles.contactItem}>
+              <PdfLucideIcon name={link?.iconName!} size={10} />
+              <Link src={link.url} style={styles.contactLink}>
+                {link.label}
+              </Link>
+            </View>
+          ))}
         </View>
-        <View style={styles.headerRowSpaceBetween}>
-          <Text style={styles.contactLine}>
-            Portfolio:{" "}
-            {
-              personalInfo?.links?.find((l) =>
-                l.label?.toLowerCase()?.includes("portfolio")
-              )?.url
-            }
-          </Text>
-          <Text style={styles.contactLine}>Mobile: {personalInfo?.phone}</Text>
-        </View>
-        <View style={styles.headerRowSpaceBetween}>
-          <Text style={styles.contactLine}>
-            Github:{" "}
-            {personalInfo?.links?.find((l) => l.url.includes("github"))?.url}
-          </Text>
-          <Text style={styles.contactLine}>
-            Location: {personalInfo?.location}
-          </Text>
-        </View>
-        <View style={styles.headerAlignEnd}></View>
       </View>
     );
   },
@@ -287,7 +333,7 @@ const sectionRenderers: Record<
               {proj.url && (
                 <Text style={styles.dateLocation}>
                   {htmlParser(
-                    `<a href="${proj.url}" style="text-decoration:underline">${proj?.url}</a>`
+                    `<a href="${proj.url}" style="text-decoration:underline;color:black">${proj?.url}</a>`
                   )}
                 </Text>
               )}
@@ -324,7 +370,7 @@ const sectionRenderers: Record<
                 {cert.credentialUrl && (
                   <Text style={styles.certificationContent}>
                     {htmlParser(
-                      `<a href="${cert?.credentialUrl}">${cert.credentialUrl}</a>`
+                      `<a href="${cert?.credentialUrl}" style="text-decoration:underline;color:black">${cert.credentialUrl}</a>`
                     )}
                   </Text>
                 )}
@@ -392,7 +438,7 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
 
   return (
     <Document style={{ flex: 1 }}>
-      <Page size="A4" style={[styles.page, { padding: 20 }]}>
+      <Page size="A4" style={[styles.page]}>
         {mainColumnSectionOrder?.map((sectionId) => {
           const renderer = sectionRenderers[sectionId];
           if (renderer) {

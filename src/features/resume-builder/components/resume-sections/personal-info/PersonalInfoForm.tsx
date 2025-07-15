@@ -109,10 +109,11 @@ const UserLinks = () => {
   };
 
   return (
-    <ResumeItem itemId="urls" label="Your Links">
+    <ResumeItem itemId="urls" label="Custom Links">
       <div className="md:space-y-4 space-y-6">
-        {links?.map((link) => (
+        {links?.map((link, index) => (
           <ResumeLinkInput
+            key={link?.id}
             id={link?.id}
             label={link?.label}
             url={link?.url}

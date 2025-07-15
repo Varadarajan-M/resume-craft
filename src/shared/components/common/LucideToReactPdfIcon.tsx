@@ -21,8 +21,10 @@ export function PdfLucideIcon({
   size = 16,
   color = "black",
 }: PdfLucideIconProps) {
+  if (!name) return null;
+
   const properName = kebabToPascalCase(name);
-  const svgString = (lucideIcons as Record<string, string>)[properName];
+  const svgString = (lucideIcons as Record<string, string>)?.[properName];
 
   if (!svgString) return null;
 
@@ -48,7 +50,6 @@ export function PdfLucideIcon({
     index: number
   ) => {
     const common = {
-      key: `${tag}-${index}`,
       stroke: color,
       strokeWidth: attrs["stroke-width"] ?? 2,
       fill: attrs.fill ?? "none",
@@ -56,11 +57,12 @@ export function PdfLucideIcon({
 
     switch (tag) {
       case "path":
-        return <Path {...common} d={attrs.d} />;
+        return <Path {...common} key={`${tag}-${index}`} d={attrs.d} />;
       case "rect":
         return (
           <Rect
             {...common}
+            key={`${tag}-${index}`}
             x={attrs.x}
             y={attrs.y}
             width={attrs.width}
@@ -70,11 +72,20 @@ export function PdfLucideIcon({
           />
         );
       case "circle":
-        return <Circle {...common} cx={attrs.cx} cy={attrs.cy} r={attrs.r} />;
+        return (
+          <Circle
+            {...common}
+            key={`${tag}-${index}`}
+            cx={attrs.cx}
+            cy={attrs.cy}
+            r={attrs.r}
+          />
+        );
       case "line":
         return (
           <Line
             {...common}
+            key={`${tag}-${index}`}
             x1={attrs.x1}
             y1={attrs.y1}
             x2={attrs.x2}
@@ -82,9 +93,13 @@ export function PdfLucideIcon({
           />
         );
       case "polyline":
-        return <Polyline {...common} points={attrs.points} />;
+        return (
+          <Polyline {...common} key={`${tag}-${index}`} points={attrs.points} />
+        );
       case "polygon":
-        return <Polygon {...common} points={attrs.points} />;
+        return (
+          <Polygon {...common} key={`${tag}-${index}`} points={attrs.points} />
+        );
       default:
         return null;
     }

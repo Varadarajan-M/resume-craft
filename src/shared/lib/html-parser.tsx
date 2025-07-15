@@ -51,7 +51,11 @@ export const htmlParser = (taskDescription: string | null): JSX.Element => {
               <Link
                 src={elementProps.href}
                 key={getUniqId()}
-                style={{ color: "#0066cc", textDecoration: "underline" }}
+                style={{
+                  color: "#0066cc",
+                  textDecoration: "underline",
+                  ...elementProps?.style,
+                }}
               >
                 {children}
               </Link>
