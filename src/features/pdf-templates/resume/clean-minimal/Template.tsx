@@ -12,8 +12,10 @@ import {
 } from "@react-pdf/renderer";
 
 import { PdfLucideIcon } from "@/shared/components/common/LucideToReactPdfIcon";
-import { Fragment, JSX, useEffect, useRef } from "react";
+import { Fragment, JSX } from "react";
+import DestroyAndMountChildrenOnPropChange from "../../DestroyAndMountChildrenOnPropChange";
 import DocumentProvider from "../../DocumentProvider";
+import PDFErrorBoundary from "../../PDFErrorBoundary";
 
 const styles = StyleSheet.create({
   page: {
@@ -458,18 +460,16 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
 const CleanMinimalResumeTemplate = ({
   resume,
 }: ResumeTemplateComponentProps) => {
-  const ref = useRef<number>(0);
-
-  useEffect(() => {
-    ref.current += 1;
-  }, [resume]);
-
   return (
-    // this is used to prevent EO is not a function error in react-pdf/renderer when resume content is updated.
-    // ref: https://stackoverflow.com/a/79653680
-    <DocumentProvider key={ref.current}>
-      <ResumeDocument resume={resume} />
-    </DocumentProvider>
+    <PDFErrorBoundary maxRetries={3} retryDelay={700}>
+      <DestroyAndMountChildrenOnPropChange prop={resume}>
+        {(key) => (
+          <DocumentProvider key={key}>
+            <ResumeDocument resume={resume} />
+          </DocumentProvider>
+        )}
+      </DestroyAndMountChildrenOnPropChange>
+    </PDFErrorBoundary>
   );
 };
 

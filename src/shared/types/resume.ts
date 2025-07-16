@@ -29,6 +29,7 @@ export interface ResumeEducationItem {
   id: string; // Unique identifier for the education item
   institution: string;
   fieldOfStudy?: string;
+  location?: string;
   timePeriod: string;
   gpa?: string;
   description?: string;

@@ -17,9 +17,9 @@ const RESUME_TEMPLATE_MAPPING: Record<
       default: module.CleanMinimalResumeTemplate,
     }))
   ),
-  creative: React.lazy(() =>
-    import("@/features/pdf-templates/resume/creative").then((module) => ({
-      default: module.CreativeResumeTemplate,
+  standard: React.lazy(() =>
+    import("@/features/pdf-templates/resume/standard").then((module) => ({
+      default: module.StandardResumeTemplate,
     }))
   ),
 };

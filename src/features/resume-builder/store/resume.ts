@@ -18,7 +18,7 @@ export const emptyResume = (): Resume => ({
   category: "resume",
   status: "draft",
   title: "Jane Doe Resume",
-  templateId: "clean-minimal",
+  templateId: "standard",
   image: undefined,
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -47,11 +47,11 @@ export const emptyResume = (): Resume => ({
 
   sections: {
     personalInfo: {
-      fullName: "Jane Doe",
+      fullName: "First Last",
       headline: "Software Engineer",
       email: "jane.doe@example.com",
       phone: "+1 (555) 123-4567",
-      location: "San Francisco, CA, USA",
+      location: "123 Street Name, Town, State 12345",
       links: [
         {
           id: getUniqId(),
@@ -142,9 +142,11 @@ export const emptyResume = (): Resume => ({
     education: [
       {
         id: getUniqId(),
-        institution: "University of Texas at Austin",
-        fieldOfStudy: "B.S. in Computer Science",
-        timePeriod: "2013 – 2017",
+        institution: "State University",
+        fieldOfStudy: "Bachelor of Science in Computer Science",
+        gpa: "3.8",
+        location: "City, State",
+        timePeriod: "Sep. 2017 – May 2021",
         description: "",
       },
     ],
