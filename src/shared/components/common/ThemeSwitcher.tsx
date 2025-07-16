@@ -5,17 +5,25 @@ import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 
 export const ThemeSwitch = () => {
-  const [theme, setTheme] = React.useState("light");
+  const [theme, setTheme] = React.useState(() => {
+    if (typeof window !== "undefined") {
+      const storedPreferences = JSON.parse(
+        localStorage.getItem("preferences") || "{}"
+      );
+      return storedPreferences.theme || "light";
+    }
+    return "light";
+  });
 
   useEffect(() => {
-    const currentTheme = document.body.classList.contains("dark")
-      ? "dark"
-      : "light";
+    document.body.classList.remove(theme === "dark" ? "light" : "dark");
+    document.body.classList.add(theme);
 
-    if (currentTheme !== theme) {
-      document.body.classList.remove(currentTheme);
-      document.body.classList.add(theme);
-    }
+    const updatedPreferences = {
+      ...JSON.parse(localStorage.getItem("preferences") || "{}"),
+      theme,
+    };
+    localStorage.setItem("preferences", JSON.stringify(updatedPreferences));
   }, [theme]);
 
   return (
