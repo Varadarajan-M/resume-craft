@@ -1,6 +1,9 @@
 "use client";
 
-import { Navbar, ResumeSectionsPanel } from "@/features/resume-builder";
+import {
+  ResumeBuilderNavbar,
+  ResumeSectionsPanel,
+} from "@/features/resume-builder";
 import dynamic from "next/dynamic";
 
 const ResumePreviewPanel = dynamic(
@@ -18,7 +21,7 @@ const ResumeBuilderPage = () => {
       id="builder"
       className="bg-background w-full h-dvh flex flex-col transition-all duration-200 overflow-hidden"
     >
-      <Navbar />
+      <ResumeBuilderNavbar />
       <div className="flex-1 flex gap-4 items-center-safe">
         <ResumeSectionsPanel className="basis-full lg:basis-[28%]" />
 

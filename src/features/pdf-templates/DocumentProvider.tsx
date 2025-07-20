@@ -12,9 +12,9 @@ const DocumentProvider = ({ children }: DocumentProviderProps) => {
       {({ url }) => {
         if (url)
           return (
-            <>
+            <div className="h-screen w-full" data-pdf-blob-url={url}>
               <PDFPreview fileUrl={url ?? ""} />
-            </>
+            </div>
           );
       }}
     </BlobProvider>
