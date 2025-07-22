@@ -35,6 +35,16 @@ const WorkExperienceForm = ({ id }: { id: string }) => {
         />
       </ResumeItem>
 
+      <ResumeItem label="Location" itemId={`${id}-location`}>
+        <Input
+          value={experience.location}
+          onChange={(e) =>
+            handleUpdateExperienceField(id, { location: e.target.value })
+          }
+          placeholder="e.g., Austin, Texas"
+        />
+      </ResumeItem>
+
       <ResumeItem label="Duration" itemId={`${id}-duration`}>
         <Input
           value={experience.timePeriod}
