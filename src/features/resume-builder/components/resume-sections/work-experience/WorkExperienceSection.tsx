@@ -1,11 +1,18 @@
 "use client";
 
+import { RESUME_BUILDER_SECTIONS } from "@/features/resume-builder/lib/constants";
 import { useResumeStore } from "@/features/resume-builder/store/resume";
 import Tip from "@/shared/components/common/Tip";
-import { Briefcase } from "lucide-react";
 import AddNewButton from "../AddNewItemButton";
 import ResumeSection from "../ResumeSection";
 import WorkExperienceItem from "./WorkExperienceItem";
+
+const { icon: SectionIcon, ...rest } = RESUME_BUILDER_SECTIONS.experience;
+
+const sectionConfig = {
+  ...rest,
+  icon: <SectionIcon className="w-4 h-4" />,
+};
 
 const ExperienceSection = () => {
   const experiences = useResumeStore(
@@ -14,12 +21,7 @@ const ExperienceSection = () => {
   const handleAddExperienceItem = useResumeStore((s) => s.addExperienceItem);
 
   return (
-    <ResumeSection
-      icon={<Briefcase className="w-4 h-4" />}
-      title="Work Experience"
-      subtitle="Your relevant roles, starting from the most recent."
-      defaultOpen
-    >
+    <ResumeSection {...sectionConfig}>
       <div className="flex flex-col gap-6">
         {experiences.map((exp, index) => (
           <WorkExperienceItem key={exp.id} id={exp.id} index={index} />

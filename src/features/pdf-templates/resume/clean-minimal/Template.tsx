@@ -1,38 +1,76 @@
 "use client";
 
+import { PdfLucideIcon } from "@/shared/components/common/LucideToReactPdfIcon";
 import { htmlParser } from "@/shared/lib/html-parser";
 import { Resume, ResumeTemplateComponentProps } from "@/shared/types/resume";
 import {
   Document,
+  Font,
   Link,
   Page,
   StyleSheet,
   Text,
   View,
 } from "@react-pdf/renderer";
-
-import { PdfLucideIcon } from "@/shared/components/common/LucideToReactPdfIcon";
-import { Fragment, JSX, useEffect, useRef } from "react";
+import { JSX } from "react";
+import DestroyAndMountChildrenOnPropChange from "../../DestroyAndMountChildrenOnPropChange";
 import DocumentProvider from "../../DocumentProvider";
+import PDFErrorBoundary from "../../PDFErrorBoundary";
+
+// Font registration
+Font.register({
+  family: "Helvetica",
+  fonts: [
+    { src: "https://fonts.gstatic.com/s/helvetica/v6/92z6d3FZvzFvD.ttf" },
+    {
+      src: "https://fonts.gstatic.com/s/helvetica/v6/92z6d3FZvzFvD-Bold.ttf",
+      fontWeight: "bold",
+    },
+  ],
+});
+
+// Theme and Styles
+const THEME = {
+  fontFamily: "Helvetica",
+  fontSize: 10,
+  spacing: 6,
+  colors: {
+    primary: "#000",
+    secondary: "#444",
+    border: "#000",
+  },
+};
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: "Helvetica",
-    fontSize: 10,
+    fontFamily: THEME.fontFamily,
+    fontSize: THEME.fontSize,
     padding: 24,
-    lineHeight: 1.2,
-    color: "#000",
+    lineHeight: 1.3,
+    color: THEME.colors.primary,
     backgroundColor: "#fff",
-    gap: 5,
+    gap: 6,
   },
-  header: {
+  section: {},
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    gap: 5,
+    marginBottom: THEME.spacing,
   },
-  headline: {
-    fontSize: 14,
-    color: "#444",
+  sectionTitle: {
+    fontSize: 10,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    marginBottom: 4,
+    borderBottom: `0.5 solid ${THEME.colors.border}`,
+  },
+  subsection: {
     marginBottom: 5,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   contactRow: {
     flexDirection: "row",
@@ -50,406 +88,322 @@ const styles = StyleSheet.create({
   contactLink: {
     fontSize: 10,
     textDecoration: "underline",
-    color: "black",
-    textAlign: "center",
+    color: THEME.colors.primary,
   },
   name: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 11,
   },
-  contactLine: {
-    fontSize: 9,
-    color: "#000",
-    marginBottom: 1,
+  headline: {
+    fontSize: 14,
+    color: THEME.colors.secondary,
+    marginBottom: 5,
   },
-  sectionTitle: {
-    fontSize: 10,
-    fontWeight: "bold",
-    marginBottom: 4,
-    borderBottom: "0.5 solid #000",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
+  labelSemibold: {
+    fontWeight: "semibold",
   },
-  subsection: {
-    marginTop: -1,
-  },
-  experienceHeader: {
-    marginBottom: 0,
-  },
-  experienceHeaderWithMargin: {
-    marginBottom: 2,
-  },
-  jobTitle: {
-    fontSize: 10,
-    fontWeight: "bold",
-    marginBottom: 1,
-  },
-  section: {},
-  companyLine: {
-    fontSize: 9,
-    marginBottom: 1,
-  },
-  locationDate: {
-    fontSize: 9,
-    textAlign: "right",
-    marginTop: -12,
-  },
-  bulletPoint: {
-    fontSize: 9,
-    marginBottom: 1,
-    paddingLeft: 8,
-  },
-  educationHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: 1,
-  },
-  institutionName: {
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  degree: {
-    fontSize: 9,
-    fontStyle: "italic",
-  },
-  dateLocation: {
-    fontSize: 9,
-    textAlign: "right",
-  },
-  skillCategory: {
-    fontSize: 9,
-    marginBottom: 1,
-  },
-  skillCategoryName: {
-    fontWeight: "bold",
-  },
-  projectHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: 1,
-  },
-  projectName: {
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  projectTech: {
-    fontSize: 9,
-    fontStyle: "italic",
-    marginHorizontal: 1,
-  },
-  summaryText: {
-    fontSize: 10,
-  },
-  certificationRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  certificationContent: {
-    marginBottom: 2,
-  },
-  certificationDescription: {
-    marginTop: 2,
-  },
-  languageText: {
-    fontSize: 10,
-    marginBottom: 2,
-  },
-  achievementItem: {
-    marginBottom: 2,
-  },
-  achievementDescription: {
-    marginTop: 2,
-  },
+  labelBold: { fontWeight: "bold" },
+  labelItalic: { fontStyle: "italic" },
+  textRight: { textAlign: "right" },
+  smallText: { fontSize: 9.4 },
 });
 
+// Reusable Components
+const Section = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: JSX.Element | JSX.Element[];
+}) => (
+  <View style={styles.section}>
+    <Text style={styles.sectionTitle}>{title}</Text>
+    {children}
+  </View>
+);
+
+const SubsectionRow = ({
+  left,
+  right,
+}: {
+  left: JSX.Element;
+  right?: JSX.Element;
+}) => (
+  <View style={styles.row}>
+    {left}
+    {right}
+  </View>
+);
+
+const ContactItem = ({
+  icon,
+  href,
+  label,
+}: {
+  icon?: string;
+  href: string;
+  label: string;
+}) => (
+  <View style={styles.contactItem}>
+    {icon && <PdfLucideIcon name={icon} size={10} />}
+    <Link src={href} style={styles.contactLink}>
+      {label}
+    </Link>
+  </View>
+);
+
+// Section Renderers
 const sectionRenderers: Record<
   string,
-  (section: Resume["sections"], id?: string) => JSX.Element | null
+  (
+    sections: Resume["sections"],
+    id: keyof Resume["sections"]
+  ) => JSX.Element | null
 > = {
   personalInfo: (sections, id) => {
-    const personalInfo = sections?.[
-      id as keyof typeof sections
-    ] as Resume["sections"]["personalInfo"];
-    if (!personalInfo) return null;
-
+    const s = sections?.[id] as Resume["sections"]["personalInfo"];
+    if (!s) return null;
     return (
-      <View style={styles.header}>
-        <Text style={styles.name}>{personalInfo?.fullName}</Text>
-
-        {personalInfo.headline && (
-          <Text style={styles.headline}>{personalInfo.headline}</Text>
-        )}
-
-        {/* Contact Row */}
-        <View style={styles.contactRow}>
-          {personalInfo?.email && (
-            <View style={styles.contactItem}>
-              <PdfLucideIcon name="mail" size={10} />
-              <Link
-                src={`mailto:${personalInfo.email}`}
-                style={styles.contactLink}
-              >
-                {personalInfo.email}
-              </Link>
-            </View>
+      <View style={[styles.row, { marginBottom: 6, alignItems: "flex-end" }]}>
+        <View style={{ gap: 2 }}>
+          <Text style={styles.name}>{s.fullName}</Text>
+          {s.headline && <Text style={styles.headline}>{s.headline}</Text>}
+          {s.phone && (
+            <ContactItem href={`tel:${s.phone}`} label={`Phone: ${s.phone}`} />
           )}
-
-          {personalInfo?.phone && (
-            <View style={styles.contactItem}>
-              <PdfLucideIcon name="phone" size={10} />
-              <Link
-                src={`tel:${personalInfo.phone}`}
-                style={styles.contactLink}
-              >
-                {personalInfo.phone}
-              </Link>
-            </View>
+          {s.email && (
+            <ContactItem
+              href={`mailto:${s.email}`}
+              label={`Email: ${s.email}`}
+            />
           )}
-
-          {personalInfo?.location && (
-            <View style={styles.contactItem}>
-              <PdfLucideIcon name="map-pin" size={10} />
-              <Text style={styles.contactLink}>{personalInfo.location}</Text>
-            </View>
-          )}
-
-          {personalInfo.links?.map((link) => (
-            <View key={link.id} style={styles.contactItem}>
-              <PdfLucideIcon name={link?.iconName!} size={10} />
-              <Link src={link.url} style={styles.contactLink}>
-                {link.label}
-              </Link>
-            </View>
+        </View>
+        <View style={{ gap: 3 }}>
+          {s?.links?.map((link) => (
+            <ContactItem
+              icon={link?.iconName}
+              key={link.id}
+              href={link.url}
+              label={link.url}
+            />
           ))}
+          {s?.location && (
+            <ContactItem
+              icon="map-pin"
+              href={
+                "https://www.google.com/maps/search/?api=1&query=" +
+                encodeURIComponent(s?.location)
+              }
+              label={`${s.location}`}
+            />
+          )}
         </View>
       </View>
     );
   },
 
   summary: (sections, id) => {
-    const summary = sections?.[
-      id as keyof typeof sections
+    const s = sections[
+      id as keyof Resume["sections"]
     ] as Resume["sections"]["summary"];
-    if (!summary || !summary.content) return null;
-
+    if (!s?.content || s?.content?.length <= 7) return null;
     return (
-      <View style={styles.section}>
-        <Text style={styles.summaryText}>{htmlParser(summary?.content)}</Text>
-      </View>
+      <Section title="Summary">
+        <Text>{htmlParser(s.content)}</Text>
+      </Section>
     );
   },
-
-  education: (sections, id) => {
-    const education = sections?.[
-      id as keyof typeof sections
-    ] as Resume["sections"]["education"];
-    if (!education || education.length === 0) return null;
-
+  skills: (sections, id) => {
+    const s = sections[id] as Resume["sections"]["skills"];
+    if (!s?.categories?.length) return null;
     return (
-      <View>
-        <Text style={styles.sectionTitle}>Education</Text>
-        {education?.map((edu) => (
+      <Section title="Skills">
+        {s.categories.map((cat) => (
+          <Text key={cat.id} style={styles.smallText}>
+            <Text style={styles.labelBold}>{cat.name}:</Text>{" "}
+            {cat.skills.map((s) => s.name).join(", ")}
+          </Text>
+        ))}
+      </Section>
+    );
+  },
+  education: (sections, id) => {
+    const s = sections[id] as Resume["sections"]["education"];
+    if (!s?.length) return null;
+    return (
+      <Section title="Education">
+        {s.map((edu) => (
           <View key={edu.id} style={styles.subsection}>
-            <View style={styles.educationHeader}>
-              <Text style={styles.institutionName}>{edu.institution}</Text>
-            </View>
-            <View style={styles.educationHeader}>
-              <Text style={styles.degree}>{edu.fieldOfStudy}</Text>
-              <Text style={styles.dateLocation}>{edu.timePeriod}</Text>
-            </View>
+            <SubsectionRow
+              left={<Text style={styles.labelBold}>{edu.institution}</Text>}
+              right={
+                <Text
+                  style={[
+                    styles.textRight,
+                    styles.smallText,
+                    styles.labelSemibold,
+                  ]}
+                >
+                  {edu.timePeriod}
+                </Text>
+              }
+            />
+            <SubsectionRow
+              left={<Text>{edu.fieldOfStudy}</Text>}
+              right={
+                edu.location ? (
+                  <Text style={[styles.textRight, styles.smallText]}>
+                    {edu.location}
+                  </Text>
+                ) : undefined
+              }
+            />
             {edu.description && <View>{htmlParser(edu.description)}</View>}
           </View>
         ))}
-      </View>
+      </Section>
     );
   },
-
-  skills: (sections, id) => {
-    const skills = sections?.[
-      id as keyof typeof sections
-    ] as Resume["sections"]["skills"];
-    if (!skills || skills.categories.length === 0) return null;
-
-    return (
-      <View>
-        <Text style={styles.sectionTitle}>Skills</Text>
-        {skills?.categories?.map((cat) => (
-          <Text key={cat.id} style={styles.skillCategory}>
-            <Text style={styles.skillCategoryName}>{cat.name}:</Text>{" "}
-            {cat?.skills?.map((s) => s.name)?.join(", ")}
-          </Text>
-        ))}
-      </View>
-    );
-  },
-
   experience: (sections, id) => {
-    const experience = sections?.[
-      id as keyof typeof sections
-    ] as Resume["sections"]["experience"];
-    if (!experience || experience.length === 0) return null;
-
+    const s = sections[id] as Resume["sections"]["experience"];
+    if (!s?.length) return null;
     return (
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Experience</Text>
-        {experience?.map((exp) => (
+      <Section title="Experience">
+        {s.map((exp) => (
           <View key={exp.id} style={styles.subsection}>
-            <View style={styles.experienceHeader}>
-              <Text style={styles.jobTitle}>{exp.company}</Text>
-              <Text style={styles.locationDate}>{exp.location}</Text>
-            </View>
-            <View
-              style={[
-                styles.experienceHeader,
-                styles.experienceHeaderWithMargin,
-              ]}
-            >
-              <Text style={styles.companyLine}>{exp.title}</Text>
-              <Text style={styles.locationDate}>{exp.timePeriod}</Text>
-            </View>
+            <SubsectionRow
+              left={<Text style={styles.labelBold}>{exp.company}</Text>}
+              right={
+                <Text
+                  style={[
+                    styles.textRight,
+                    styles.smallText,
+                    styles.labelSemibold,
+                  ]}
+                >
+                  {exp.timePeriod}
+                </Text>
+              }
+            />
+            <SubsectionRow
+              left={<Text style={styles.smallText}>{exp.title}</Text>}
+              right={
+                <Text style={[styles.textRight, styles.smallText]}>
+                  {exp.location}
+                </Text>
+              }
+            />
             {exp.description && <View>{htmlParser(exp.description)}</View>}
           </View>
         ))}
-      </View>
+      </Section>
     );
   },
-
   projects: (sections, id) => {
-    const projects = sections?.[
-      id as keyof typeof sections
-    ] as Resume["sections"]["projects"];
-    if (!projects || projects.length === 0) return null;
-
+    const s = sections[id] as Resume["sections"]["projects"];
+    if (!s?.length) return null;
     return (
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Projects</Text>
-        {projects?.map((proj, i) => (
-          <View key={i} style={styles.subsection}>
-            <View style={styles.projectHeader}>
-              <Text style={styles.projectName}>{proj.name}</Text>
-              {proj.url && (
-                <Text style={styles.dateLocation}>
-                  {htmlParser(
-                    `<a href="${proj.url}" style="text-decoration:underline;color:black">${proj?.url}</a>`
-                  )}
-                </Text>
-              )}
-            </View>
-            {proj.technologies && (
-              <Text style={styles.projectTech}>
-                {proj?.technologies?.join(", ")}
+      <Section title="Projects">
+        {s.map((proj) => (
+          <View key={proj.id} style={styles.subsection}>
+            <SubsectionRow
+              left={<Text style={styles.labelBold}>{proj.name}</Text>}
+              right={
+                proj.url ? (
+                  <Text>
+                    {htmlParser(
+                      `<a href="${proj.url}" style="text-decoration:underline;color:black">${proj.url}</a>`
+                    )}
+                  </Text>
+                ) : undefined
+              }
+            />
+            {(proj?.technologies?.length || 0) > 0 && (
+              <Text style={styles.labelItalic}>
+                {proj.technologies?.join(", ")}
               </Text>
             )}
             {proj.description && <View>{htmlParser(proj.description)}</View>}
           </View>
         ))}
-      </View>
+      </Section>
     );
   },
-
   certifications: (sections, id) => {
-    const certifications = sections?.[
-      id as keyof typeof sections
-    ] as Resume["sections"]["certifications"];
-    if (!certifications || certifications.length === 0) return null;
-
+    const s = sections[id] as Resume["sections"]["certifications"];
+    if (!s?.length) return null;
     return (
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Certifications</Text>
-        {certifications?.map((cert) => (
+      <Section title="Certifications">
+        {s.map((cert) => (
           <View key={cert.id} style={styles.subsection}>
-            <View style={styles.certificationRow}>
-              <View>
-                <Text style={styles.jobTitle}>
-                  {cert.name}
-                  {cert.issuer ? ` (${cert.issuer})` : ""}
+            <SubsectionRow
+              left={
+                <Text style={styles.labelBold}>
+                  {cert.name} {cert.issuer && `(${cert.issuer})`}
                 </Text>
-                {cert.credentialUrl && (
-                  <Text style={styles.certificationContent}>
-                    {htmlParser(
-                      `<a href="${cert?.credentialUrl}" style="text-decoration:underline;color:black">${cert.credentialUrl}</a>`
-                    )}
-                  </Text>
+              }
+              right={
+                <Text style={[styles.smallText, styles.labelSemibold]}>
+                  {cert.date}
+                  {cert.expirationDate ? ` – ${cert.expirationDate}` : ""}
+                </Text>
+              }
+            />
+            {cert.credentialUrl && (
+              <Text style={styles.smallText}>
+                {htmlParser(
+                  `<a href="${cert.credentialUrl}" style="text-decoration:underline;color:black">${cert.credentialUrl}</a>`
                 )}
-              </View>
-              <Text style={styles.dateLocation}>
-                {cert.date}
-                {cert.expirationDate ? ` – ${cert.expirationDate}` : ""}
               </Text>
-            </View>
-            {cert.description && (
-              <View style={styles.certificationDescription}>
-                {htmlParser(cert.description)}
-              </View>
             )}
+            {cert.description && <View>{htmlParser(cert.description)}</View>}
           </View>
         ))}
-      </View>
+      </Section>
     );
   },
-
   languages: (sections, id) => {
-    const languages = sections?.[
-      id as keyof typeof sections
-    ] as Resume["sections"]["languages"];
-    if (!languages || languages.length === 0) return null;
-
+    const s = sections[id] as Resume["sections"]["languages"];
+    if (!s?.length) return null;
     return (
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Languages</Text>
-        {languages?.map((lang) => (
-          <Text key={lang.id} style={styles.languageText}>
+      <Section title="Languages">
+        {s.map((lang) => (
+          <Text key={lang.id} style={styles.smallText}>
             {lang.language} — {lang.proficiency}
           </Text>
         ))}
-      </View>
+      </Section>
     );
   },
-
   achievements: (sections, id) => {
-    const achievements = sections?.[
-      id as keyof typeof sections
-    ] as Resume["sections"]["achievements"];
-    if (!achievements || achievements.length === 0) return null;
-
+    const s = sections[id] as Resume["sections"]["achievements"];
+    if (!s?.length) return null;
     return (
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Achievements</Text>
-        {achievements?.map((ach) => (
-          <View key={ach.id} style={styles.achievementItem}>
-            <Text style={styles.jobTitle}>{ach.title}</Text>
-            {ach.description && (
-              <View style={styles.achievementDescription}>
-                {htmlParser(ach.description)}
-              </View>
-            )}
+      <Section title="Achievements">
+        {s.map((ach) => (
+          <View key={ach.id} style={styles.subsection}>
+            <Text style={styles.labelBold}>{ach.title}</Text>
+            {ach.description && <View>{htmlParser(ach.description)}</View>}
           </View>
         ))}
-      </View>
+      </Section>
     );
   },
 };
 
+// Document Renderer
 const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
-  const mainColumnSectionOrder = resume?.mainColumnSectionOrder || [];
-
+  const order = resume.mainColumnSectionOrder;
   return (
-    <Document style={{ flex: 1 }}>
-      <Page size="A4" style={[styles.page]}>
-        {mainColumnSectionOrder?.map((sectionId) => {
-          const renderer = sectionRenderers[sectionId];
-          if (renderer) {
-            return (
-              <Fragment key={sectionId}>
-                {renderer(resume?.sections, sectionId)}
-              </Fragment>
-            );
-          }
-          return null;
-        })}
+    <Document>
+      <Page size="A4" style={styles.page}>
+        {order.map((id) =>
+          sectionRenderers?.[id]?.(
+            resume.sections,
+            id as keyof Resume["sections"]
+          )
+        )}
       </Page>
     </Document>
   );
@@ -458,18 +412,18 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
 const CleanMinimalResumeTemplate = ({
   resume,
 }: ResumeTemplateComponentProps) => {
-  const ref = useRef<number>(0);
-
-  useEffect(() => {
-    ref.current += 1;
-  }, [resume]);
-
   return (
-    // this is used to prevent EO is not a function error in react-pdf/renderer when resume content is updated.
-    // ref: https://stackoverflow.com/a/79653680
-    <DocumentProvider key={ref.current}>
-      <ResumeDocument resume={resume} />
-    </DocumentProvider>
+    <>
+      <PDFErrorBoundary>
+        <DestroyAndMountChildrenOnPropChange prop={resume}>
+          {(key) => (
+            <DocumentProvider key={key}>
+              <ResumeDocument resume={resume} />
+            </DocumentProvider>
+          )}
+        </DestroyAndMountChildrenOnPropChange>
+      </PDFErrorBoundary>
+    </>
   );
 };
 

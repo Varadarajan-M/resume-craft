@@ -2,10 +2,18 @@
 
 import { useResumeStore } from "@/features/resume-builder/store/resume";
 import Tip from "@/shared/components/common/Tip";
-import { BadgeCheck } from "lucide-react";
 import AddNewButton from "../AddNewItemButton";
 import ResumeSection from "../ResumeSection";
 import CertificationItem from "./CertificationItem";
+
+import { RESUME_BUILDER_SECTIONS } from "@/features/resume-builder/lib/constants";
+
+const { icon: SectionIcon, ...rest } = RESUME_BUILDER_SECTIONS.certifications;
+
+const sectionConfig = {
+  ...rest,
+  icon: <SectionIcon className="w-4 h-4" />,
+};
 
 const CertificationSection = () => {
   const certifications = useResumeStore(
@@ -16,11 +24,7 @@ const CertificationSection = () => {
   );
 
   return (
-    <ResumeSection
-      icon={<BadgeCheck className="w-4 h-4" />}
-      title="Certifications"
-      subtitle="Relevant certifications and credentials."
-    >
+    <ResumeSection {...sectionConfig}>
       {certifications?.map((cert, index) => (
         <CertificationItem key={cert.id} id={cert.id} index={index} />
       ))}

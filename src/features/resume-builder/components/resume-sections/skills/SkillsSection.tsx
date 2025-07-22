@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertCircle, Star } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { useMemo } from "react";
 
 import Tip from "@/shared/components/common/Tip";
@@ -8,8 +8,16 @@ import { Alert, AlertDescription } from "@/shared/components/ui/alert";
 import AddNewButton from "../AddNewItemButton";
 import ResumeSection from "../ResumeSection";
 import { SkillCategoryItem } from "./Skills";
-
 import { useSkillsReducer } from "./store";
+
+import { RESUME_BUILDER_SECTIONS } from "@/features/resume-builder/lib/constants";
+
+const { icon: SectionIcon, ...rest } = RESUME_BUILDER_SECTIONS.skills;
+
+const sectionConfig = {
+  ...rest,
+  icon: <SectionIcon className="w-4 h-4" />,
+};
 
 const SkillsSection = () => {
   const { state, actions } = useSkillsReducer();
@@ -29,11 +37,7 @@ const SkillsSection = () => {
   const hasValidationErrors = hasEmptyCategories || hasEmptySkills;
 
   return (
-    <ResumeSection
-      icon={<Star className="w-4 h-4" />}
-      title="Skills"
-      subtitle="Your core competencies."
-    >
+    <ResumeSection {...sectionConfig}>
       <div className="flex flex-col gap-6">
         {hasValidationErrors && (
           <Alert>

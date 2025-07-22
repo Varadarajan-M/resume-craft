@@ -58,7 +58,7 @@ export function ResumeLinkInput({
           <Button
             variant="ghost"
             size="icon"
-            className="text-black hover:text-gray-700"
+            className="dark:text-neutral-300 text-black hover:text-gray-700"
           >
             <Tooltip>
               <TooltipTrigger asChild>{iconPreview}</TooltipTrigger>

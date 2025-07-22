@@ -60,7 +60,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning={true}>
         <body className={`${poppins.className} font-sans antialiased`}>
           {children}
         </body>
