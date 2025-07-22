@@ -18,7 +18,7 @@ export const emptyResume = (): Resume => ({
   category: "resume",
   status: "draft",
   title: "Jane Doe Resume",
-  templateId: "standard",
+  templateId: "clean-minimal",
   image: undefined,
   createdAt: new Date(),
   updatedAt: new Date(),
