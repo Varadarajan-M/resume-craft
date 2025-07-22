@@ -186,6 +186,7 @@ export const emptyResume = (): Resume => ({
         `,
         url: "https://github.com/janedoe/chat-platform",
         technologies: ["React", "Node.js", "Socket.IO", "Docker"],
+        timePeriod: "Jan 2024 - Mar 2024"
       },
     ],
 

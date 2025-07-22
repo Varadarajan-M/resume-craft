@@ -30,6 +30,16 @@ const EducationForm = ({ id }: { id: string }) => {
         />
       </ResumeItem>
 
+      <ResumeItem label="Location" itemId={`${id}-location`}>
+        <Input
+          value={education.location}
+          onChange={(e) =>
+            handleUpdateEducationItem(id, { location: e.target.value })
+          }
+          placeholder="e.g., Austin, Texas"
+        />
+      </ResumeItem>
+
       <TwoItemGrid>
         <ResumeItem label="Field of Study" itemId={`${id}-field`}>
           <Input

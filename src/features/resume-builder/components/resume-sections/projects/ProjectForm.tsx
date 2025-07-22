@@ -55,6 +55,15 @@ const ProjectForm = ({ id }: { id: string }) => {
           placeholder="e.g., React, Node.js, MongoDB"
         />
       </ResumeItem>
+
+      <ResumeItem label="Time Period" itemId={`${id}-timePeriod`} className="p-0">
+        <Input
+          id={`${id}-timePeriod`}
+          value={project.timePeriod}
+          onChange={(e) => handleUpdateProject(id, { timePeriod: e.target.value })}
+          placeholder="e.g., Jan 2024 - Mar 2024"
+        />
+      </ResumeItem>
     </div>
   );
 };

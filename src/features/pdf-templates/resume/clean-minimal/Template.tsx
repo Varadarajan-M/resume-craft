@@ -127,7 +127,7 @@ const SubsectionRow = ({
   left,
   right,
 }: {
-  left: JSX.Element;
+  left?: JSX.Element;
   right?: JSX.Element;
 }) => (
   <View style={styles.row}>
@@ -310,6 +310,20 @@ const sectionRenderers: Record<
             <SubsectionRow
               left={<Text style={styles.labelBold}>{proj.name}</Text>}
               right={
+                (proj?.timePeriod?.length || 0) > 0 ? (
+                  <Text style={styles.labelSemibold}>{proj.timePeriod}</Text>
+                ) : undefined
+              }
+            />
+            <SubsectionRow
+              left={
+                (proj?.technologies?.length || 0) > 0 ? (
+                  <Text style={styles.labelItalic}>
+                    {proj.technologies?.join(", ")}
+                  </Text>
+                ) : undefined
+              }
+              right={
                 proj.url ? (
                   <Text>
                     {htmlParser(
@@ -319,11 +333,6 @@ const sectionRenderers: Record<
                 ) : undefined
               }
             />
-            {(proj?.technologies?.length || 0) > 0 && (
-              <Text style={styles.labelItalic}>
-                {proj.technologies?.join(", ")}
-              </Text>
-            )}
             {proj.description && <View>{htmlParser(proj.description)}</View>}
           </View>
         ))}

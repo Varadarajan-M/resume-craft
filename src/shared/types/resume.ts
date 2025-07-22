@@ -56,6 +56,7 @@ export interface ResumeProjectItem {
   description?: string;
   url?: string;
   technologies?: string[];
+  timePeriod?: string;
 }
 
 interface ResumeProfessionalSummaryItem {
