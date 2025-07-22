@@ -26,6 +26,8 @@ export const ThemeSwitch = () => {
     localStorage.setItem("preferences", JSON.stringify(updatedPreferences));
   }, [theme]);
 
+  if (typeof window == "undefined") return null;
+
   return (
     <Button
       variant="ghost"

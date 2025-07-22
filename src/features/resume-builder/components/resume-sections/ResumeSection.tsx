@@ -14,6 +14,7 @@ interface ResumeSectionProps {
   children: React.ReactNode;
   className?: string;
   defaultOpen?: boolean;
+  sectionId?: string;
 }
 
 const ResumeSection = ({
@@ -22,6 +23,7 @@ const ResumeSection = ({
   subtitle,
   title,
   children,
+  sectionId,
   defaultOpen = false,
 }: ResumeSectionProps) => {
   const classes = cn("flex flex-col gap-5 mb-2 pt-2", className);
@@ -32,9 +34,9 @@ const ResumeSection = ({
       collapsible
       defaultValue={defaultOpen ? title : undefined}
     >
-      <AccordionItem value={title}>
+      <AccordionItem value={title} id={`accordion-item-${sectionId}`}>
         <AccordionTrigger>
-          <div className="flex flex-col">
+          <div className="flex flex-col" id={sectionId}>
             <div className="flex items-start gap-2">
               {icon}
               <h3 className="-mt-[6px] font-semibold text-foreground text-sm tracking-tight md:text-base">
