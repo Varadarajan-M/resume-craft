@@ -18,7 +18,7 @@ export const emptyResume = (): Resume => ({
   category: "resume",
   status: "draft",
   title: "Jane Doe Resume",
-  templateId: "clean-minimal",
+  templateId: "standard",
   image: undefined,
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -186,7 +186,7 @@ export const emptyResume = (): Resume => ({
         `,
         url: "https://github.com/janedoe/chat-platform",
         technologies: ["React", "Node.js", "Socket.IO", "Docker"],
-        timePeriod: "Jan 2024 - Mar 2024"
+        timePeriod: "Jan 2024 - Mar 2024",
       },
     ],
 
@@ -199,7 +199,9 @@ export const emptyResume = (): Resume => ({
         expirationDate: "April 2025",
         credentialUrl: "https://aws.amazon.com/certification/",
         description: `
-          <p>Validated proficiency in designing scalable, cost‑efficient architectures on AWS using EC2, S3, RDS, and Lambda.</p>
+          <ul>
+          <li>Validated proficiency in designing scalable, cost‑efficient architectures on AWS using EC2, S3, RDS, and Lambda.</li>
+          </ul>
         `,
       },
     ],
@@ -209,7 +211,9 @@ export const emptyResume = (): Resume => ({
         id: getUniqId(),
         title: "Hackathon Champion",
         description: `
-          <p>Awarded 1st place in TechCrunch Disrupt 2019 Hackathon for building an AI‑powered health monitoring app.</p>
+          <ul>
+          <li>Awarded 1st place in TechCrunch Disrupt 2019 Hackathon for building an AI‑powered health monitoring app.</li>
+          </ul>
         `,
       },
     ],

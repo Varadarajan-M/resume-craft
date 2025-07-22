@@ -294,7 +294,7 @@ const SubsectionRow = ({
   right,
   style,
 }: {
-  left: JSX.Element;
+  left?: JSX.Element;
   right?: JSX.Element;
   style?: any;
 }) => (
@@ -532,13 +532,19 @@ const sectionRenderers: Record<
           <View key={i} style={[styles.subsection, styles.mt_1]}>
             <SubsectionRow
               left={<HeaderText>{proj.name}</HeaderText>}
+              right={<TimePeriodText>{proj.timePeriod}</TimePeriodText>}
+            />
+            <SubsectionRow
+              left={
+                proj.technologies ? (
+                  <DescriptionText>
+                    {proj?.technologies?.join(", ")}
+                  </DescriptionText>
+                ) : undefined
+              }
               right={<LinkText href={proj.url!}>{proj?.url}</LinkText>}
             />
-            {proj.technologies && (
-              <DescriptionText>
-                {proj?.technologies?.join(", ")}
-              </DescriptionText>
-            )}
+
             {proj.description && (
               <BulletPoints>{htmlParser(proj.description)}</BulletPoints>
             )}
@@ -565,22 +571,22 @@ const sectionRenderers: Record<
                 </HeaderText>
               }
               right={
-                <LinkText href={cert.credentialUrl!}>
-                  {cert.credentialUrl}
-                </LinkText>
-              }
-            />
-            <SubsectionRow
-              left={
-                <DescriptionText style={styles.mt_1}>
-                  {cert.issuer}
-                </DescriptionText>
-              }
-              right={
                 <TimePeriodText>
                   {cert.date}
                   {cert.expirationDate ? ` – ${cert.expirationDate}` : ""}
                 </TimePeriodText>
+              }
+            />
+            <SubsectionRow
+              left={
+                <DescriptionText>
+                  {cert.issuer}
+                </DescriptionText>
+              }
+              right={
+                <LinkText href={cert.credentialUrl!}>
+                  {cert.credentialUrl}
+                </LinkText>
               }
             />
             {cert.description && (
@@ -656,7 +662,7 @@ const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
 
 const StandardResumeTemplate = ({ resume }: ResumeTemplateComponentProps) => {
   return (
-    <PDFErrorBoundary maxRetries={3} retryDelay={700}>
+    <PDFErrorBoundary>
       <DestroyAndMountChildrenOnPropChange prop={resume}>
         {(key) => (
           <DocumentProvider key={key}>
