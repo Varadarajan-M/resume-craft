@@ -41,7 +41,7 @@ const ResumeDownloadButton = () => {
 
 const ResumeBuilderNavbar = () => {
   return (
-    <nav className="flex items-center-safe sticky top-0 bg-background z-50 border-b border-border px-5 py-2   justify-between transition-all duration-200">
+    <nav className="flex items-center-safe sticky top-0 bg-background z-50 border-b border-border px-4 py-2   justify-between transition-all duration-200">
       <ResumeCraftBrand />
       <FadeIn className=" flex flex-row justify-end gap-4">
         <ThemeSwitch />

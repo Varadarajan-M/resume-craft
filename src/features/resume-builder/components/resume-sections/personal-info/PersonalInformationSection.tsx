@@ -1,15 +1,17 @@
-import { User } from "lucide-react";
+import { RESUME_BUILDER_SECTIONS } from "@/features/resume-builder/lib/constants";
 import ResumeSection from "../ResumeSection";
 import PersonalInfoForm from "./PersonalInfoForm";
 
+const { icon: SectionIcon, ...rest } = RESUME_BUILDER_SECTIONS.personalInfo;
+
+const sectionConfig = {
+  ...rest,
+  icon: <SectionIcon className="w-4 h-4" />,
+};
+
 const PersonalInformationSection = () => {
   return (
-    <ResumeSection
-      icon={<User className="w-4 h-4" />}
-      title="Personal Information"
-      subtitle="Basic contact details and personal info."
-      defaultOpen
-    >
+    <ResumeSection {...sectionConfig}>
       <PersonalInfoForm />
     </ResumeSection>
   );
