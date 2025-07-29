@@ -131,6 +131,11 @@ body {
     @apply bg-background text-foreground;
   }
   
+
+    ::-webkit-scrollbar {
+      display: none !important;
+    }
+
   .ProseMirror p.is-editor-empty:first-child::before {
     content: attr(data-placeholder);
     float: left;
@@ -139,6 +144,11 @@ body {
     height: 0;
   }
 
+
+  /* .resume-sections-panel, .rpv-core__viewer {
+
+   
+  } */
 
   /* pdf viewer */
 

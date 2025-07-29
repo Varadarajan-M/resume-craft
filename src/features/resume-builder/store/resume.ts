@@ -13,12 +13,12 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 export const emptyResume = (): Resume => ({
-  _id: "resume-000",
+  id: "resume-000",
   userId: "user-000",
   category: "resume",
   status: "draft",
   title: "Jane Doe Resume",
-  templateId: "standard",
+  templateId: "clean-minimal",
   image: undefined,
   createdAt: new Date(),
   updatedAt: new Date(),

@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
-import { Skill, SkillCategory } from "@/shared/types/resume";
+import { ResumeSkillCategoryItem, Skill } from "@/shared/types/resume";
 import { Trash2 } from "lucide-react";
 import AddNewButton from "../AddNewItemButton";
 import ResumeItem from "../ResumeItem";
@@ -150,7 +150,7 @@ export const SkillsList = ({
 );
 
 interface SkillCategoryItemProps {
-  category: SkillCategory;
+  category: ResumeSkillCategoryItem;
   onCategoryUpdate: (name: string) => void;
   onCategoryDelete: () => void;
   onSkillUpdate: (skillId: string, field: keyof Skill, value: string) => void;

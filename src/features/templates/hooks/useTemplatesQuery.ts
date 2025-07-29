@@ -2,7 +2,7 @@ import { DocumentTemplate } from "@/shared/types/document";
 
 const templates: DocumentTemplate[] = [
   {
-    _id: "1",
+    id: "1",
     slug: "modern-resume",
     image: "/placeholder.jpg",
     title: "Modern Resume",
@@ -10,7 +10,7 @@ const templates: DocumentTemplate[] = [
     tags: ["minimal", "professional"],
   },
   {
-    _id: "2",
+    id: "2",
     slug: "creative-cv",
     image: "/placeholder.jpg",
     title: "Creative CV",
@@ -18,7 +18,7 @@ const templates: DocumentTemplate[] = [
     tags: ["creative", "portfolio"],
   },
   {
-    _id: "3",
+    id: "3",
     slug: "executive-resume",
     image: "/placeholder.jpg",
     title: "Executive Resume",

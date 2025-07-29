@@ -2,7 +2,7 @@ type DocumentCategory = "resume" | "cv";
 type DocumentStatus = "draft" | "published" | "archived";
 
 export interface Document {
-  _id: string;
+  id: string;
   image?: string;
   userId: string;
   category: DocumentCategory;
@@ -14,7 +14,7 @@ export interface Document {
 }
 
 export interface DocumentTemplate {
-  _id: string;
+  id: string;
   slug: string;
   image?: string;
   title: string;
