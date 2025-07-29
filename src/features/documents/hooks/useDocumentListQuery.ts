@@ -2,7 +2,7 @@ import { Document } from "@/shared/types/document";
 
 const documents: Document[] = [
   {
-    _id: "1",
+    id: "1",
     image: "/placeholder.jpg",
     userId: "user1",
     category: "resume",
@@ -12,7 +12,7 @@ const documents: Document[] = [
     status: "draft",
   },
   {
-    _id: "2",
+    id: "2",
     image: "/placeholder.jpg",
     userId: "user2",
     category: "cv",
@@ -22,7 +22,7 @@ const documents: Document[] = [
     status: "published",
   },
   {
-    _id: "3",
+    id: "3",
     image: "/placeholder.jpg",
     userId: "user3",
     category: "resume",

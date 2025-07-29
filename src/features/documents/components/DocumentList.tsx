@@ -28,13 +28,13 @@ const DocumentList: React.FC<DocumentListProps> = ({
       {documents?.map((document) =>
         isList ? (
           <DocumentCardList
-            key={document._id}
+            key={document.id}
             document={document}
             onClick={onDocumentClick}
           />
         ) : (
           <DocumentCardGrid
-            key={document._id}
+            key={document.id}
             document={document}
             onClick={onDocumentClick}
           />

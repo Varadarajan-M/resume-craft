@@ -1,8 +1,8 @@
-import { Skill, SkillCategory } from "@/shared/types/resume";
+import { ResumeSkillCategoryItem, Skill } from "@/shared/types/resume";
 import { useReducer } from "react";
 
 export type SkillsState = {
-  categories: SkillCategory[];
+  categories: ResumeSkillCategoryItem[];
 };
 
 type SkillsAction =
@@ -37,7 +37,7 @@ const createNewSkill = (): Skill => ({
   level: undefined,
 });
 
-const createNewCategory = (): SkillCategory => ({
+const createNewCategory = (): ResumeSkillCategoryItem => ({
   id: createCategoryId(),
   name: "",
   skills: [createNewSkill()],

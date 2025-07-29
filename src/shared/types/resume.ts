@@ -41,13 +41,13 @@ export interface Skill {
   level?: "Beginner" | "Intermediate" | "Advanced" | "Expert";
 }
 
-export interface SkillCategory {
+export interface ResumeSkillCategoryItem {
   id: string;
   name: string;
   skills: Skill[];
 }
 export interface ResumeSkillItem {
-  categories: SkillCategory[];
+  categories: ResumeSkillCategoryItem[];
 }
 
 export interface ResumeProjectItem {
@@ -59,7 +59,7 @@ export interface ResumeProjectItem {
   timePeriod?: string;
 }
 
-interface ResumeProfessionalSummaryItem {
+export interface ResumeProfessionalSummaryItem {
   content: string;
 }
 
