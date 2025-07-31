@@ -23,14 +23,14 @@ export const RESUME_BUILDER_SECTIONS = {
     icon: FileText,
     title: "Professional Summary",
     subtitle: "A brief overview of your professional background and strengths.",
-    defaultOpen: true,
+    defaultOpen: false,
   },
   experience: {
     sectionId: "experience",
     icon: Briefcase,
     title: "Work Experience",
     subtitle: "Your relevant roles, starting from the most recent.",
-    defaultOpen: true,
+    defaultOpen: false,
   },
   education: {
     sectionId: "education",

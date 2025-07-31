@@ -95,6 +95,7 @@ export interface Resume extends Document {
   category: "resume";
   theme: ThemeConfig;
   mainColumnSectionOrder: string[]; // e.g., ['header', 'experience', 'education', 'skills'] - order of sections in the resume
+  sideColumnSectionOrder?: string[]; // e.g., ['certifications', 'projects', 'languages'] - order of sections in the side column
   sections: {
     personalInfo?: ResumePersonalInfoItem;
     summary?: ResumeProfessionalSummaryItem;

@@ -15,15 +15,13 @@ const sectionConfig = {
 };
 
 const ExperienceSection = () => {
-  const experiences = useResumeStore(
-    (s) => s.resume?.sections.experience ?? []
-  );
+  const experiences = useResumeStore((s) => s.resume?.sections?.experience);
   const handleAddExperienceItem = useResumeStore((s) => s.addExperienceItem);
 
   return (
     <ResumeSection {...sectionConfig}>
       <div className="flex flex-col gap-6">
-        {experiences.map((exp, index) => (
+        {experiences?.map((exp, index) => (
           <WorkExperienceItem key={exp.id} id={exp.id} index={index} />
         ))}
 

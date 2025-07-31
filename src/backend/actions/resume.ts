@@ -16,14 +16,15 @@ export const createResumeAction = async (resume: ResumeType) => {
     const [, userId] = await Promise.all([connectDb(), verifyAuth()]);
 
     // Create a new resume document
-    const newResume = new Resume({ ...resume, userId });
-
-    await newResume.save();
+    const newResume = await Resume.create({
+      ...resume,
+      userId, // Associate the resume with the authenticated user
+    });
 
     return {
       success: true,
       message: "Resume created successfully",
-      data: newResume,
+      data: JSON.parse(JSON.stringify(newResume)), // Convert Mongoose document to plain object
     };
   } catch (error) {
     console.error("Error creating resume:", error);
@@ -40,12 +41,19 @@ export const getAllResumesAction = async (limit?: number) => {
     const [, userId] = await Promise.all([connectDb(), verifyAuth()]);
 
     // Fetch all resumes for the user
-    const resumes = await Resume.find({ userId }).limit(limit || Infinity);
+    let resumes;
+    if (limit) {
+      resumes = await Resume.find({ userId })
+        .limit(limit)
+        .sort({ updatedAt: -1 });
+    } else {
+      resumes = await Resume.find({ userId }).sort({ updatedAt: -1 });
+    }
 
     return {
       success: true,
       message: "Resumes fetched successfully",
-      data: resumes,
+      data: JSON.parse(JSON.stringify(resumes)), // Convert Mongoose documents to plain objects
     };
   } catch (error) {
     console.error("Error fetching resumes:", error);
@@ -82,7 +90,7 @@ export const updateResumeAction = async (
     return {
       success: true,
       message: "Resume updated successfully",
-      data: updatedResume,
+      data: JSON.parse(JSON.stringify(updatedResume)), // Convert Mongoose document to plain object
     };
   } catch (error) {
     console.error("Error updating resume:", error);

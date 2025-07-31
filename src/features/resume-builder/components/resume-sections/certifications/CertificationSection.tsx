@@ -17,7 +17,7 @@ const sectionConfig = {
 
 const CertificationSection = () => {
   const certifications = useResumeStore(
-    (s) => s.resume?.sections.certifications ?? []
+    (s) => s.resume?.sections?.certifications
   );
   const handleAddCertificationItem = useResumeStore(
     (s) => s.addCertificationItem

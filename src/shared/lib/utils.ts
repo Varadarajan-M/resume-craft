@@ -23,3 +23,12 @@ export const downloadFile = (url: string, fileName: string) => {
   a.click();
   document.body.removeChild(a);
 };
+
+export const safeJsonParse = <T>(jsonString: string | null): T | null => {
+  try {
+    return jsonString ? (JSON.parse(jsonString) as T) : null;
+  } catch (error) {
+    console.error("Failed to parse JSON:", error);
+    return null;
+  }
+};

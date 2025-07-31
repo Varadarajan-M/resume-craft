@@ -403,11 +403,12 @@ const sectionRenderers: Record<
 
 // Document Renderer
 const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
-  const order = resume.mainColumnSectionOrder;
+  const order = resume?.mainColumnSectionOrder;
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {order.map((id) =>
+        {order?.map((id) =>
           sectionRenderers?.[id]?.(
             resume.sections,
             id as keyof Resume["sections"]

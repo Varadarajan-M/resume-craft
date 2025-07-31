@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  AutoSaveAndLoadResume,
   ResumeBuilderNavbar,
   ResumeSectionQuickNavigationPanel,
   ResumeSectionsPanel,
@@ -22,6 +23,7 @@ const ResumeBuilderPage = () => {
       id="builder"
       className="bg-background w-full h-dvh flex flex-col transition-all duration-200 overflow-hidden"
     >
+      <AutoSaveAndLoadResume />
       <ResumeBuilderNavbar />
       <div className="flex-1 flex items-center-safe">
         <ResumeSectionQuickNavigationPanel />

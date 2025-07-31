@@ -1,6 +1,8 @@
+import ReactQueryProvider from "@/shared/lib/react-query";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { Toaster } from "sonner";
 
 import "./globals.css";
 
@@ -60,9 +62,17 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning={true}>
+      <html lang="en" suppressHydrationWarning>
         <body className={`${poppins.className} font-sans antialiased`}>
-          {children}
+          <ReactQueryProvider>
+            {children}
+
+            <Toaster
+              position="bottom-center"
+              className="z-[99999999999999999999999] mt-3"
+              duration={2000}
+            />
+          </ReactQueryProvider>
         </body>
       </html>
     </ClerkProvider>

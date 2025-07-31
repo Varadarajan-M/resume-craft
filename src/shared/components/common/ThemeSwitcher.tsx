@@ -1,29 +1,29 @@
 "use client";
 
+import useLocalStorageState from "@/shared/hooks/useLocalStorageState";
 import { Moon, Sun } from "lucide-react";
-import React, { useEffect } from "react";
+import { useTheme } from "next-themes";
+import { useEffect } from "react";
 import { Button } from "../ui/button";
 
+type Preferences = {
+  theme: "light" | "dark";
+};
+
 export const ThemeSwitch = () => {
-  const [theme, setTheme] = React.useState(() => {
-    if (typeof window !== "undefined") {
-      const storedPreferences = JSON.parse(
-        localStorage.getItem("preferences") || "{}"
-      );
-      return storedPreferences.theme || "light";
-    }
-    return "light";
-  });
+  const { setTheme } = useTheme();
+  const [preferences, setPreferences] = useLocalStorageState<Preferences>(
+    { theme: "light" },
+    "preferences"
+  );
+
+  const theme = preferences.theme || "light";
 
   useEffect(() => {
     document.body.classList.remove(theme === "dark" ? "light" : "dark");
     document.body.classList.add(theme);
 
-    const updatedPreferences = {
-      ...JSON.parse(localStorage.getItem("preferences") || "{}"),
-      theme,
-    };
-    localStorage.setItem("preferences", JSON.stringify(updatedPreferences));
+    setTheme(theme);
   }, [theme]);
 
   if (typeof window == "undefined") return null;
@@ -32,7 +32,12 @@ export const ThemeSwitch = () => {
     <Button
       variant="ghost"
       size="icon"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={() =>
+        setPreferences((prev) => ({
+          ...prev,
+          theme: prev.theme === "dark" ? "light" : "dark",
+        }))
+      }
     >
       {theme === "dark" ? (
         <Sun className="h-4 w-4" />

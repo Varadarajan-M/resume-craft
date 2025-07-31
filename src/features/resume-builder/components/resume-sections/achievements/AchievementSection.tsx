@@ -16,14 +16,12 @@ const sectionConfig = {
 };
 
 const AchievementSection = () => {
-  const achievements = useResumeStore(
-    (s) => s.resume?.sections.achievements ?? []
-  );
+  const achievements = useResumeStore((s) => s.resume?.sections?.achievements);
   const handleAddAchievement = useResumeStore((s) => s.addAchievementItem);
 
   return (
     <ResumeSection {...sectionConfig}>
-      {achievements.map((achievement, index) => (
+      {achievements?.map((achievement, index) => (
         <AchievementItem
           key={achievement.id}
           id={achievement.id}

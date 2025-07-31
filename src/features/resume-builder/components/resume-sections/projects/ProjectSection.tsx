@@ -16,12 +16,12 @@ const sectionConfig = {
 };
 
 const ProjectSection = () => {
-  const projects = useResumeStore((s) => s.resume?.sections.projects ?? []);
+  const projects = useResumeStore((s) => s.resume?.sections?.projects);
   const handleAddProject = useResumeStore((s) => s.addProjectItem);
 
   return (
     <ResumeSection {...sectionConfig}>
-      {projects.map((project, index) => (
+      {projects?.map((project, index) => (
         <ProjectItem key={project.id} id={project.id} index={index} />
       ))}
 

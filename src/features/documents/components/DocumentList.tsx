@@ -1,21 +1,55 @@
 import FadeInChildren from "@/shared/components/animated/FadeIn";
 import { cn } from "@/shared/lib/utils";
-import { Document } from "@/shared/types/document";
-import { DocumentCardGrid, DocumentCardList } from "./DocumentCard";
+import { Resume } from "@/shared/types/resume";
+import {
+  DocumentCardGrid,
+  DocumentCardGridSkeleton,
+  DocumentCardList,
+  DocumentCardListSkeleton,
+} from "./DocumentCard";
 
 interface DocumentListProps {
   viewType?: "grid" | "list";
-  documents: Document[];
-  onDocumentClick?: (document: Document) => void;
+  isLoading?: boolean;
+  documents: Resume[];
+  onDocumentClick?: <T extends Resume>(document: T) => void;
 }
 
 const DocumentList: React.FC<DocumentListProps> = ({
   documents,
   viewType = "grid",
+  isLoading,
   onDocumentClick,
 }) => {
   const isList = viewType === "list";
 
+  if (isLoading) {
+    return (
+      <div
+        className={cn(
+          isList
+            ? "flex flex-col gap-4"
+            : "grid gap-8 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
+        )}
+      >
+        {Array.from({ length: 6 }).map((_, index) =>
+          isList ? (
+            <DocumentCardListSkeleton key={index} />
+          ) : (
+            <DocumentCardGridSkeleton key={index} />
+          )
+        )}
+      </div>
+    );
+  }
+
+  if (!documents || documents.length === 0) {
+    return (
+      <div className="text-muted-foreground">
+        No documents found. Please create a new document.
+      </div>
+    );
+  }
   return (
     <FadeInChildren
       key={isList ? "list" : "grid"}
