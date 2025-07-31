@@ -16,13 +16,13 @@ const sectionConfig = {
 };
 
 const LanguageSection = () => {
-  const languages = useResumeStore((s) => s.resume?.sections.languages ?? []);
+  const languages = useResumeStore((s) => s.resume?.sections?.languages);
   const handleAddLanguage = useResumeStore((s) => s.addLanguageItem);
 
   return (
     <ResumeSection {...sectionConfig}>
       <div className="flex flex-col gap-6">
-        {languages.map((lang) => (
+        {languages?.map((lang) => (
           <LanguageItem key={lang.id} id={lang.id} />
         ))}
 

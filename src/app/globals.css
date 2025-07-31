@@ -154,12 +154,17 @@ body {
 
   .rpv-default-layout__body {
     padding: 0 !important;
+    background-color: transparent !important;
   }
 
   .rpv-default-layout__toolbar {
-    display: none !important;
- 
-    
+
+    position: relative !important;
+    background: transparent !important;
+    border-bottom: none !important;
+    max-width: 90%;
+    margin: 0 auto !important;
+    margin-bottom: 20px !important;
   }
 
   .rpv-core__inner-page {

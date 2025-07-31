@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/shared/components/ui/skeleton";
 import type { Resume } from "@/shared/types/resume";
 import React, { memo } from "react";
 
@@ -25,20 +26,15 @@ const RESUME_TEMPLATE_MAPPING: Record<
 };
 
 const PageSkeleton = () => (
-  <div className="flex items-center bg-white rounded-lg w-[2480px] shadow-2xl justify-center h-[3508px] p-8">
-    <div className="animate-pulse">
-      <div className="h-8 w-48 bg-gray-200 rounded mb-4"></div>
-      <div className="h-4 w-32 bg-gray-200 rounded mb-2"></div>
-      <div className="h-4 w-24 bg-gray-200 rounded mb-2"></div>
-      <div className="h-4 w-20 bg-gray-200 rounded"></div>
-    </div>
-  </div>
+  <Skeleton className="w-full h-[3508px] rounded-lg" />
 );
 
 const ResumeRenderer = ({ templateId, resume }: ResumeRendererProps) => {
   const Component =
     RESUME_TEMPLATE_MAPPING?.[templateId] ||
     RESUME_TEMPLATE_MAPPING["clean-minimal"];
+
+  if (!resume || !Component) return <PageSkeleton />;
 
   return (
     <React.Suspense fallback={<PageSkeleton />}>

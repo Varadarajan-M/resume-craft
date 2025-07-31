@@ -15,7 +15,7 @@ const sectionConfig = {
 };
 
 const EducationSection = () => {
-  const education = useResumeStore((s) => s.resume?.sections.education ?? []);
+  const education = useResumeStore((s) => s.resume?.sections?.education);
   const handleAddEducationItem = useResumeStore((s) => s.addEducationItem);
 
   return (

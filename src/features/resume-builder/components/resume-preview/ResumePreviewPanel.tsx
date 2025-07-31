@@ -40,7 +40,7 @@ const ResumePreviewPanel = ({ className }: ResumePreviewPanelProps) => {
   return (
     <div
       className={cn(
-        "h-[calc(100dvh_-_56px)] max-w-screen md:max-w-[800px] md:max-h-full md:m-auto py-4 px-5 flex flex-col gap-4 overflow-y-auto",
+        "h-[calc(100dvh_-_56px)] max-w-screen md:max-w-[900px] md:max-h-full md:m-auto py-4 px-5 flex flex-col gap-4 overflow-y-auto",
         className
       )}
     >

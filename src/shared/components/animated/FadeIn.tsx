@@ -62,60 +62,133 @@ export const FadeIn = ({
   );
 };
 
+// export const FadeInChildren = ({
+//   children,
+//   className,
+//   as,
+//   childrenAs,
+//   childrenDelay = 0.1,
+//   ...props
+// }: {
+//   children: React.ReactNode;
+//   className?: string;
+//   as?: HTMLElementType; // Allow specifying the HTML element type
+//   childrenAs?: HTMLElementType; // Allow specifying the HTML element type for children
+//   childrenDelay?: number; // Delay for each child
+// } & HTMLMotionProps<"div">) => {
+//   const asProp = as ?? "div";
+//   const Component =
+//     (motionComponents as Record<string, React.ElementType>)[asProp] ||
+//     motion.div;
+//   const childrenAsProp = childrenAs ?? "div";
+//   const ChildComponent =
+//     (motionComponents as Record<string, React.ElementType>)[childrenAsProp] ||
+//     motion.div;
+
+//   return (
+//     <Component
+//       className={cn("flex flex-col gap-2", className)}
+//       initial="hidden"
+//       animate="visible"
+//       // viewport={{ once: true, amount: 0.2 }}
+//       variants={{
+//         hidden: {},
+//         visible: {
+//           // transition: {
+//           //   staggerChildren: 0.2,
+//           // },
+//         },
+//       }}
+//       {...props}
+//     >
+//       {React.Children.map(children, (child, i) => (
+//         <ChildComponent
+//           variants={{
+//             hidden: { opacity: 0, y: 10, filter: "blur(20px)" },
+//             visible: {
+//               opacity: 1,
+//               y: 0,
+//               filter: "blur(0px)",
+//               transition: {
+//                 duration: 0.5,
+//                 delay: i * childrenDelay,
+//               },
+//             },
+//           }}
+//           key={i}
+//         >
+//           {child}
+//         </ChildComponent>
+//       ))}
+//     </Component>
+//   );
+// };
 export const FadeInChildren = ({
   children,
   className,
-  as,
+  asProp,
   childrenAs,
+  childrenDelay = 0.1,
+  duration = 0.4,
   ...props
 }: {
   children: React.ReactNode;
   className?: string;
-  as?: HTMLElementType; // Allow specifying the HTML element type
-  childrenAs?: HTMLElementType; // Allow specifying the HTML element type for children
+  asProp?: HTMLElementType;
+  childrenAs?: HTMLElementType;
+  childrenDelay?: number;
+  duration?: number;
 } & HTMLMotionProps<"div">) => {
-  const asProp = as ?? "div";
-  const Component =
-    (motionComponents as Record<string, React.ElementType>)[asProp] ||
-    motion.div;
-  const childrenAsProp = childrenAs ?? "div";
-  const ChildComponent =
-    (motionComponents as Record<string, React.ElementType>)[childrenAsProp] ||
-    motion.div;
+  const Parent =
+    motionComponents[asProp as keyof typeof motionComponents] || motion.div;
+  const Child =
+    motionComponents[asProp as keyof typeof motionComponents] || motion.div;
 
   return (
-    <Component
+    <Parent
       className={cn("flex flex-col gap-2", className)}
       initial="hidden"
       animate="visible"
-      // viewport={{ once: true, amount: 0.2 }}
       variants={{
         hidden: {},
         visible: {
           transition: {
-            staggerChildren: 0.2,
+            staggerChildren: childrenDelay,
           },
         },
       }}
+      viewport={{ once: true, amount: 0.2 }}
       {...props}
     >
       {React.Children.map(children, (child, i) => (
-        <ChildComponent
+        <Child
+          key={i}
           variants={{
-            hidden: { opacity: 0, y: 10, filter: "blur(20px)" },
+            hidden: {
+              opacity: 0,
+              y: 20,
+              scale: 0.98,
+              filter: "blur(12px)",
+            },
             visible: {
               opacity: 1,
               y: 0,
+              scale: 1,
               filter: "blur(0px)",
-              transition: { duration: 0.5, delay: i * 0.1 },
+              transition: {
+                duration,
+                ease: [0.22, 1, 0.36, 1], // Ease-out cubic-bezier
+                type: "spring",
+                bounce: 0.6, // Adjust bounce effect
+                damping: 8, // Adjust damping for smoother animation
+              },
             },
           }}
-          key={i}
         >
           {child}
-        </ChildComponent>
+        </Child>
       ))}
-    </Component>
+    </Parent>
   );
 };
 

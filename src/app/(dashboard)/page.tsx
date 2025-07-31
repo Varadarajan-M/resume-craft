@@ -2,10 +2,8 @@ import {
   RecentDocumentsSection,
   SuggestedTemplatesSection,
 } from "@/features/dashboard";
+import { CreateResumeButton } from "@/features/documents";
 import { PageHeader } from "@/shared/components/common/PageHeader";
-import { Button } from "@/shared/components/ui/button";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 
 export default function DashboardPage() {
   return (
@@ -13,18 +11,7 @@ export default function DashboardPage() {
       <PageHeader
         title="My Dashboard"
         description="Welcome to your dashboard! Here you can manage your resumes, templates, and more."
-        renderAction={() => (
-          <Button
-            variant={"default"}
-            size={"sm"}
-            className="flex items-center gap-1"
-          >
-            <Plus className="h-3 w-3" />
-            <Link href="/builder" className="text-xs font-medium">
-              Create New Resume
-            </Link>
-          </Button>
-        )}
+        renderAction={() => <CreateResumeButton />}
       />
       <RecentDocumentsSection />
       <SuggestedTemplatesSection />

@@ -1,27 +1,41 @@
 "use client";
 
 import { Grid, List } from "lucide-react";
-import { useState } from "react";
 
 import ViewTypeButton from "@/shared/components/common/ViewTypeButton";
 import DocumentList from "./DocumentList";
 import DocumentSearch from "./DocumentSearch";
 
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import { FadeIn } from "@/shared/components/animated/FadeIn";
-import { Document } from "@/shared/types/document";
-import { useRouter } from "next/navigation";
+import { Resume } from "@/shared/types/resume";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 import useDocumentListQuery from "../hooks/useDocumentListQuery";
 
+type ViewType = "grid" | "list" | undefined;
+
 const DocumentsSection = () => {
-  const [activeView, setActiveView] = useState<"grid" | "list">("grid");
-  const documents = useDocumentListQuery();
+  const { data: documents, isLoading } = useDocumentListQuery({});
+  const setResume = useResumeStore((s) => s.setResume);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const activeView = (searchParams.get("view") || "grid") as ViewType;
 
   const router = useRouter();
 
-  const handleDocumentClick = <T extends Document>(document: T) => {
-    // Handle document click logic here, e.g., navigate to document details
-    console.log("Document clicked:", document);
+  // set the resume in the store and navigate to the builder page
+  const handleDocumentClick = <T extends Resume>(document: T) => {
+    setResume(document);
     router.push(`/builder`);
+  };
+
+  // push the new view type to the URL
+  const handleViewChange = (newView: "grid" | "list") => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("view", newView);
+    router.push(pathname + `?${params.toString()}`);
   };
 
   return (
@@ -32,19 +46,21 @@ const DocumentsSection = () => {
           <ViewTypeButton
             active={activeView === "grid"}
             icon={Grid}
-            onClick={() => setActiveView("grid")}
+            onClick={() => handleViewChange("grid")}
             tooltipText="Grid View"
           />
           <ViewTypeButton
             active={activeView === "list"}
             icon={List}
-            onClick={() => setActiveView("list")}
+            onClick={() => handleViewChange("list")}
             tooltipText="List View"
           />
         </div>
       </FadeIn>
+
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <DocumentList
+          isLoading={isLoading}
           viewType={activeView}
           documents={documents}
           onDocumentClick={handleDocumentClick}

@@ -1,22 +1,39 @@
 "use client";
 
+import Link from "next/link";
+
+import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "sonner";
+
 import { DocumentList, useDocumentListQuery } from "@/features/documents";
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import { FadeIn } from "@/shared/components/animated/FadeIn";
 import { Button } from "@/shared/components/ui/button";
-import { Document } from "@/shared/types/document";
-import { ChevronRight } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Resume } from "@/shared/types/resume";
 
 const RecentDocumentSection = () => {
-  const documents = useDocumentListQuery();
+  const {
+    data: documents,
+    isLoading,
+    error,
+  } = useDocumentListQuery({
+    params: { limit: 3 },
+  });
   const router = useRouter();
+  const setResume = useResumeStore((s) => s.setResume);
 
-  const handleDocumentClick = <T extends Document>(document: T) => {
-    // Handle document click logic here, e.g., navigate to document details
-    console.log("Document clicked:", document);
+  const handleDocumentClick = <T extends Resume>(document: T) => {
+    setResume(document);
     router.push(`/builder`);
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || "Failed to fetch recent documents");
+    }
+  }, [error]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -38,6 +55,7 @@ const RecentDocumentSection = () => {
       </div>
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <DocumentList
+          isLoading={isLoading}
           documents={documents}
           onDocumentClick={handleDocumentClick}
         />
