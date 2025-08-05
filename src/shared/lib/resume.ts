@@ -1,8 +1,9 @@
+import { ResumeTemplateId } from "../types/document";
 import { Resume } from "../types/resume";
 import { getUniqId } from "./utils";
 
 type TemplateConfig = {
-  id: string;
+  id: ResumeTemplateId;
   mainColumnSectionOrder?: string[];
   sideColumnSectionOrder?: string[];
 };
@@ -17,7 +18,7 @@ export const getPlaceholderResume = (
   status: "draft",
   title: "Jane Doe Resume",
   templateId: templateConfig?.id || "standard",
-  image: undefined,
+  image: `/templates/${templateConfig?.id || "standard"}.webp`,
   createdAt: new Date(),
   updatedAt: new Date(),
 

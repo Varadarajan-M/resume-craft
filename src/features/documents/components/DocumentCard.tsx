@@ -44,15 +44,15 @@ export const DocumentCardGrid: React.FC<DocumentCardProps> = ({
     <Card
       tabIndex={0}
       aria-label="Card with document details"
-      className="hover:shadow-md transition-shadow duration-200 bg-neutral-50 dark:bg-neutral-950/95"
+      className="hover:shadow-md transition-shadow duration-200 bg-neutral-50 dark:bg-neutral-950/95 pt-5"
     >
-      <CardHeader className="flex flex-row items-center justify-between px-4 pb-2">
+      <CardHeader className="flex flex-row items-center justify-between px-4 pb-2 ">
         <Image
           src={document?.image || "/placeholder.jpg"}
           alt="Document Icon"
           width={200}
           height={200}
-          className="m-auto object-cover w-full h-full rounded-md"
+          className="m-auto object-cover w-full h-72 rounded-md [background-position:50%_10%]"
           loading="lazy"
           onClick={() => onClick?.(document)}
         />
