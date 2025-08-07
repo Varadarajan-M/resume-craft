@@ -1,34 +1,22 @@
+"use client";
+
+import { getAllTemplatesAction } from "@/backend/actions/template";
 import { DocumentTemplate } from "@/shared/types/document";
+import { useQuery } from "@tanstack/react-query";
 
-const templates: DocumentTemplate[] = [
-  {
-    id: "1",
-    slug: "modern-resume",
-    image: "/placeholder.jpg",
-    title: "Modern Resume",
-    description: "A clean, minimal template for tech professionals.",
-    tags: ["minimal", "professional"],
-  },
-  {
-    id: "2",
-    slug: "creative-cv",
-    image: "/placeholder.jpg",
-    title: "Creative CV",
-    description: "Show your creative work with flair.",
-    tags: ["creative", "portfolio"],
-  },
-  {
-    id: "3",
-    slug: "executive-resume",
-    image: "/placeholder.jpg",
-    title: "Executive Resume",
-    description: "Perfect for leadership roles.",
-    tags: ["executive", "bold"],
-  },
-];
-
-const useTemplatesQuery = () => {
-  return templates;
+const fetcher = async (limit?: number) => {
+  const response = await getAllTemplatesAction(limit);
+  if (!response.success) {
+    throw new Error(response.message);
+  }
+  return response.data as DocumentTemplate[];
+};
+const useTemplatesQuery = (limit?: number) => {
+  return useQuery({
+    queryKey: ["templates"],
+    queryFn: () => fetcher(limit),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
 };
 
 export default useTemplatesQuery;

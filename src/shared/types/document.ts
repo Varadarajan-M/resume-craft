@@ -1,8 +1,6 @@
 type DocumentCategory = "resume" | "cv";
 type DocumentStatus = "draft" | "published" | "archived";
 
-export type ResumeTemplateId = "clean-minimal" | "standard";
-
 export interface Document {
   id: string;
   image?: string;
@@ -12,14 +10,15 @@ export interface Document {
   createdAt: Date;
   updatedAt: Date;
   status: DocumentStatus;
-  templateId: ResumeTemplateId; // or templateKey
+  templateId: string; // or templateKey
 }
 
 export interface DocumentTemplate {
   id: string;
-  slug: string;
-  image?: string;
-  title: string;
+  name: string;
   description?: string;
+  image?: string;
   tags?: string[];
+  mainColumnSectionOrder?: string[];
+  sideColumnSectionOrder?: string[];
 }

@@ -24,7 +24,7 @@ export const PageHeader = ({
         </FadeIn>
         <FadeIn
           as="p"
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.2 }}
           className="text-xs md:text-sm text-gray-600 dark:text-gray-400"
         >
           {description}
@@ -32,7 +32,7 @@ export const PageHeader = ({
       </div>
       <FadeIn
         as="div"
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.2 }}
         className="flex items-center gap-2"
       >
         {renderAction?.()}

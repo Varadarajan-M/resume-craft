@@ -4,7 +4,7 @@ import { DocumentTemplate } from "@/shared/types/document";
 import { TemplateCardGrid, TemplateCardList } from "./TemplateCard";
 interface TemplateListProps {
   viewType?: "grid" | "list";
-  templates: DocumentTemplate[];
+  templates: DocumentTemplate[] | undefined;
   onTemplateClick?: (template: DocumentTemplate) => void;
 }
 

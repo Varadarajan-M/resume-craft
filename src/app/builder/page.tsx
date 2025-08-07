@@ -3,6 +3,7 @@
 import {
   AutoSaveAndLoadResume,
   ResumeBuilderNavbar,
+  ResumeConfigPanel,
   ResumeSectionQuickNavigationPanel,
   ResumeSectionsPanel,
 } from "@/features/resume-builder";
@@ -27,8 +28,9 @@ const ResumeBuilderPage = () => {
       <ResumeBuilderNavbar />
       <div className="flex-1 flex items-center-safe">
         <ResumeSectionQuickNavigationPanel />
-        <ResumeSectionsPanel className="basis-full lg:basis-[28%]" />
+        <ResumeSectionsPanel className="basis-full md:border-r lg:basis-[25%]" />
         <ResumePreviewPanel className="flex-1 " />
+        <ResumeConfigPanel className="hidden lg:block basis-[24%] md:border-l max-w-[400px] w-full" />
       </div>
     </section>
   );

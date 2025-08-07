@@ -8,21 +8,31 @@ import ViewTypeButton from "@/shared/components/common/ViewTypeButton";
 import TemplateList from "./TemplateList";
 import TemplateSearch from "./TemplateSearch";
 
+import { useResumeStore } from "@/features/resume-builder/store/resume";
+import { getPlaceholderResume } from "@/shared/lib/resume";
 import { DocumentTemplate } from "@/shared/types/document";
-import useTemplatesQuery from "../hooks/useTemplatesQuery";
+import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import useTemplatesQuery from "../hooks/useTemplatesQuery";
 
 const AllTemplatesSection = () => {
   const [activeView, setActiveView] = useState<"grid" | "list">("grid");
-  const templates = useTemplatesQuery();
+  const setResume = useResumeStore((state) => state.setResume);
 
-   const router = useRouter();
-  
-    const handleTemplateClick = <T extends DocumentTemplate>(template: T) => {
-      // Handle template click logic here, e.g., navigate to template details
-      console.log("template clicked:", template);
-      router.push(`/builder`);
-    };
+  const userId = useAuth()?.userId;
+
+  const { data: templates } = useTemplatesQuery();
+
+  const router = useRouter();
+
+  const handleTemplateClick = <T extends DocumentTemplate>(template: T) => {
+    const newResume = getPlaceholderResume(
+      userId!,
+      template as DocumentTemplate
+    );
+    setResume(newResume);
+    router.push(`/builder`);
+  };
 
   return (
     <>

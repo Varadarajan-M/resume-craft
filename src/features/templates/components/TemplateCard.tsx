@@ -16,28 +16,28 @@ export const TemplateCardGrid: React.FC<TemplateCardProps> = ({
     <Card
       tabIndex={0}
       aria-label="Card with template details"
-      className="hover:shadow-md transition-shadow duration-200 bg-neutral-50 dark:bg-neutral-950/95"
+      className="hover:shadow-md transition-shadow duration-200 bg-neutral-50 dark:bg-neutral-950/95 pt-5"
     >
-      <CardHeader className="p-4 pb-0 flex items-center justify-center">
+      <CardHeader className="flex flex-row items-center justify-between px-4 pb-2 ">
         <Image
-          src={template.image || "/placeholder.svg"}
-          alt={template.title}
+          src={template.image || "/placeholder.jpg"}
+          alt={template.name}
           width={200}
           height={200}
-          className="m-auto object-cover w-full h-full rounded-md"
+          className="m-auto object-cover w-full h-72 rounded-md [background-position:50%_10%]"
           onClick={() => onClick?.(template)}
         />
       </CardHeader>
-      <CardContent className="p-4 flex flex-col gap-2">
+      <CardContent className="p-4 pt-0 flex flex-col gap-2">
         <h3
           className="text-base font-semibold text-foreground line-clamp-1 cursor-pointer underline hover:text-gray-400 transition"
           onClick={() => onClick?.(template)}
         >
-          {template.title}
+          {template?.name}
         </h3>
         {template.description && (
           <p className="text-sm text-muted-foreground line-clamp-2">
-            {template.description}
+            {template?.description}
           </p>
         )}
         {(template?.tags?.length || 0) > 0 && (
@@ -68,8 +68,8 @@ export const TemplateCardList: React.FC<TemplateCardProps> = ({
       className="flex flex-row items-center gap-4 px-4 py-3 border border-border hover:shadow-sm bg-background transition-shadow"
     >
       <Image
-        src={template.image || "/placeholder.svg"}
-        alt={template.title}
+        src={template?.image || "/placeholder.jpg"}
+        alt={template?.name}
         width={64}
         height={64}
         className="rounded-md w-16 h-16 object-cover"
@@ -82,7 +82,7 @@ export const TemplateCardList: React.FC<TemplateCardProps> = ({
           className="font-medium text-sm line-clamp-1 text-foreground cursor-pointer underline hover:text-gray-400 transition"
           onClick={() => onClick?.(template)}
         >
-          {template.title}
+          {template.name}
         </h3>
 
         {template.description && (

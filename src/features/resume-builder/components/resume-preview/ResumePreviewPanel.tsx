@@ -3,6 +3,8 @@
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 
+import ResumeRenderer from "./ResumeRenderer";
+
 const Worker = dynamic(
   () => import("@react-pdf-viewer/core").then((mod) => mod.Worker),
   {
@@ -14,7 +16,6 @@ import { cn } from "@/shared/lib/utils";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { useResumeStore } from "../../store/resume";
-import ResumeRenderer from "../resume-renderer/ResumeRenderer";
 
 interface ResumePreviewPanelProps {
   className?: string;
@@ -34,7 +35,7 @@ const ResumePreviewPanel = ({ className }: ResumePreviewPanelProps) => {
       if (resume) {
         setDebouncedResume(resume);
       }
-    }, 2000);
+    }, 1000);
   }, [resume]);
 
   return (
@@ -46,7 +47,7 @@ const ResumePreviewPanel = ({ className }: ResumePreviewPanelProps) => {
     >
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
         <ResumeRenderer
-          templateId={resume?.templateId!}
+          templateId={debouncedResume?.templateId!}
           resume={debouncedResume!}
         />
       </Worker>

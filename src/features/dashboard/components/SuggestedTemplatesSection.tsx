@@ -8,7 +8,8 @@ import { FadeIn } from "@/shared/components/animated/FadeIn";
 import { Button } from "@/shared/components/ui/button";
 
 const SuggestedTemplatesSection = () => {
-  const templates = useTemplatesQuery();
+  const { data: templates } = useTemplatesQuery();
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">

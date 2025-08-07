@@ -1,16 +1,16 @@
-import { ResumeTemplateId } from "../types/document";
+import { DocumentTemplate } from "../types/document";
 import { Resume } from "../types/resume";
 import { getUniqId } from "./utils";
 
 type TemplateConfig = {
-  id: ResumeTemplateId;
+  id: string;
   mainColumnSectionOrder?: string[];
   sideColumnSectionOrder?: string[];
 };
 
 export const getPlaceholderResume = (
   userId?: string,
-  templateConfig?: TemplateConfig
+  templateConfig?: DocumentTemplate
 ): Resume => ({
   id: getUniqId(),
   userId: userId || "anonymous",
