@@ -1,6 +1,7 @@
 import FadeInChildren from "@/shared/components/animated/FadeIn";
 
 import { cn } from "@/shared/lib/utils";
+import SectionOrder from "./SectionOrder";
 import TemplateSelection from "./TemplateSelection";
 
 interface ResumeConfigPanelProps {
@@ -18,6 +19,7 @@ const ResumeConfigPanel = ({ className }: ResumeConfigPanelProps) => {
       )}
     >
       <TemplateSelection />
+      <SectionOrder />
     </FadeInChildren>
   );
 };
