@@ -1,3 +1,4 @@
+import FadeInChildren from "@/shared/components/animated/FadeIn";
 import { Button } from "@/shared/components/ui/button";
 import {
   Tooltip,
@@ -33,7 +34,10 @@ const ResumeSectionQuickNavigationPanel = () => {
   };
 
   return (
-    <nav className="hidden md:flex flex-col items-center-safe justify-center-safe h-[calc(100dvh_-_56px)] w-13 border-r">
+    <FadeInChildren
+      asProp="nav"
+      className="hidden md:flex flex-col items-center-safe justify-center-safe h-[calc(100dvh_-_56px)] w-13 border-r"
+    >
       {Object.entries(RESUME_BUILDER_SECTIONS).map(
         ([key, { icon: Icon, sectionId, title }]) => (
           <Tooltip key={key}>
@@ -51,7 +55,7 @@ const ResumeSectionQuickNavigationPanel = () => {
           </Tooltip>
         )
       )}
-    </nav>
+    </FadeInChildren>
   );
 };
 

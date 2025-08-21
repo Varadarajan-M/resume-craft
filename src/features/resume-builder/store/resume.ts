@@ -74,6 +74,9 @@ type ResumeStore = {
 
   // other updaters can be added below like:
   // updateExperienceItem: (id: string, data: Partial<ResumeExperienceItem>) => void;
+
+  // update section order
+  updateProperties: (args: Partial<Resume>) => void;
 };
 
 export const useResumeStore = create<ResumeStore>()(
@@ -358,6 +361,12 @@ export const useResumeStore = create<ResumeStore>()(
         const updated = [...items];
         updated.splice(index + 1, 0, copy);
         state.resume!.sections.projects = updated;
+      }),
+
+    updateProperties: (args) =>
+      set((state) => {
+        if (!state.resume) return;
+        state.resume = { ...state.resume, ...args };
       }),
   }))
 );

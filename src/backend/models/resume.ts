@@ -125,8 +125,6 @@ const resumeSchema = new Schema<ResumeType & MongooseDocument>(
       default: "draft",
     },
     templateId: { type: String, required: true },
-    theme: { type: Object, default: {} }, // or define a ThemeConfig schema
-    mainColumnSectionOrder: [String],
     sections: {
       type: new Schema(
         {
@@ -145,6 +143,22 @@ const resumeSchema = new Schema<ResumeType & MongooseDocument>(
         { _id: false, strict: false }
       ),
       default: {},
+    },
+    config: {
+      theme: { type: Object, default: {} }, // or define a ThemeConfig schema
+      sectionDetails: {
+        type: Map,
+        of: new Schema(
+          {
+            id: { type: String, required: true },
+            name: { type: String, required: true },
+            visible: { type: Boolean, default: true },
+          },
+          { _id: false }
+        ),
+      },
+      mainColumnSectionOrder: [String],
+      sideColumnSectionOrder: [String],
     },
   },
   { timestamps: true }

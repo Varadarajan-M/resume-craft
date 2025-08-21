@@ -403,17 +403,20 @@ const sectionRenderers: Record<
 
 // Document Renderer
 const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
-  const order = resume?.mainColumnSectionOrder;
+  const order = resume?.config?.mainColumnSectionOrder;
+  const sectionDetails = resume?.config?.sectionDetails;
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {order?.map((id) =>
-          sectionRenderers?.[id]?.(
+        {order?.map((id) => {
+          if (!sectionDetails?.[id]?.visible) return null;
+
+          return sectionRenderers?.[id]?.(
             resume.sections,
             id as keyof Resume["sections"]
-          )
-        )}
+          );
+        })}
       </Page>
     </Document>
   );

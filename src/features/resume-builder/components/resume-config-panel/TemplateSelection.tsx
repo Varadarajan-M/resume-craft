@@ -29,7 +29,11 @@ const TemplateSelection = () => {
       category: "resume",
       templateId: template?.id,
       image: template?.image,
-      mainColumnSectionOrder: template?.mainColumnSectionOrder,
+      config: {
+        ...resume?.config,
+        mainColumnSectionOrder: template?.mainColumnSectionOrder || [],
+        sideColumnSectionOrder: template?.sideColumnSectionOrder || [],
+      },
     } as Resume;
     setResume(newResume);
   };

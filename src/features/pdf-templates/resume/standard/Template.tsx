@@ -578,11 +578,7 @@ const sectionRenderers: Record<
               }
             />
             <SubsectionRow
-              left={
-                <DescriptionText>
-                  {cert.issuer}
-                </DescriptionText>
-              }
+              left={<DescriptionText>{cert.issuer}</DescriptionText>}
               right={
                 <LinkText href={cert.credentialUrl!}>
                   {cert.credentialUrl}
@@ -639,14 +635,16 @@ const sectionRenderers: Record<
 };
 
 const ResumeDocument = ({ resume }: ResumeTemplateComponentProps) => {
-  const mainColumnSectionOrder = resume?.mainColumnSectionOrder || [];
+  const mainColumnSectionOrder = resume?.config?.mainColumnSectionOrder;
+  const sectionDetails = resume?.config?.sectionDetails;
 
   return (
     <Document style={{ flex: 1 }}>
       <Page size="A4" style={styles.page}>
         {mainColumnSectionOrder?.map((sectionId) => {
           const renderer = sectionRenderers[sectionId];
-          if (renderer) {
+
+          if (renderer && sectionDetails?.[sectionId]?.visible) {
             return (
               <Fragment key={sectionId}>
                 {renderer(resume?.sections, sectionId)}

@@ -1,5 +1,11 @@
 import type { Document } from "./document";
 
+type SectionMeta = {
+  id: string; // Unique identifier for the section
+  name: string; // This will be used to identify the section in the resume
+  visible: boolean; // Whether the section is visible in the resume
+};
+
 export type ResumeLinkItem = {
   id: string;
   label: string;
@@ -93,9 +99,6 @@ export interface ResumeAchievementItem {
 
 export interface Resume extends Document {
   category: "resume";
-  theme: ThemeConfig;
-  mainColumnSectionOrder: string[]; // e.g., ['header', 'experience', 'education', 'skills'] - order of sections in the resume
-  sideColumnSectionOrder?: string[]; // e.g., ['certifications', 'projects', 'languages'] - order of sections in the side column
   sections: {
     personalInfo?: ResumePersonalInfoItem;
     summary?: ResumeProfessionalSummaryItem;
@@ -108,6 +111,14 @@ export interface Resume extends Document {
     languages?: ResumeLanguageItem[];
     // [k ]: CustomSection;
   }; // for custom sections
+  config: {
+    theme: ThemeConfig;
+    sectionDetails?: {
+      [key: string]: SectionMeta;
+    };
+    mainColumnSectionOrder?: string[]; // order of sections in the main column
+    sideColumnSectionOrder?: string[]; // order of sections in the side column
+  };
 }
 
 interface ThemeConfig {

@@ -30,7 +30,7 @@ export default function PDFPreview({ fileUrl }: Props) {
     renderToolbar: (Toolbar) => (
       <Toolbar>
         {(slots: ToolbarSlot) => (
-          <div className="flex items-center justify-between w-full py-2 bg-background text-foreground">
+          <div className="flex items-center justify-between w-full py-2 bg-transparent text-foreground">
             {/* Left side: Zoom Controls */}
             <div className="flex items-center gap-2">
               <slots.ZoomOut>

@@ -22,30 +22,6 @@ export const getPlaceholderResume = (
   createdAt: new Date(),
   updatedAt: new Date(),
 
-  theme: {
-    fontFamily: "Inter",
-    headingColor: "#000000",
-    textColor: "#333333",
-    backgroundColor: "#ffffff",
-    linkColor: "#0066cc",
-    headingFontSize: "1.25rem",
-    textFontSize: "1rem",
-  },
-
-  mainColumnSectionOrder: templateConfig?.mainColumnSectionOrder || [
-    "personalInfo",
-    "summary",
-    "education",
-    "skills",
-    "experience",
-    "projects",
-    "certifications",
-    "achievements",
-    "languages",
-  ],
-
-  sideColumnSectionOrder: templateConfig?.sideColumnSectionOrder || [],
-
   sections: {
     personalInfo: {
       fullName: "First Last",
@@ -223,5 +199,79 @@ export const getPlaceholderResume = (
       { id: getUniqId(), language: "English", proficiency: "Native" },
       { id: getUniqId(), language: "Spanish", proficiency: "Professional" },
     ],
+  },
+
+  config: {
+    theme: {
+      fontFamily: "Inter",
+      headingColor: "#000000",
+      textColor: "#333333",
+      backgroundColor: "#ffffff",
+      linkColor: "#0066cc",
+      headingFontSize: "1.25rem",
+      textFontSize: "1rem",
+    },
+
+    mainColumnSectionOrder: templateConfig?.mainColumnSectionOrder || [
+      "personalInfo",
+      "summary",
+      "education",
+      "skills",
+      "experience",
+      "projects",
+      "certifications",
+      "achievements",
+      "languages",
+    ],
+
+    sideColumnSectionOrder: templateConfig?.sideColumnSectionOrder || [],
+
+    sectionDetails: {
+      personalInfo: {
+        id: "personalInfo",
+        name: "Personal Information",
+        visible: true,
+      },
+      summary: {
+        id: "summary",
+        name: "Professional Summary",
+        visible: true,
+      },
+      experience: {
+        id: "experience",
+        name: "Work Experience",
+        visible: true,
+      },
+      education: {
+        id: "education",
+        name: "Education",
+        visible: true,
+      },
+      skills: {
+        id: "skills",
+        name: "Skills",
+        visible: true,
+      },
+      projects: {
+        id: "projects",
+        name: "Projects",
+        visible: true,
+      },
+      certifications: {
+        id: "certifications",
+        name: "Certifications",
+        visible: true,
+      },
+      achievements: {
+        id: "achievements",
+        name: "Achievements",
+        visible: true,
+      },
+      languages: {
+        id: "languages",
+        name: "Languages",
+        visible: true,
+      },
+    },
   },
 });
