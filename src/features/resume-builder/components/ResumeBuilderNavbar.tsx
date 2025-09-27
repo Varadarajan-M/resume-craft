@@ -1,12 +1,88 @@
+import { toast } from "sonner";
+
 import { FadeIn } from "@/shared/components/animated/FadeIn";
+import { TapAnimationButton } from "@/shared/components/animated/TapAnimationButton";
 import ResumeCraftBrand from "@/shared/components/common/ResumeCraftBrand";
 import { ThemeSwitch } from "@/shared/components/common/ThemeSwitcher";
 import { Button } from "@/shared/components/ui/button";
+
 import { downloadFile } from "@/shared/lib/utils";
 import { Download, Share2 } from "lucide-react";
 import { useResumeStore } from "../store/resume";
 
-const ResumeDownloadButton = () => {
+interface SharedButtonProps {
+  resumeTitle: string;
+}
+
+const getPdfBlobUrl = (): string | null =>
+  document
+    .querySelector("[data-pdf-blob-url]")
+    ?.getAttribute("data-pdf-blob-url") ?? null;
+
+const ResumeDownloadButton = ({ resumeTitle }: SharedButtonProps) => {
+  const handleDownload = () => {
+    const url = getPdfBlobUrl();
+    if (!url) return;
+    downloadFile(url, resumeTitle);
+  };
+
+  return (
+    <TapAnimationButton>
+      <Button
+        size="sm"
+        variant="default"
+        onClick={handleDownload}
+        className="flex items-center gap-2"
+      >
+        <Download className="w-3 h-3" />
+        <span className="hidden md:inline text-xs">Download Resume</span>
+      </Button>
+    </TapAnimationButton>
+  );
+};
+
+const ResumeShareButton = ({ resumeTitle }: SharedButtonProps) => {
+  const handleShare = async () => {
+    try {
+      const url = getPdfBlobUrl();
+      if (!url) return;
+
+      const response = await fetch(url);
+      const pdfBlob = await response.blob();
+
+      const file = new File([pdfBlob], "resume.pdf", { type: pdfBlob.type });
+
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: resumeTitle,
+          text: "Check out this document!",
+        });
+        toast.success("Resume shared successfully!");
+      } else {
+        toast.error("Sharing is not supported on this device.");
+      }
+    } catch (e: any) {
+      toast.error(`${e?.message}`);
+    }
+  };
+
+  return (
+    <TapAnimationButton>
+      <Button
+        size="sm"
+        variant="secondary"
+        onClick={handleShare}
+        className="flex items-center gap-2"
+      >
+        <Share2 className="w-3 h-3" />
+        <span className="hidden md:inline text-xs">Share</span>
+      </Button>
+    </TapAnimationButton>
+  );
+};
+
+const ResumeBuilderNavbar = () => {
   const fullName = useResumeStore(
     (state) => state.resume?.sections?.personalInfo?.fullName
   );
@@ -18,43 +94,13 @@ const ResumeDownloadButton = () => {
     ? `${fullName} - ${headline ?? ""} Resume`
     : "Resume";
 
-  const handlePdfDownload = () => {
-    const linkElement = document.querySelector("[data-pdf-blob-url]");
-    if (linkElement) {
-      const url = linkElement.getAttribute("data-pdf-blob-url");
-      downloadFile(url!, resumeTitle);
-    }
-  };
-
   return (
-    <Button
-      size={"sm"}
-      variant="default"
-      onClick={handlePdfDownload}
-      className="flex items-center gap-2"
-    >
-      <Download className="w-3 h-3" />
-      <span className="md:inline hidden text-xs">Download Resume</span>
-    </Button>
-  );
-};
-
-const ResumeBuilderNavbar = () => {
-  return (
-    <nav className="flex items-center-safe sticky top-0 bg-background z-50 border-b border-border px-4 py-2   justify-between transition-all duration-200">
+    <nav className="flex items-center-safe sticky top-0 z-50 justify-between border-b border-border bg-background px-4 py-2 transition-all duration-200">
       <ResumeCraftBrand />
-      <FadeIn className=" flex flex-row justify-end gap-4">
+      <FadeIn className="flex flex-row justify-end gap-4">
         <ThemeSwitch />
-
-        <ResumeDownloadButton />
-        <Button
-          size={"sm"}
-          variant="secondary"
-          className="flex items-center gap-1"
-        >
-          <Share2 className="w-2 h-2" />
-          <span className="md:inline hidden text-xs">Share</span>
-        </Button>
+        <ResumeDownloadButton resumeTitle={resumeTitle} />
+        <ResumeShareButton resumeTitle={resumeTitle} />
       </FadeIn>
     </nav>
   );
