@@ -4,6 +4,7 @@ import { useResumeStore } from "@/features/resume-builder/store/resume";
 import { Input } from "@/shared/components/ui/input";
 import RichTextEditor from "@/shared/components/ui/rich-text-editor";
 import { memo } from "react";
+import EnhanceWithAI from "../../EnhanceWithAI";
 import ResumeItem from "../ResumeItem";
 
 const ProjectForm = ({ id }: { id: string }) => {
@@ -56,11 +57,17 @@ const ProjectForm = ({ id }: { id: string }) => {
         />
       </ResumeItem>
 
-      <ResumeItem label="Time Period" itemId={`${id}-timePeriod`} className="p-0">
+      <ResumeItem
+        label="Time Period"
+        itemId={`${id}-timePeriod`}
+        className="p-0"
+      >
         <Input
           id={`${id}-timePeriod`}
           value={project.timePeriod}
-          onChange={(e) => handleUpdateProject(id, { timePeriod: e.target.value })}
+          onChange={(e) =>
+            handleUpdateProject(id, { timePeriod: e.target.value })
+          }
           placeholder="e.g., Jan 2024 - Mar 2024"
         />
       </ResumeItem>
@@ -77,12 +84,18 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
 
   return (
     <ResumeItem label="Description" itemId={`${id}-desc`} className="p-0">
-      <RichTextEditor
-        id={`${id}-desc`}
+      <EnhanceWithAI
         content={description}
-        onChange={(v) => handleUpdateProject(id, { description: v })}
-        placeholder="Briefly describe what the project does, and what you built."
-      />
+        onEnhance={console.log}
+        enhanceDialogTitle="Enhance Projects with AI"
+      >
+        <RichTextEditor
+          id={`${id}-desc`}
+          content={description}
+          onChange={(v) => handleUpdateProject(id, { description: v })}
+          placeholder="Briefly describe what the project does, and what you built."
+        />
+      </EnhanceWithAI>
     </ResumeItem>
   );
 });

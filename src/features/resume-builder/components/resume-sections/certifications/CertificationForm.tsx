@@ -4,6 +4,7 @@ import { useResumeStore } from "@/features/resume-builder/store/resume";
 import { Input } from "@/shared/components/ui/input";
 import RichTextEditor from "@/shared/components/ui/rich-text-editor";
 import { memo } from "react";
+import EnhanceWithAI from "../../EnhanceWithAI";
 import ResumeItem from "../ResumeItem";
 import TwoItemGrid from "../TwoItemGrid";
 
@@ -92,11 +93,19 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
 
   return (
     <ResumeItem label="Description" itemId={`${id}-description`}>
-      <RichTextEditor
+      <EnhanceWithAI
         content={description}
-        onChange={(v) => handleUpdateCertificationItem(id, { description: v })}
-        placeholder="Mention key highlights, relevance, or what you learned."
-      />
+        onEnhance={console.log}
+        enhanceDialogTitle="Enhance Certification with AI"
+      >
+        <RichTextEditor
+          content={description}
+          onChange={(v) =>
+            handleUpdateCertificationItem(id, { description: v })
+          }
+          placeholder="Mention key highlights, relevance, or what you learned."
+        />
+      </EnhanceWithAI>
     </ResumeItem>
   );
 });

@@ -22,6 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
+import { cn } from "@/shared/lib/utils";
 import { Editor } from "@tiptap/react";
 import {
   BoldIcon,
@@ -40,6 +41,8 @@ interface EditorProps {
   readOnly?: boolean;
   id?: string; // Optional ID for the editor
   className?: string; // Optional className for custom styling
+  showToolbar?: boolean; // Whether to show the toolbar
+  rootClassName?: string; // Optional className for the root container
 }
 
 const RichTextEditor = ({
@@ -49,6 +52,8 @@ const RichTextEditor = ({
   placeholder,
   readOnly,
   className,
+  rootClassName,
+  showToolbar = true,
 }: EditorProps) => {
   const editor = useEditor({
     editable: !readOnly,
@@ -82,6 +87,7 @@ const RichTextEditor = ({
       }),
     ],
     content,
+
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
     },
@@ -98,8 +104,8 @@ const RichTextEditor = ({
   if (!editor) return null;
 
   return (
-    <div className="flex flex-col gap-2">
-      <EditorToolbar editor={editor} />
+    <div className={cn("flex flex-col gap-2 sss", rootClassName)}>
+      {showToolbar && <EditorToolbar editor={editor} />}
       <EditorContent id={id} editor={editor} className={className ?? ""} />
     </div>
   );

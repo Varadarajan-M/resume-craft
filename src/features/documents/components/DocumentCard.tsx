@@ -71,7 +71,7 @@ export const DocumentCardGrid: React.FC<DocumentCardProps> = ({
               <Clock className="w-3 h-3 shrink-0" />
               <span>{timeFromNow(document.updatedAt)}</span>
             </p>
-            <DocumentStatusTag status={document.status} />
+            {/* <DocumentStatusTag status={document.status} /> */}
           </div>
         </div>
       </CardContent>
@@ -113,7 +113,7 @@ export const DocumentCardList: React.FC<DocumentCardProps> = ({
           {timeFromNow(document.updatedAt)}
         </p>
       </div>
-      <DocumentStatusTag status={document.status} />
+      {/* <DocumentStatusTag status={document.status} /> */}
     </Card>
   );
 };

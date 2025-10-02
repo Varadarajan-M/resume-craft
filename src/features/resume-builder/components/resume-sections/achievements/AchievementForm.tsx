@@ -4,6 +4,7 @@ import { useResumeStore } from "@/features/resume-builder/store/resume";
 import { Input } from "@/shared/components/ui/input";
 import RichTextEditor from "@/shared/components/ui/rich-text-editor";
 import { memo } from "react";
+import EnhanceWithAI from "../../EnhanceWithAI";
 import ResumeItem from "../ResumeItem";
 
 const AchievementForm = ({ id }: { id: string }) => {
@@ -50,12 +51,18 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
       itemId={`${id}-description`}
       className="p-0"
     >
-      <RichTextEditor
-        id={`${id}-description`}
+      <EnhanceWithAI
         content={description}
-        onChange={(v) => handleUpdateAchievement(id, { description: v })}
-        placeholder="Explain the context, what you did, and the result."
-      />
+        onEnhance={console.log}
+        enhanceDialogTitle="Enhance Achievements with AI"
+      >
+        <RichTextEditor
+          id={`${id}-description`}
+          content={description}
+          onChange={(v) => handleUpdateAchievement(id, { description: v })}
+          placeholder="Explain the context, what you did, and the result."
+        />
+      </EnhanceWithAI>
     </ResumeItem>
   );
 });

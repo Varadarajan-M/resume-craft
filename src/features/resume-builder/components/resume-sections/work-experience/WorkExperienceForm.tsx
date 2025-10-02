@@ -1,6 +1,7 @@
 import { useResumeStore } from "@/features/resume-builder/store/resume";
 import { Input } from "@/shared/components/ui/input";
 import RichTextEditor from "@/shared/components/ui/rich-text-editor";
+import EnhanceWithAI from "../../EnhanceWithAI";
 import ResumeItem from "../ResumeItem";
 
 const WorkExperienceForm = ({ id }: { id: string }) => {
@@ -72,13 +73,19 @@ const ExperienceDescription = ({ id }: { id: string }) => {
 
   return (
     <ResumeItem label="Description" itemId={`${id}-description`}>
-      <RichTextEditor
+      <EnhanceWithAI
         content={description}
-        onChange={(content) =>
-          handleUpdateExperienceField(id, { description: content })
-        }
-        placeholder="Describe your key responsibilities and achievements in this role..."
-      />
+        onEnhance={console.log}
+        enhanceDialogTitle="Enhance Work experice with AI"
+      >
+        <RichTextEditor
+          content={description}
+          onChange={(content) =>
+            handleUpdateExperienceField(id, { description: content })
+          }
+          placeholder="Describe your key responsibilities and achievements in this role..."
+        />
+      </EnhanceWithAI>
     </ResumeItem>
   );
 };
