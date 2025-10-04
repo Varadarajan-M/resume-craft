@@ -53,6 +53,7 @@
     "next": "15.3.3",
     "next-themes": "^0.4.6",
     "pdfjs-dist": "^3.4.120",
+    "posthog-js": "^1.270.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-html-parser": "^2.0.2",
