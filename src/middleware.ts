@@ -10,12 +10,28 @@ const isPublicRoute = createRouteMatcher([
 export default clerkMiddleware(async (auth, request) => {
   const { pathname } = request.nextUrl;
 
+  const token = await (await auth()).getToken();
+
+  // Redirect authenticated users hitting `/sign-in` or `/sign-up` or '/landing' to `/`
+  switch (pathname) {
+    case "/sign-in":
+    case "/sign-up":
+      if (token) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/";
+        return NextResponse.redirect(url);
+      }
+      break;
+    default:
+      break;
+  }
+
   // Redirect unauthenticated users hitting the root `/` to `/landing`
+
   if (pathname === "/") {
-    const token = await (await auth()).getToken();
     if (!token) {
       const url = request.nextUrl.clone();
-      url.pathname = "/sign-in";
+      url.pathname = "/landing";
       return NextResponse.redirect(url);
     }
   }

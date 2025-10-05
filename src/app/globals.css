@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "@clerk/themes/shadcn.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -38,6 +39,13 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --clerk-color-muted-foreground: var(--muted-foreground);
+
+  /* Monochrome gradient colors for landing page - light mode */
+  --gradient-from: oklch(0.3 0 0);
+  --gradient-via: oklch(0.5 0 0);
+  --gradient-to: oklch(0.7 0 0);
 }
 
 /* === Optional: Tailwind theme exposure (if you're using @theme inline somewhere) */
@@ -78,6 +86,11 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Adding monochrome gradient colors */
+  --color-gradient-from: var(--gradient-from);
+  --color-gradient-via: var(--gradient-via);
+  --color-gradient-to: var(--gradient-to);
 }
 
 /* === Base Styling === */
@@ -120,6 +133,11 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Monochrome gradients for dark mode */
+  --gradient-from: oklch(0.7 0 0);
+  --gradient-via: oklch(0.5 0 0);
+  --gradient-to: oklch(0.3 0 0);
 }
 
 @layer base {
@@ -180,5 +198,49 @@ body {
 
   .rpv-default-layout__container {
     border: none !important;
+  }
+
+  .cl-modalBackdrop .cl-modalContent {
+    margin: auto !important;
+  }
+}
+
+@layer utilities {
+  .mesh-background {
+    background-image: linear-gradient(
+        to right,
+        oklch(0.5 0 0 / 0.03) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, oklch(0.5 0 0 / 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .dark .mesh-background {
+    background-image: linear-gradient(
+        to right,
+        oklch(0.3 0 0 / 0.08) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, oklch(0.3 0 0 / 0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .dot-pattern {
+    background-image: radial-gradient(
+      circle,
+      oklch(0.5 0 0 / 0.05) 1px,
+      transparent 1px
+    );
+    background-size: 20px 20px;
+  }
+
+  .dark .dot-pattern {
+    background-image: radial-gradient(
+      circle,
+      oklch(0.7 0 0 / 0.06) 1px,
+      transparent 1px
+    );
+    background-size: 20px 20px;
   }
 }

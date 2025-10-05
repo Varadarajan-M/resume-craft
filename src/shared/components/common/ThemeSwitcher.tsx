@@ -1,6 +1,7 @@
 "use client";
 
 import useLocalStorageState from "@/shared/hooks/useLocalStorageState";
+import { safeJsonParse } from "@/shared/lib/utils";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect } from "react";
@@ -8,6 +9,17 @@ import { Button } from "../ui/button";
 
 type Preferences = {
   theme: "light" | "dark";
+};
+
+export const getLocalStorageTheme = () => {
+  if (typeof window === "undefined") return null;
+  const preferences: { theme: string } | null = localStorage.getItem(
+    "preferences"
+  )
+    ? safeJsonParse(localStorage.getItem("preferences") || "{}")
+    : null;
+
+  return preferences?.theme || null;
 };
 
 export const ThemeSwitch = () => {
@@ -22,6 +34,8 @@ export const ThemeSwitch = () => {
   useEffect(() => {
     document.body.classList.remove(theme === "dark" ? "light" : "dark");
     document.body.classList.add(theme);
+
+    document.documentElement.classList.toggle("dark", theme === "dark");
 
     setTheme(theme);
   }, [theme]);
