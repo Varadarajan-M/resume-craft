@@ -26,9 +26,13 @@ export const createResumeAction = async (resume: ResumeType) => {
       message: "Resume created successfully",
       data: JSON.parse(JSON.stringify(newResume)), // Convert Mongoose document to plain object
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating resume:", error);
-    return { success: false, message: "Failed to create resume", error };
+    return {
+      success: false,
+      message: "Failed to create resume",
+      error: error?.message,
+    };
   }
 };
 
@@ -55,9 +59,13 @@ export const getAllResumesAction = async (limit?: number) => {
       message: "Resumes fetched successfully",
       data: JSON.parse(JSON.stringify(resumes)), // Convert Mongoose documents to plain objects
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching resumes:", error);
-    return { success: false, message: "Failed to fetch resumes", error };
+    return {
+      success: false,
+      message: "Failed to fetch resumes",
+      error: error?.message,
+    };
   }
 };
 
@@ -87,14 +95,21 @@ export const updateResumeAction = async (
     if (!updatedResume) {
       return { success: false, message: "Resume not found" };
     }
+
+    console.log("updatedResume", JSON.parse(JSON.stringify(updatedResume)));
+
     return {
       success: true,
       message: "Resume updated successfully",
       data: JSON.parse(JSON.stringify(updatedResume)), // Convert Mongoose document to plain object
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error updating resume:", error);
-    return { success: false, message: "Failed to update resume", error };
+    return {
+      success: false,
+      message: "Failed to update resume",
+      error: error?.message,
+    };
   }
 };
 
@@ -117,8 +132,12 @@ export const deleteResumeAction = async (resumeId: string) => {
       success: true,
       message: "Resume deleted successfully",
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error deleting resume:", error);
-    return { success: false, message: "Failed to delete resume", error };
+    return {
+      success: false,
+      message: "Failed to delete resume",
+      error: error?.message,
+    };
   }
 };
