@@ -1,3 +1,4 @@
+import { createCategory, createSkill } from "@/shared/lib/resume";
 import { getUniqId } from "@/shared/lib/utils";
 import type {
   Resume,
@@ -13,18 +14,6 @@ import type {
 } from "@/shared/types/resume";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-
-export const createSkill = (): ResumeSkill => ({
-  id: getUniqId(),
-  name: "",
-  level: undefined,
-});
-
-export const createCategory = (): ResumeSkillCategoryItem => ({
-  id: getUniqId(),
-  name: "",
-  skills: [],
-});
 
 type ResumeStore = {
   resume: Resume | null;
