@@ -1,5 +1,5 @@
 import { DocumentTemplate } from "../types/document";
-import { Resume } from "../types/resume";
+import { Resume, ResumeSkill, ResumeSkillCategoryItem } from "../types/resume";
 import { getUniqId } from "./utils";
 
 type TemplateConfig = {
@@ -274,4 +274,16 @@ export const getPlaceholderResume = (
       },
     },
   },
+});
+
+export const createSkill = (): ResumeSkill => ({
+  id: getUniqId(),
+  name: "",
+  level: undefined,
+});
+
+export const createCategory = (): ResumeSkillCategoryItem => ({
+  id: getUniqId(),
+  name: "",
+  skills: [],
 });
