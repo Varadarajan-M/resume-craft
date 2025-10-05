@@ -4,11 +4,11 @@ import { AlertCircle } from "lucide-react";
 import { useMemo } from "react";
 
 import Tip from "@/shared/components/common/Tip";
-import { Alert, AlertDescription } from "@/shared/components/ui/alert";
+import { useResumeStore } from "@/features/resume-builder/store/resume";
 import AddNewButton from "../AddNewItemButton";
 import ResumeSection from "../ResumeSection";
 import { SkillCategoryItem } from "./Skills";
-import { useSkillsReducer } from "./store";
+import { Alert, AlertDescription } from "@/shared/components/ui/alert";
 
 import { RESUME_BUILDER_SECTIONS } from "@/features/resume-builder/lib/constants";
 
@@ -20,19 +20,23 @@ const sectionConfig = {
 };
 
 const SkillsSection = () => {
-  const { state, actions } = useSkillsReducer();
+  const categories = useResumeStore(
+    (s) => s.resume?.sections.skills?.categories
+  );
+  const addCategory = useResumeStore((s) => s.addCategory);
+  const updateCategory = useResumeStore((s) => s.updateCategory);
+  const deleteCategory = useResumeStore((s) => s.deleteCategory);
+  const addSkill = useResumeStore((s) => s.addSkill);
+  const updateSkill = useResumeStore((s) => s.updateSkill);
+  const deleteSkill = useResumeStore((s) => s.deleteSkill);
 
   const hasEmptyCategories = useMemo(
-    () => state.categories.some((cat) => !cat.name.trim()),
-    [state.categories]
+    () => categories?.some((c) => !c.name.trim()),
+    [categories]
   );
-
   const hasEmptySkills = useMemo(
-    () =>
-      state.categories.some((cat) =>
-        cat.skills.some((skill) => !skill.name.trim())
-      ),
-    [state.categories]
+    () => categories?.some((c) => c.skills.some((s) => !s.name.trim())),
+    [categories]
   );
   const hasValidationErrors = hasEmptyCategories || hasEmptySkills;
 
@@ -48,25 +52,21 @@ const SkillsSection = () => {
           </Alert>
         )}
 
-        {state.categories.map((category) => (
+        {categories?.map((category) => (
           <SkillCategoryItem
             key={category.id}
             category={category}
-            onCategoryUpdate={(name) =>
-              actions.updateCategory(category.id, name)
-            }
-            onCategoryDelete={() => actions.deleteCategory(category.id)}
+            onCategoryUpdate={(name) => updateCategory(category.id, name)}
+            onCategoryDelete={() => deleteCategory(category.id)}
             onSkillUpdate={(skillId, field, value) =>
-              actions.updateSkill(category.id, skillId, field, value)
+              updateSkill(category.id, skillId, field, value)
             }
-            onSkillDelete={(skillId) =>
-              actions.deleteSkill(category.id, skillId)
-            }
-            onAddSkill={() => actions.addSkill(category.id)}
+            onSkillDelete={(skillId) => deleteSkill(category.id, skillId)}
+            onAddSkill={() => addSkill(category.id)}
           />
         ))}
 
-        <AddNewButton onClick={actions.addCategory} label="Add Category" />
+        <AddNewButton onClick={addCategory} label="Add Category" />
       </div>
       <Tip>
         Group your skills into categories like languages, frameworks, tools, or

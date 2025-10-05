@@ -8,9 +8,23 @@ import type {
   ResumeLanguageItem,
   ResumePersonalInfoItem,
   ResumeProjectItem,
+  ResumeSkill,
+  ResumeSkillCategoryItem,
 } from "@/shared/types/resume";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
+
+export const createSkill = (): ResumeSkill => ({
+  id: getUniqId(),
+  name: "",
+  level: undefined,
+});
+
+export const createCategory = (): ResumeSkillCategoryItem => ({
+  id: getUniqId(),
+  name: "",
+  skills: [],
+});
 
 type ResumeStore = {
   resume: Resume | null;
@@ -77,6 +91,13 @@ type ResumeStore = {
 
   // update section order
   updateProperties: (args: Partial<Resume>) => void;
+  // Skills section
+  addCategory: () => void;
+  updateCategory: (categoryId: string, name: string) => void;
+  deleteCategory: (categoryId: string) => void;
+  addSkill: (categoryId: string) => void;
+  updateSkill: (categoryId: string, skillId: string, field: keyof ResumeSkill, value: string) => void;
+  deleteSkill: (categoryId: string, skillId: string) => void;
 };
 
 export const useResumeStore = create<ResumeStore>()(
@@ -367,6 +388,85 @@ export const useResumeStore = create<ResumeStore>()(
       set((state) => {
         if (!state.resume) return;
         state.resume = { ...state.resume, ...args };
+      }),
+
+    // Skills Section Methods
+    addCategory: () =>
+      set((state) => {
+        if (!state.resume) return;
+        
+        const newCategory = createCategory();
+        
+        // Initialize skills section if it doesn't exist
+        if (!state.resume.sections.skills) {
+          state.resume.sections.skills = { categories: [] };
+        }
+        
+        state.resume.sections.skills.categories.push(newCategory);
+      }),
+
+    updateCategory: (categoryId, name) =>
+      set((state) => {
+        if (!state.resume?.sections.skills) return;
+        
+        const categories = state.resume.sections.skills.categories;
+        const category = categories.find((c) => c.id === categoryId);
+        
+        if (category) {
+          category.name = name;
+        }
+      }),
+
+    deleteCategory: (categoryId) =>
+      set((state) => {
+        if (!state.resume?.sections.skills) return;
+        
+        state.resume.sections.skills.categories = 
+          state.resume.sections.skills.categories.filter(
+            (c) => c.id !== categoryId
+          );
+      }),
+
+    addSkill: (categoryId) =>
+      set((state) => {
+        if (!state.resume?.sections.skills) return;
+        
+        const category = state.resume.sections.skills.categories.find(
+          (c) => c.id === categoryId
+        );
+        
+        if (category) {
+          category.skills.push(createSkill());
+        }
+      }),
+
+    updateSkill: (categoryId, skillId, field, value) =>
+      set((state) => {
+        if (!state.resume?.sections.skills) return;
+        
+        const category = state.resume.sections.skills.categories.find(
+          (c) => c.id === categoryId
+        );
+        
+        if (category) {
+          const skill = category.skills.find((s) => s.id === skillId);
+          if (skill) {
+            skill[field] = value as any;
+          }
+        }
+      }),
+
+    deleteSkill: (categoryId, skillId) =>
+      set((state) => {
+        if (!state.resume?.sections.skills) return;
+        
+        const category = state.resume.sections.skills.categories.find(
+          (c) => c.id === categoryId
+        );
+        
+        if (category) {
+          category.skills = category.skills.filter((s) => s.id !== skillId);
+        }
       }),
   }))
 );

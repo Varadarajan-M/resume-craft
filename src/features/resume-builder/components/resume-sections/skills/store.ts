@@ -1,4 +1,4 @@
-import { ResumeSkillCategoryItem, Skill } from "@/shared/types/resume";
+import { ResumeSkill, ResumeSkillCategoryItem } from "@/shared/types/resume";
 import { useReducer } from "react";
 
 export type SkillsState = {
@@ -14,7 +14,7 @@ type SkillsAction =
       type: "UPDATE_SKILL";
       categoryId: string;
       skillId: string;
-      field: keyof Skill;
+      field: keyof ResumeSkill;
       value: string;
     }
   | { type: "DELETE_SKILL"; categoryId: string; skillId: string }
@@ -31,7 +31,7 @@ const createSkillId = () =>
 const createCategoryId = () =>
   `cat-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-const createNewSkill = (): Skill => ({
+const createNewSkill = (): ResumeSkill => ({
   id: createSkillId(),
   name: "",
   level: undefined,
@@ -168,7 +168,7 @@ export const useSkillsReducer = () => {
       updateSkill: (
         categoryId: string,
         skillId: string,
-        field: keyof Skill,
+        field: keyof ResumeSkill,
         value: string
       ) =>
         dispatch({ type: "UPDATE_SKILL", categoryId, skillId, field, value }),
