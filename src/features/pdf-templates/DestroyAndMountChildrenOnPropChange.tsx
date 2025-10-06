@@ -4,7 +4,7 @@ const DestroyAndMountChildrenOnPropChange = ({
   children,
   prop,
 }: {
-  prop: any;
+  prop: unknown;
   children: (key: string) => React.ReactNode;
 }) => {
   const ref = React.useRef<number>(0);

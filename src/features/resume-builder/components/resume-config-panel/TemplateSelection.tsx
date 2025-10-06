@@ -13,8 +13,6 @@ const TemplateSelection = () => {
   const setResume = useResumeStore((state) => state.setResume);
 
   const handleTemplateClick = (template: DocumentTemplate) => {
-    const sectionIdsFromTemplate = new Set(template?.mainColumnSectionOrder);
-
     /*  
     Resume.      Template       Result
     A            B              B

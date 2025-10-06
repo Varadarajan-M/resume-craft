@@ -85,10 +85,10 @@ export interface ResumeLanguageItem {
   proficiency: "Native" | "Fluent" | "Professional" | "Intermediate" | "Basic";
 }
 
-interface CustomSection {
+export interface CustomSection {
   id: string;
   title: string;
-  content: string | any; // can support markdown, rich text, etc.
+  content: string | unknown; // can support markdown, rich text, etc.
 }
 
 export interface ResumeAchievementItem {

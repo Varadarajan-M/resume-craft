@@ -21,4 +21,6 @@ const SkillItem = memo(({ categoryId, skillId, index }: SkillItemProps) => {
   );
 });
 
+SkillItem.displayName = "SkillItem";
+
 export default SkillItem;

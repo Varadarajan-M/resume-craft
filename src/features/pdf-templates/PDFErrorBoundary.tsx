@@ -68,7 +68,7 @@ class PDFErrorBoundary extends Component<
 
   render() {
     const { fallback } = this.props;
-    const { hasError, errorKey } = this.state;
+    const { hasError } = this.state;
 
     if (hasError) {
       return (

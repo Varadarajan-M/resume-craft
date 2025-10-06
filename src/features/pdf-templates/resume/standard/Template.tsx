@@ -296,9 +296,9 @@ const SubsectionRow = ({
 }: {
   left?: JSX.Element;
   right?: JSX.Element;
-  style?: any;
+  style?: Record<string, string | number>;
 }) => (
-  <View style={[styles.rowBetween, styles.mb1, style]}>
+  <View style={[styles.rowBetween, styles.mb1, style || {}]}>
     {left}
     {right}
   </View>
@@ -413,10 +413,10 @@ const sectionRenderers: Record<
 
           {personalInfo.links?.map((link) => (
             <ContactItem
-              key={link.id}
-              icon={link?.iconName!}
-              href={link.url}
-              label={link.label}
+              key={link?.id}
+              icon={link?.iconName || "link"}
+              href={link?.url}
+              label={link?.label}
             />
           ))}
         </View>
@@ -586,7 +586,7 @@ const sectionRenderers: Record<
               }
             />
             {cert.description && (
-              <BulletPoints>{htmlParser(cert?.description!)}</BulletPoints>
+              <BulletPoints>{htmlParser(cert?.description)}</BulletPoints>
             )}
           </View>
         ))}

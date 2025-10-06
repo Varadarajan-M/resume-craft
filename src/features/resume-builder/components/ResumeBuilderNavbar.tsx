@@ -62,8 +62,8 @@ const ResumeShareButton = ({ resumeTitle }: SharedButtonProps) => {
       } else {
         toast.error("Sharing is not supported on this device.");
       }
-    } catch (e: any) {
-      toast.error(`${e?.message}`);
+    } catch (e: unknown) {
+      toast.error(`${(e as Error)?.message}`);
     }
   };
 

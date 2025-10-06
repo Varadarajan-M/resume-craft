@@ -24,10 +24,11 @@ const SectionConfig = () => {
     updateProperties({
       config: {
         ...config!,
+        // @ts-expect-error Type 'undefined' is not assignable to type 'string'
         sectionDetails: {
           ...sectionDetails,
           [sectionId]: {
-            ...sectionDetails?.[sectionId]!,
+            ...sectionDetails?.[sectionId],
             visible: !sectionDetails?.[sectionId]?.visible,
           },
         },

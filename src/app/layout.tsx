@@ -10,6 +10,7 @@ import "./globals.css";
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700"],
   display: "swap",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -62,10 +63,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ThemeProvider>
-      <ClerkProvider>
-        <html lang="en" suppressHydrationWarning>
-          <body className={`${poppins.className} font-sans antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${poppins.className} font-sans antialiased`}>
+        <ThemeProvider>
+          <ClerkProvider>
             <ReactQueryProvider>
               {children}
 
@@ -75,9 +76,9 @@ export default function RootLayout({
                 duration={2000}
               />
             </ReactQueryProvider>
-          </body>
-        </html>
-      </ClerkProvider>
-    </ThemeProvider>
+          </ClerkProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }

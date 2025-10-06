@@ -50,7 +50,7 @@ export const getAIEnhancedContentAction = async (content: string) => {
       success: true,
       data: parsed?.suggestions as AIContentSuggestion[],
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
       success: false,
       error: (error as Error).message,

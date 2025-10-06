@@ -1,8 +1,6 @@
 import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { timeFromNow } from "@/shared/lib/datetime";
-import { cn } from "@/shared/lib/utils";
-import type { Document } from "@/shared/types/document";
 import { Resume } from "@/shared/types/resume";
 import { Clock } from "lucide-react";
 import Image from "next/image";
@@ -13,28 +11,28 @@ interface DocumentCardProps {
   onClick?: (document: Resume) => void;
 }
 
-const statusColorMap: Record<Document["status"], string> = {
-  draft: "bg-yellow-100 text-yellow-800",
-  published: "bg-green-100 text-green-800",
-  archived: "bg-gray-200 text-gray-600",
-};
+// const statusColorMap: Record<Document["status"], string> = {
+//   draft: "bg-yellow-100 text-yellow-800",
+//   published: "bg-green-100 text-green-800",
+//   archived: "bg-gray-200 text-gray-600",
+// };
 
-const DocumentStatusTag: React.FC<{
-  status: Document["status"];
-  className?: string;
-}> = ({ status, className }) => {
-  return (
-    <span
-      className={cn(
-        "text-xs px-2 py-0.5 rounded-full font-medium capitalize",
-        statusColorMap[status],
-        className
-      )}
-    >
-      {status}
-    </span>
-  );
-};
+// const DocumentStatusTag: React.FC<{
+//   status: Document["status"];
+//   className?: string;
+// }> = ({ status, className }) => {
+//   return (
+//     <span
+//       className={cn(
+//         "text-xs px-2 py-0.5 rounded-full font-medium capitalize",
+//         statusColorMap[status],
+//         className
+//       )}
+//     >
+//       {status}
+//     </span>
+//   );
+// };
 
 export const DocumentCardGrid: React.FC<DocumentCardProps> = ({
   document,

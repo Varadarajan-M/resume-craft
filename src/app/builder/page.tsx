@@ -7,6 +7,7 @@ import {
   ResumeSectionQuickNavigationPanel,
   ResumeSectionsPanel,
 } from "@/features/resume-builder";
+import PageSkeleton from "@/features/resume-builder/components/resume-preview/PreviewSkeleton";
 import dynamic from "next/dynamic";
 
 const ResumePreviewPanel = dynamic(
@@ -16,6 +17,9 @@ const ResumePreviewPanel = dynamic(
     ),
   {
     ssr: false,
+    loading: () => (
+      <PageSkeleton className="h-[90dvh] w-[80%] m-5 opacity-65" />
+    ),
   }
 );
 const ResumeBuilderPage = () => {
@@ -26,7 +30,7 @@ const ResumeBuilderPage = () => {
     >
       <AutoSaveAndLoadResume />
       <ResumeBuilderNavbar />
-      <div className="flex-1 flex items-center-safe">
+      <div className="flex-1 flex items-center-safe w-full ">
         <ResumeSectionQuickNavigationPanel />
         <ResumeSectionsPanel className="basis-full md:border-r lg:basis-[25%]" />
         <ResumePreviewPanel className="flex-1 " />

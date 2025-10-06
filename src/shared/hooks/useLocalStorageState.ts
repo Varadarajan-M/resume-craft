@@ -24,10 +24,10 @@ const useLocalStorageState = <StateType>(
   const setLocalStorageState = (
     update: StateType | ((prevState: StateType) => StateType)
   ) => {
-    setState((prevState) => {
+    setState((prevState: StateType) => {
       const nextState =
         typeof update === "function"
-          ? (update as Function)?.(prevState)
+          ? (update as (prev: StateType) => StateType)(prevState)
           : update;
       localStorage.setItem(localStorageKey, JSON.stringify(nextState));
       return nextState;

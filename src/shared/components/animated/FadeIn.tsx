@@ -127,7 +127,6 @@ export const FadeInChildren = ({
   children,
   className,
   asProp,
-  childrenAs,
   childrenDelay = 0.1,
   duration = 0.4,
   ...props

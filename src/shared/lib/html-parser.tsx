@@ -5,7 +5,7 @@ import { getUniqId } from "./utils";
 
 interface ParsedElementProps {
   children: React.ReactNode;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export const htmlParser = (taskDescription: string | null): JSX.Element => {
@@ -49,12 +49,12 @@ export const htmlParser = (taskDescription: string | null): JSX.Element => {
           case "a":
             returnContentConst.push(
               <Link
-                src={elementProps.href}
+                src={elementProps.href as string}
                 key={getUniqId()}
                 style={{
                   color: "#0066cc",
                   textDecoration: "underline",
-                  ...elementProps?.style,
+                  ...(elementProps?.style || {}),
                 }}
               >
                 {children}

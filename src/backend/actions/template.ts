@@ -27,12 +27,12 @@ export const getAllTemplatesAction = async (limit?: number) => {
       message: "Templates fetched successfully",
       data: JSON.parse(JSON.stringify(templates)), // Convert Mongoose documents to plain objects
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching Templates:", error);
     return {
       success: false,
       message: "Failed to fetch templates",
-      error: error?.message,
+      error: (error as Error).message,
     };
   }
 };
@@ -54,12 +54,12 @@ export const createTemplateAction = async (template: DocumentTemplate) => {
       message: "Template created successfully",
       data: JSON.parse(JSON.stringify(newTemplate)), // Convert Mongoose document to plain object
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error creating template:", error);
     return {
       success: false,
       message: "Failed to create template",
-      error: error?.message,
+      error: (error as Error).message,
     };
   }
 };

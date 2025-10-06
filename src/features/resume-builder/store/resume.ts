@@ -10,7 +10,6 @@ import type {
   ResumePersonalInfoItem,
   ResumeProjectItem,
   ResumeSkill,
-  ResumeSkillCategoryItem,
 } from "@/shared/types/resume";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
@@ -85,7 +84,12 @@ type ResumeStore = {
   updateCategory: (categoryId: string, name: string) => void;
   deleteCategory: (categoryId: string) => void;
   addSkill: (categoryId: string) => void;
-  updateSkill: (categoryId: string, skillId: string, field: keyof ResumeSkill, value: string) => void;
+  updateSkill: (
+    categoryId: string,
+    skillId: string,
+    field: keyof ResumeSkill,
+    value: string
+  ) => void;
   deleteSkill: (categoryId: string, skillId: string) => void;
 };
 
@@ -110,7 +114,7 @@ export const useResumeStore = create<ResumeStore>()(
           links: [],
         };
 
-        section.personalInfo[key] = value as any;
+        section.personalInfo[key] = value as never;
       }),
     updateSummary: (content: string) =>
       set((state) => {
@@ -383,24 +387,24 @@ export const useResumeStore = create<ResumeStore>()(
     addCategory: () =>
       set((state) => {
         if (!state.resume) return;
-        
+
         const newCategory = createCategory();
-        
+
         // Initialize skills section if it doesn't exist
         if (!state.resume.sections.skills) {
           state.resume.sections.skills = { categories: [] };
         }
-        
+
         state.resume.sections.skills.categories.push(newCategory);
       }),
 
     updateCategory: (categoryId, name) =>
       set((state) => {
         if (!state.resume?.sections.skills) return;
-        
+
         const categories = state.resume.sections.skills.categories;
         const category = categories.find((c) => c.id === categoryId);
-        
+
         if (category) {
           category.name = name;
         }
@@ -409,8 +413,8 @@ export const useResumeStore = create<ResumeStore>()(
     deleteCategory: (categoryId) =>
       set((state) => {
         if (!state.resume?.sections.skills) return;
-        
-        state.resume.sections.skills.categories = 
+
+        state.resume.sections.skills.categories =
           state.resume.sections.skills.categories.filter(
             (c) => c.id !== categoryId
           );
@@ -419,11 +423,11 @@ export const useResumeStore = create<ResumeStore>()(
     addSkill: (categoryId) =>
       set((state) => {
         if (!state.resume?.sections.skills) return;
-        
+
         const category = state.resume.sections.skills.categories.find(
           (c) => c.id === categoryId
         );
-        
+
         if (category) {
           category.skills.push(createSkill());
         }
@@ -432,15 +436,15 @@ export const useResumeStore = create<ResumeStore>()(
     updateSkill: (categoryId, skillId, field, value) =>
       set((state) => {
         if (!state.resume?.sections.skills) return;
-        
+
         const category = state.resume.sections.skills.categories.find(
           (c) => c.id === categoryId
         );
-        
+
         if (category) {
           const skill = category.skills.find((s) => s.id === skillId);
           if (skill) {
-            skill[field] = value as any;
+            skill[field] = value as never;
           }
         }
       }),
@@ -448,11 +452,11 @@ export const useResumeStore = create<ResumeStore>()(
     deleteSkill: (categoryId, skillId) =>
       set((state) => {
         if (!state.resume?.sections.skills) return;
-        
+
         const category = state.resume.sections.skills.categories.find(
           (c) => c.id === categoryId
         );
-        
+
         if (category) {
           category.skills = category.skills.filter((s) => s.id !== skillId);
         }
