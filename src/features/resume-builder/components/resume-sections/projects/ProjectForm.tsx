@@ -100,4 +100,6 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
   );
 });
 
+DescriptionEditor.displayName = "DescriptionEditor";
+
 export default ProjectForm;

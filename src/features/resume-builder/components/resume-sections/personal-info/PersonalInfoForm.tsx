@@ -111,7 +111,7 @@ const UserLinks = () => {
   return (
     <ResumeItem itemId="urls" label="Custom Links">
       <div className="md:space-y-4 space-y-6">
-        {links?.map((link, index) => (
+        {links?.map((link) => (
           <ResumeLinkInput
             key={link?.id}
             id={link?.id}

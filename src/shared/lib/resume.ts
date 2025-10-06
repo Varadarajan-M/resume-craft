@@ -2,12 +2,6 @@ import { DocumentTemplate } from "../types/document";
 import { Resume } from "../types/resume";
 import { getUniqId } from "./utils";
 
-type TemplateConfig = {
-  id: string;
-  mainColumnSectionOrder?: string[];
-  sideColumnSectionOrder?: string[];
-};
-
 export const getPlaceholderResume = (
   userId?: string,
   templateConfig?: DocumentTemplate

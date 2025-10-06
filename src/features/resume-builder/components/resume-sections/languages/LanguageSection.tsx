@@ -33,7 +33,8 @@ const LanguageSection = () => {
         />
 
         <Tip>
-          Include languages you're confident using in a professional context.
+          Include languages you`&apos;`re confident using in a professional
+          context.
         </Tip>
       </div>
     </ResumeSection>

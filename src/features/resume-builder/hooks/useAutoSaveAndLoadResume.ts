@@ -1,12 +1,12 @@
 import useUpdateResumeMutation from "@/features/documents/hooks/useUpdateResumeMutation";
-import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import { useResumeStore } from "../store/resume";
 
+import { Resume } from "@/shared/types/resume";
 import usePopulateLastViewedResumeFromStorage from "./usePopulateLastViewedResumeFromStorage";
 
 interface UseAutoSaveAndLoadResumeProps {
-  onSave?: (resume: any) => void;
+  onSave?: (resume: Resume) => void;
   onSaveError?: (error: Error) => void;
 }
 
@@ -20,7 +20,6 @@ const useAutoSaveAndLoadResume = ({
   onSaveError,
 }: UseAutoSaveAndLoadResumeProps) => {
   const resume = useResumeStore((state) => state.resume);
-  const queryClient = useQueryClient();
 
   // Populate last viewed resume from local storage
   usePopulateLastViewedResumeFromStorage();
@@ -70,6 +69,8 @@ const useAutoSaveAndLoadResume = ({
         clearInterval(timerRef.current);
       }
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resume]);
 
   return null;

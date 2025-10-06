@@ -100,7 +100,7 @@ export const useResumeStore = create<ResumeStore>()(
           links: [],
         };
 
-        section.personalInfo[key] = value as any;
+        section.personalInfo[key] = value as never;
       }),
     updateSummary: (content: string) =>
       set((state) => {

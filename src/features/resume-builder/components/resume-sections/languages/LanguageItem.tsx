@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import { ResumeLanguageItem } from "@/shared/types/resume";
 import { Trash2 } from "lucide-react";
 import ResumeItem from "../ResumeItem";
 
@@ -32,7 +33,9 @@ const LanguageItem = ({ id }: { id: string }) => {
         <Select
           value={lang?.proficiency}
           onValueChange={(value) =>
-            handleUpdateLanguage(id, { proficiency: value as any })
+            handleUpdateLanguage(id, {
+              proficiency: value as ResumeLanguageItem["proficiency"],
+            })
           }
         >
           <SelectTrigger className="w-[180px]">

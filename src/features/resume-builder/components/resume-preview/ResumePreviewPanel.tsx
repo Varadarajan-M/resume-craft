@@ -47,7 +47,7 @@ const ResumePreviewPanel = ({ className }: ResumePreviewPanelProps) => {
     >
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
         <ResumeRenderer
-          templateId={debouncedResume?.templateId!}
+          templateId={debouncedResume?.templateId || ""}
           resume={debouncedResume!}
         />
       </Worker>

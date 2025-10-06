@@ -107,7 +107,7 @@ export function PdfLucideIcon({
 
   return (
     <Svg viewBox={viewBox} width={size} height={size}>
-      {elements.map(([_, tag, attrString], i) =>
+      {elements.map(([, tag, attrString], i) =>
         renderElement(tag, parseAttributes(attrString), i)
       )}
     </Svg>

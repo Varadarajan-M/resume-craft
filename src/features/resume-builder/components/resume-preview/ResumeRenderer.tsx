@@ -1,8 +1,8 @@
 "use client";
 
-import { Skeleton } from "@/shared/components/ui/skeleton";
 import type { Resume } from "@/shared/types/resume";
 import React, { memo } from "react";
+import PageSkeleton from "./PreviewSkeleton";
 
 interface ResumeRendererProps {
   templateId: string;
@@ -24,10 +24,6 @@ const RESUME_TEMPLATE_MAPPING: Record<
     }))
   ),
 };
-
-const PageSkeleton = () => (
-  <Skeleton className="w-full h-[3508px] rounded-lg" />
-);
 
 const ResumeRenderer = ({ templateId, resume }: ResumeRendererProps) => {
   const Component =

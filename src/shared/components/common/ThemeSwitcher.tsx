@@ -38,7 +38,7 @@ export const ThemeSwitch = () => {
     document.documentElement.classList.toggle("dark", theme === "dark");
 
     setTheme(theme);
-  }, [theme]);
+  }, [theme, setTheme]);
 
   if (typeof window == "undefined") return null;
 
