@@ -17,7 +17,6 @@ const sectionConfig = {
 
 const ProjectSection = () => {
   const projects = useResumeStore((s) => s.resume?.sections?.projects);
-  console.log("projects", projects);
   const handleAddProject = useResumeStore((s) => s.addProjectItem);
 
   return (

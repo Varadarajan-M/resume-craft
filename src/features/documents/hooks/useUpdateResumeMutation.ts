@@ -22,7 +22,6 @@ const useUpdateResumeMutation = (props: UseCreateResumeMutationParams) => {
     mutationFn,
     onSuccess: (data) => {
       // Optionally handle success, e.g., show a toast or redirect
-      console.log("Resume saved successfully:");
       props.onSuccess?.(data);
     },
     onError: (error) => {

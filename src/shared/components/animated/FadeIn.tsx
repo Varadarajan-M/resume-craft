@@ -129,6 +129,7 @@ export const FadeInChildren = ({
   asProp,
   childrenDelay = 0.1,
   duration = 0.4,
+  childrenAs,
   ...props
 }: {
   children: React.ReactNode;
@@ -141,7 +142,7 @@ export const FadeInChildren = ({
   const Parent =
     motionComponents[asProp as keyof typeof motionComponents] || motion.div;
   const Child =
-    motionComponents[asProp as keyof typeof motionComponents] || motion.div;
+    motionComponents[childrenAs as keyof typeof motionComponents] || motion.div;
 
   return (
     <Parent
