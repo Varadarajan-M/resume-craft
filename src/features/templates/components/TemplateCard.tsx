@@ -93,7 +93,7 @@ export const TemplateCardList: React.FC<TemplateCardProps> = ({
 
         {template.tags && template.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-1">
-            {template.tags.slice(0, 2).map((tag) => (
+            {template.tags.slice(0, 5).map((tag) => (
               <span
                 key={tag}
                 className="text-xs font-medium capitalize bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded-full dark:bg-neutral-800 dark:text-neutral-300"
@@ -101,7 +101,7 @@ export const TemplateCardList: React.FC<TemplateCardProps> = ({
                 {tag}
               </span>
             ))}
-            {template.tags.length > 2 && (
+            {template.tags.length > 5 && (
               <span className="text-xs text-muted-foreground">
                 +{template.tags.length - 2}
               </span>
