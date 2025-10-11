@@ -350,7 +350,11 @@ const sectionRenderers: Record<
         {s.map((proj) => (
           <View key={proj.id} style={styles.subsection}>
             <SubsectionRow
-              left={<Text style={[styles.labelBold]}>{proj.name}</Text>}
+              left={
+                <Text style={[styles.labelBold, styles.flexBasis68]}>
+                  {proj.name}
+                </Text>
+              }
               right={
                 (proj?.timePeriod?.length || 0) > 0 ? (
                   <Text style={styles.labelSemibold}>{proj.timePeriod}</Text>
@@ -360,14 +364,14 @@ const sectionRenderers: Record<
             <SubsectionRow
               left={
                 (proj?.technologies?.length || 0) > 0 ? (
-                  <Text style={[styles.labelItalic, { flexBasis: "68%" }]}>
+                  <Text style={[styles.labelItalic, styles.flexBasis68]}>
                     {proj.technologies?.join(", ")}
                   </Text>
                 ) : undefined
               }
               right={
                 proj.url ? (
-                  <Text style={{ textAlign: "right", flexBasis: "30%" }}>
+                  <Text style={{ textAlign: "right", ...styles.flexBasis30 }}>
                     {htmlParser(
                       `<a href="${proj.url}" style="text-decoration:underline;color:black">${proj.url}</a>`
                     )}

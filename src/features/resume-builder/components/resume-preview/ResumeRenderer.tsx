@@ -15,12 +15,12 @@ const RESUME_TEMPLATE_MAPPING: Record<
 > = {
   "clean-minimal": React.lazy(() =>
     import("@/features/pdf-templates/resume/clean-minimal").then((module) => ({
-      default: module.CleanMinimalResumeTemplate,
+      default: module.default,
     }))
   ),
   standard: React.lazy(() =>
     import("@/features/pdf-templates/resume/standard").then((module) => ({
-      default: module.StandardResumeTemplate,
+      default: module.default,
     }))
   ),
 };

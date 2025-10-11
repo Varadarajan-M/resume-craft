@@ -172,6 +172,9 @@ const styles = StyleSheet.create({
   gap5: { gap: 5 },
   gap12: { gap: THEME.spacing.xxl },
 
+  fb68: { flexBasis: "68%" },
+  fb32: { flexBasis: "32%" },
+
   // Header styles
   header: {
     alignItems: "center",
@@ -181,12 +184,14 @@ const styles = StyleSheet.create({
     fontFamily: THEME.fonts.main,
     textTransform: "uppercase",
     letterSpacing: 1,
+    lineHeight: THEME.spacing.xs,
   },
   nameRest: {
     fontSize: THEME.fontSizes.name,
     fontFamily: THEME.fonts.main,
     textTransform: "uppercase",
     letterSpacing: 1,
+    lineHeight: THEME.spacing.xs,
   },
   location: {
     fontSize: 13,
@@ -374,7 +379,7 @@ const sectionRenderers: Record<
 
     return (
       <View style={styles.header}>
-        <Text style={styles.mb17}>
+        <Text style={styles.mb7}>
           {fullName.split(" ").map((namePart, index) => (
             <Fragment key={index}>
               <Text key={`${namePart}-first`} style={styles.nameFirst}>
@@ -449,15 +454,27 @@ const sectionRenderers: Record<
         {education?.map((edu) => (
           <View key={edu.id} style={[styles.subsection, styles.mt_1]}>
             <SubsectionRow
-              left={<HeaderText>{edu.institution}</HeaderText>}
-              right={<TimePeriodText>{edu.timePeriod}</TimePeriodText>}
+              left={
+                <HeaderText style={styles.fb68}>{edu.institution}</HeaderText>
+              }
+              right={
+                <TimePeriodText style={styles.fb32}>
+                  {edu.timePeriod}
+                </TimePeriodText>
+              }
             />
             <SubsectionRow
-              left={<DescriptionText>{edu.fieldOfStudy}</DescriptionText>}
+              left={
+                <DescriptionText style={styles.fb68}>
+                  {edu.fieldOfStudy}
+                </DescriptionText>
+              }
               right={
                 edu.location ? (
-                  <DescriptionText>
-                    <Text style={styles.textRight}>{edu.location}</Text>
+                  <DescriptionText
+                    style={{ ...styles.textRight, ...styles.fb32 }}
+                  >
+                    {edu.location}
                   </DescriptionText>
                 ) : undefined
               }
@@ -500,14 +517,27 @@ const sectionRenderers: Record<
         {experience?.map((exp) => (
           <View key={exp.id} style={[styles.subsection, styles.mt_1]}>
             <SubsectionRow
-              left={<HeaderText>{exp.company}</HeaderText>}
-              right={<TimePeriodText>{exp.timePeriod}</TimePeriodText>}
+              left={<HeaderText style={styles.fb68}>{exp.company}</HeaderText>}
+              right={
+                <TimePeriodText style={styles.fb32}>
+                  {exp.timePeriod}
+                </TimePeriodText>
+              }
             />
             <SubsectionRow
-              left={<DescriptionText>{exp.title}</DescriptionText>}
+              left={
+                <DescriptionText style={styles.fb68}>
+                  {exp.title}
+                </DescriptionText>
+              }
               right={
-                <DescriptionText>
-                  <Text style={styles.textRight}>{exp.location}</Text>
+                <DescriptionText
+                  style={{
+                    ...styles.textRight,
+                    ...styles.fb32,
+                  }}
+                >
+                  {exp.location}
                 </DescriptionText>
               }
             />
@@ -531,18 +561,29 @@ const sectionRenderers: Record<
         {projects?.map((proj, i) => (
           <View key={i} style={[styles.subsection, styles.mt_1]}>
             <SubsectionRow
-              left={<HeaderText>{proj.name}</HeaderText>}
-              right={<TimePeriodText>{proj.timePeriod}</TimePeriodText>}
+              left={<HeaderText style={styles.fb68}>{proj.name}</HeaderText>}
+              right={
+                <TimePeriodText style={styles.fb32}>
+                  {proj.timePeriod}
+                </TimePeriodText>
+              }
             />
             <SubsectionRow
               left={
                 proj.technologies ? (
-                  <DescriptionText>
+                  <DescriptionText style={styles.fb68}>
                     {proj?.technologies?.join(", ")}
                   </DescriptionText>
                 ) : undefined
               }
-              right={<LinkText href={proj.url!}>{proj?.url}</LinkText>}
+              right={
+                <LinkText
+                  href={proj.url!}
+                  style={{ textAlign: "right", ...styles.fb32 }}
+                >
+                  {proj?.url}
+                </LinkText>
+              }
             />
 
             {proj.description && (
@@ -566,21 +607,27 @@ const sectionRenderers: Record<
           <View key={cert.id} style={[styles.subsection]}>
             <SubsectionRow
               left={
-                <HeaderText style={{ fontSize: THEME.fontSizes.smd }}>
+                <HeaderText
+                  style={{ fontSize: THEME.fontSizes.smd, ...styles.fb68 }}
+                >
                   {cert.name}
                 </HeaderText>
               }
               right={
-                <TimePeriodText>
+                <TimePeriodText style={styles.fb32}>
                   {cert.date}
                   {cert.expirationDate ? ` – ${cert.expirationDate}` : ""}
                 </TimePeriodText>
               }
             />
             <SubsectionRow
-              left={<DescriptionText>{cert.issuer}</DescriptionText>}
+              left={
+                <DescriptionText style={styles.fb68}>
+                  {cert.issuer}
+                </DescriptionText>
+              }
               right={
-                <LinkText href={cert.credentialUrl!}>
+                <LinkText href={cert.credentialUrl!} style={styles.fb32}>
                   {cert.credentialUrl}
                 </LinkText>
               }
