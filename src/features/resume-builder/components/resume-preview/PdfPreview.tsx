@@ -65,5 +65,11 @@ export default function PDFPreview({ fileUrl }: Props) {
     ),
   });
 
-  return <Viewer fileUrl={fileUrl} plugins={[defaultLayoutPluginInstance]} />;
+  return (
+    <Viewer
+      fileUrl={fileUrl}
+      plugins={[defaultLayoutPluginInstance]}
+      defaultScale={1.1}
+    />
+  );
 }

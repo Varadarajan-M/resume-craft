@@ -47,10 +47,7 @@ const ProjectForm = ({ id }: { id: string }) => {
           value={project.technologies?.join(", ") || ""}
           onChange={(e) =>
             handleUpdateProject(id, {
-              technologies: e.target.value
-                .split(",")
-                .map((t) => t.trim())
-                .filter(Boolean),
+              technologies: [e.target.value],
             })
           }
           placeholder="e.g., React, Node.js, MongoDB"
