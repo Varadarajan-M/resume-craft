@@ -97,9 +97,9 @@ const features = [
   },
   {
     icon: Download,
-    title: "Export Anywhere",
+    title: "Instant Download",
     description:
-      "Download your resume in multiple formats including PDF, DOCX, and more.",
+      "Download your resume as PDF or share to other platforms with just a click.",
   },
 ];
 
@@ -176,7 +176,7 @@ export function FeaturesSection() {
             <AnimatedFeatureCard
               key={index}
               index={index}
-              className="group relative overflow-hidden p-6 hover:shadow-lg transition-all duration-300 border-border/50 hover:border-foreground/20 bg-card/50 backdrop-blur-sm"
+              className="group relative overflow-hidden p-6 hover:shadow-lg transition-all duration-300 border-border/50 hover:border-foreground/20 bg-card/50 backdrop-blur-sm md:h-[250px]"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-muted/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="relative">
