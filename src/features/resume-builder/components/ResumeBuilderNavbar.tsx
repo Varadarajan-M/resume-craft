@@ -1,3 +1,5 @@
+"use client";
+
 import { toast } from "sonner";
 
 import { FadeIn } from "@/shared/components/animated/FadeIn";
@@ -8,6 +10,7 @@ import { Button } from "@/shared/components/ui/button";
 
 import { downloadFile } from "@/shared/lib/utils";
 import { Download, Share2 } from "lucide-react";
+import { useCallback, useEffect } from "react";
 import { useResumeStore } from "../store/resume";
 
 interface SharedButtonProps {
@@ -20,11 +23,22 @@ const getPdfBlobUrl = (): string | null =>
     ?.getAttribute("data-pdf-blob-url") ?? null;
 
 const ResumeDownloadButton = ({ resumeTitle }: SharedButtonProps) => {
-  const handleDownload = () => {
+  const handleDownload = useCallback(() => {
     const url = getPdfBlobUrl();
     if (!url) return;
     downloadFile(url, resumeTitle);
-  };
+  }, [resumeTitle]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+        e.preventDefault();
+        handleDownload();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleDownload]);
 
   return (
     <TapAnimationButton>
@@ -93,6 +107,8 @@ const ResumeBuilderNavbar = () => {
   const resumeTitle = fullName
     ? `${fullName} - ${headline ?? ""} Resume`
     : "Resume";
+
+  if (typeof window === "undefined") return null;
 
   return (
     <nav className="flex items-center-safe sticky top-0 z-50 justify-between border-b border-border bg-background px-4 py-2 transition-all duration-200">

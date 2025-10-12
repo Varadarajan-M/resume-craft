@@ -28,8 +28,8 @@ const ResumeSectionsPanel = ({ className }: ResumeSectionsPanelProps) => {
     >
       <PersonalInformationSection />
       <ProfessionalSummarySection />
-      <WorkExperienceSection />
       <EducationSection />
+      <WorkExperienceSection />
       <SkillsSection />
       <ProjectSection />
       <CertificationSection />

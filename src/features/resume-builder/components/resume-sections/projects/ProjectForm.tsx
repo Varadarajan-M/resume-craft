@@ -26,8 +26,6 @@ const ProjectForm = ({ id }: { id: string }) => {
         />
       </ResumeItem>
 
-      <DescriptionEditor id={id} />
-
       <ResumeItem label="URL" itemId={`${id}-url`} className="p-0">
         <Input
           id={`${id}-url`}
@@ -47,10 +45,7 @@ const ProjectForm = ({ id }: { id: string }) => {
           value={project.technologies?.join(", ") || ""}
           onChange={(e) =>
             handleUpdateProject(id, {
-              technologies: e.target.value
-                .split(",")
-                .map((t) => t.trim())
-                .filter(Boolean),
+              technologies: [e.target.value],
             })
           }
           placeholder="e.g., React, Node.js, MongoDB"
@@ -71,6 +66,8 @@ const ProjectForm = ({ id }: { id: string }) => {
           placeholder="e.g., Jan 2024 - Mar 2024"
         />
       </ResumeItem>
+
+      <DescriptionEditor id={id} />
     </div>
   );
 };

@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: THEME.spacing,
+    flex: 1,
   },
   sectionTitle: {
     fontSize: 10,
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
+    // flexWrap: "wrap",
   },
   contactRow: {
     flexDirection: "row",
@@ -93,12 +95,15 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 11,
+    marginBottom: 6,
+    flexShrink: 1,
+    lineHeight: 1,
   },
   headline: {
     fontSize: 14,
     color: THEME.colors.secondary,
     marginBottom: 5,
+    lineHeight: 1.2,
   },
   labelSemibold: {
     fontWeight: "semibold",
@@ -107,6 +112,11 @@ const styles = StyleSheet.create({
   labelItalic: { fontStyle: "italic" },
   textRight: { textAlign: "right" },
   smallText: { fontSize: 9.4 },
+
+  flexBasis30: { flexBasis: "30%" },
+  flexBasis68: { flexBasis: "68%" },
+  flexBasis35: { flexBasis: "35%" },
+  flexBasis65: { flexBasis: "65%" },
 });
 
 // Reusable Components
@@ -165,8 +175,8 @@ const sectionRenderers: Record<
     const s = sections?.[id] as Resume["sections"]["personalInfo"];
     if (!s) return null;
     return (
-      <View style={[styles.row, { marginBottom: 6, alignItems: "flex-end" }]}>
-        <View style={{ gap: 2 }}>
+      <View style={[styles.row, { marginBottom: 6, alignItems: "flex-start" }]}>
+        <View style={{ gap: 2, flexBasis: "65%" }}>
           <Text style={styles.name}>{s.fullName}</Text>
           {s.headline && <Text style={styles.headline}>{s.headline}</Text>}
           {s.phone && (
@@ -179,7 +189,13 @@ const sectionRenderers: Record<
             />
           )}
         </View>
-        <View style={{ gap: 3 }}>
+        <View
+          style={{
+            gap: 3,
+            flexBasis: "35%",
+            marginLeft: "auto",
+          }}
+        >
           {s?.links?.map((link) => (
             <ContactItem
               icon={link?.iconName}
@@ -236,13 +252,18 @@ const sectionRenderers: Record<
         {s.map((edu) => (
           <View key={edu.id} style={styles.subsection}>
             <SubsectionRow
-              left={<Text style={styles.labelBold}>{edu.institution}</Text>}
+              left={
+                <Text style={[styles.labelBold, styles.flexBasis68]}>
+                  {edu.institution}
+                </Text>
+              }
               right={
                 <Text
                   style={[
                     styles.textRight,
                     styles.smallText,
                     styles.labelSemibold,
+                    styles.flexBasis30,
                   ]}
                 >
                   {edu.timePeriod}
@@ -250,10 +271,16 @@ const sectionRenderers: Record<
               }
             />
             <SubsectionRow
-              left={<Text>{edu.fieldOfStudy}</Text>}
+              left={<Text style={styles.flexBasis68}>{edu.fieldOfStudy}</Text>}
               right={
                 edu.location ? (
-                  <Text style={[styles.textRight, styles.smallText]}>
+                  <Text
+                    style={[
+                      styles.textRight,
+                      styles.smallText,
+                      styles.flexBasis30,
+                    ]}
+                  >
                     {edu.location}
                   </Text>
                 ) : undefined
@@ -273,13 +300,18 @@ const sectionRenderers: Record<
         {s.map((exp) => (
           <View key={exp.id} style={styles.subsection}>
             <SubsectionRow
-              left={<Text style={styles.labelBold}>{exp.company}</Text>}
+              left={
+                <Text style={[styles.labelBold, styles.flexBasis68]}>
+                  {exp.company}
+                </Text>
+              }
               right={
                 <Text
                   style={[
                     styles.textRight,
                     styles.smallText,
                     styles.labelSemibold,
+                    styles.flexBasis30,
                   ]}
                 >
                   {exp.timePeriod}
@@ -287,9 +319,19 @@ const sectionRenderers: Record<
               }
             />
             <SubsectionRow
-              left={<Text style={styles.smallText}>{exp.title}</Text>}
+              left={
+                <Text style={[styles.smallText, styles.flexBasis68]}>
+                  {exp.title}
+                </Text>
+              }
               right={
-                <Text style={[styles.textRight, styles.smallText]}>
+                <Text
+                  style={[
+                    styles.textRight,
+                    styles.smallText,
+                    styles.flexBasis30,
+                  ]}
+                >
                   {exp.location}
                 </Text>
               }
@@ -308,7 +350,11 @@ const sectionRenderers: Record<
         {s.map((proj) => (
           <View key={proj.id} style={styles.subsection}>
             <SubsectionRow
-              left={<Text style={styles.labelBold}>{proj.name}</Text>}
+              left={
+                <Text style={[styles.labelBold, styles.flexBasis68]}>
+                  {proj.name}
+                </Text>
+              }
               right={
                 (proj?.timePeriod?.length || 0) > 0 ? (
                   <Text style={styles.labelSemibold}>{proj.timePeriod}</Text>
@@ -318,14 +364,14 @@ const sectionRenderers: Record<
             <SubsectionRow
               left={
                 (proj?.technologies?.length || 0) > 0 ? (
-                  <Text style={styles.labelItalic}>
+                  <Text style={[styles.labelItalic, styles.flexBasis68]}>
                     {proj.technologies?.join(", ")}
                   </Text>
                 ) : undefined
               }
               right={
                 proj.url ? (
-                  <Text>
+                  <Text style={{ textAlign: "right", ...styles.flexBasis30 }}>
                     {htmlParser(
                       `<a href="${proj.url}" style="text-decoration:underline;color:black">${proj.url}</a>`
                     )}
@@ -348,19 +394,25 @@ const sectionRenderers: Record<
           <View key={cert.id} style={styles.subsection}>
             <SubsectionRow
               left={
-                <Text style={styles.labelBold}>
+                <Text style={[styles.labelBold, styles.flexBasis68]}>
                   {cert.name} {cert.issuer && `(${cert.issuer})`}
                 </Text>
               }
               right={
-                <Text style={[styles.smallText, styles.labelSemibold]}>
+                <Text
+                  style={[
+                    styles.smallText,
+                    styles.labelSemibold,
+                    styles.flexBasis30,
+                  ]}
+                >
                   {cert.date}
                   {cert.expirationDate ? ` – ${cert.expirationDate}` : ""}
                 </Text>
               }
             />
             {cert.credentialUrl && (
-              <Text style={styles.smallText}>
+              <Text style={[styles.smallText]}>
                 {htmlParser(
                   `<a href="${cert.credentialUrl}" style="text-decoration:underline;color:black">${cert.credentialUrl}</a>`
                 )}
