@@ -1,5 +1,12 @@
-import { CreateResumeButton, DocumentSkeleton } from '@/features/documents';
+import {
+  CreateResumeButton,
+  DocumentSearch,
+  DocumentSkeleton,
+} from '@/features/documents';
+import { FadeIn } from '@/shared/components/animated/FadeIn';
 import { PageHeader } from '@/shared/components/common/PageHeader';
+import ViewTypeButton from '@/shared/components/common/ViewTypeButton';
+import { Grid, List } from 'lucide-react';
 import { Suspense } from 'react';
 import MyDocumentsSectionRsc from '../_components/MyDocumentsSectionRsc';
 
@@ -21,11 +28,30 @@ const DocumentsPage = async ({
       />
       <Suspense
         fallback={
-          <DocumentSkeleton
-            skeletonCount={8}
-            viewType={view || 'grid'}
-            isLoading={true}
-          />
+          <>
+            <FadeIn transition={{ delay: 0.3 }} className="flex flex-row gap-4">
+              <DocumentSearch />
+              <div className="flex gap-2 items-center">
+                <ViewTypeButton
+                  active
+                  icon={Grid}
+                  onClick={() => {}}
+                  tooltipText="Grid View"
+                />
+                <ViewTypeButton
+                  active={false}
+                  icon={List}
+                  onClick={() => {}}
+                  tooltipText="List View"
+                />
+              </div>
+            </FadeIn>
+            <DocumentSkeleton
+              skeletonCount={8}
+              viewType={view || 'grid'}
+              isLoading={true}
+            />
+          </>
         }
       >
         <MyDocumentsSectionRsc />
