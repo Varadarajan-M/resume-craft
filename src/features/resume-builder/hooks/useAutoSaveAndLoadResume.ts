@@ -60,14 +60,7 @@ const useAutoSaveAndLoadResume = ({
     timerRef.current = setTimeout(() => {
       if (resume?.id) {
         saveResumeMutation.mutateAsync(resume, {
-          onSuccess: (updatedResume) => {
-            queryClient.invalidateQueries({
-              predicate(query) {
-                return query.queryKey[0] === 'documents';
-              },
-            });
-            onSave && onSave(updatedResume);
-          },
+          onSuccess: onSave,
           onError: onSaveError,
         });
       }
