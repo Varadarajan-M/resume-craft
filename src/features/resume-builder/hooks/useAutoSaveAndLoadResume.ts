@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react';
 import { useResumeStore } from '../store/resume';
 
 import { Resume } from '@/shared/types/resume';
-import { useQueryClient } from '@tanstack/react-query';
 import usePopulateLastViewedResumeFromStorage from './usePopulateLastViewedResumeFromStorage';
 
 interface UseAutoSaveAndLoadResumeProps {
@@ -21,7 +20,6 @@ const useAutoSaveAndLoadResume = ({
   onSaveError,
 }: UseAutoSaveAndLoadResumeProps) => {
   const resume = useResumeStore((state) => state.resume);
-  const queryClient = useQueryClient();
 
   // Populate last viewed resume from local storage
   usePopulateLastViewedResumeFromStorage();
