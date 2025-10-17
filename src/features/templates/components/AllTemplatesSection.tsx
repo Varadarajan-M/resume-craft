@@ -21,7 +21,7 @@ const AllTemplatesSection = () => {
 
   const userId = useAuth()?.userId;
 
-  const { data: templates } = useTemplatesQuery();
+  const { data: templates, isLoading } = useTemplatesQuery();
 
   const router = useRouter();
 
@@ -55,6 +55,7 @@ const AllTemplatesSection = () => {
       </FadeIn>
       <FadeIn transition={{ delay: 0.4 }} className="w-full">
         <TemplateList
+          isLoading={isLoading}
           viewType={activeView}
           templates={templates}
           onTemplateClick={handleTemplateClick}

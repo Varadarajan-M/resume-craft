@@ -13,7 +13,7 @@ import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 const SuggestedTemplatesSection = () => {
-  const { data: templates } = useTemplatesQuery();
+  const { data: templates, isLoading } = useTemplatesQuery();
 
   const setResume = useResumeStore((state) => state.setResume);
 
@@ -50,6 +50,8 @@ const SuggestedTemplatesSection = () => {
       </div>
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <TemplateList
+          isLoading={isLoading}
+          skeletonCount={2}
           templates={templates}
           onTemplateClick={handleTemplateClick}
         />

@@ -9,7 +9,6 @@ async function connectDb() {
   try {
     // Check if already connected
     if (clientReadyState === mongoose.ConnectionStates.connected) {
-      console.log("Already connected to MongoDB database");
       return;
     }
 

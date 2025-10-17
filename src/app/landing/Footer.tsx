@@ -28,7 +28,7 @@ export function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex flex-col gap-2 items-center sm:items-start">
             <ResumeCraftBrand className="text-lg" />
-            <p className="text-sm text-muted-foreground/80 text-center max-w-md sm:max-w-lvh sm:text-left">
+            <p className="text-sm text-muted-foreground text-center max-w-md sm:max-w-lvh sm:text-left">
               Crafted with ❤️ by{" "}
               <ExternalLink href={AUTHOR1_URL}>Varadarajan</ExternalLink> and{" "}
               <ExternalLink href={AUTHOR2_URL}>Ajay</ExternalLink>.

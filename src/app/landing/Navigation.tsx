@@ -1,5 +1,3 @@
-"use client";
-
 import FadeInChildren from "@/shared/components/animated/FadeIn";
 import ResumeCraftBrand from "@/shared/components/common/ResumeCraftBrand";
 import { ThemeSwitch } from "@/shared/components/common/ThemeSwitcher";

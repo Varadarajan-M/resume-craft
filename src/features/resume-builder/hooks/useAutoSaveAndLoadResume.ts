@@ -1,9 +1,10 @@
-import useUpdateResumeMutation from "@/features/documents/hooks/useUpdateResumeMutation";
-import { useEffect, useRef } from "react";
-import { useResumeStore } from "../store/resume";
+import useUpdateResumeMutation from '@/features/documents/hooks/useUpdateResumeMutation';
+import { useEffect, useRef } from 'react';
+import { useResumeStore } from '../store/resume';
 
-import { Resume } from "@/shared/types/resume";
-import usePopulateLastViewedResumeFromStorage from "./usePopulateLastViewedResumeFromStorage";
+import { Resume } from '@/shared/types/resume';
+import { useQueryClient } from '@tanstack/react-query';
+import usePopulateLastViewedResumeFromStorage from './usePopulateLastViewedResumeFromStorage';
 
 interface UseAutoSaveAndLoadResumeProps {
   onSave?: (resume: Resume) => void;
@@ -20,6 +21,7 @@ const useAutoSaveAndLoadResume = ({
   onSaveError,
 }: UseAutoSaveAndLoadResumeProps) => {
   const resume = useResumeStore((state) => state.resume);
+  const queryClient = useQueryClient();
 
   // Populate last viewed resume from local storage
   usePopulateLastViewedResumeFromStorage();
@@ -31,14 +33,14 @@ const useAutoSaveAndLoadResume = ({
 
   // Auto-save the resume to localStorage whenever it changes
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
     if (!resume) return;
 
     if (localStorageUpdateTimerRef.current) {
       clearTimeout(localStorageUpdateTimerRef.current);
     }
     localStorageUpdateTimerRef.current = setTimeout(() => {
-      localStorage.setItem("resume", JSON.stringify(resume));
+      localStorage.setItem('resume', JSON.stringify(resume));
     }, 1000);
 
     return () => {
@@ -58,7 +60,14 @@ const useAutoSaveAndLoadResume = ({
     timerRef.current = setTimeout(() => {
       if (resume?.id) {
         saveResumeMutation.mutateAsync(resume, {
-          onSuccess: onSave,
+          onSuccess: (updatedResume) => {
+            queryClient.invalidateQueries({
+              predicate(query) {
+                return query.queryKey[0] === 'documents';
+              },
+            });
+            onSave && onSave(updatedResume);
+          },
           onError: onSaveError,
         });
       }

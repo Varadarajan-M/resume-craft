@@ -1,15 +1,10 @@
-import FadeInChildren from "@/shared/components/animated/FadeIn";
-import { cn } from "@/shared/lib/utils";
-import { Resume } from "@/shared/types/resume";
-import {
-  DocumentCardGrid,
-  DocumentCardGridSkeleton,
-  DocumentCardList,
-  DocumentCardListSkeleton,
-} from "./DocumentCard";
+import FadeInChildren from '@/shared/components/animated/FadeIn';
+import { cn } from '@/shared/lib/utils';
+import { Resume } from '@/shared/types/resume';
+import { DocumentCardGrid, DocumentCardList } from './DocumentCard';
 
 interface DocumentListProps {
-  viewType?: "grid" | "list";
+  viewType?: 'grid' | 'list';
   isLoading?: boolean;
   documents: Resume[];
   onDocumentClick?: <T extends Resume>(document: T) => void;
@@ -17,31 +12,10 @@ interface DocumentListProps {
 
 const DocumentList: React.FC<DocumentListProps> = ({
   documents,
-  viewType = "grid",
-  isLoading,
+  viewType = 'grid',
   onDocumentClick,
 }) => {
-  const isList = viewType === "list";
-
-  if (isLoading) {
-    return (
-      <div
-        className={cn(
-          isList
-            ? "flex flex-col gap-4"
-            : "grid gap-8 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
-        )}
-      >
-        {Array.from({ length: 6 }).map((_, index) =>
-          isList ? (
-            <DocumentCardListSkeleton key={index} />
-          ) : (
-            <DocumentCardGridSkeleton key={index} />
-          )
-        )}
-      </div>
-    );
-  }
+  const isList = viewType === 'list';
 
   if (!documents || documents.length === 0) {
     return (
@@ -52,11 +26,11 @@ const DocumentList: React.FC<DocumentListProps> = ({
   }
   return (
     <FadeInChildren
-      key={isList ? "list" : "grid"}
+      key={isList ? 'list' : 'grid'}
       className={cn(
         isList
-          ? "flex flex-col gap-4"
-          : "grid gap-8 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
+          ? 'flex flex-col gap-4'
+          : 'grid gap-8 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]'
       )}
     >
       {documents?.map((document) =>

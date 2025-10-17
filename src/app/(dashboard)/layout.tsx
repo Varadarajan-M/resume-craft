@@ -2,6 +2,7 @@ import React from "react";
 
 import { DashboardSidebar } from "@/features/dashboard";
 import { FadeIn } from "@/shared/components/animated/FadeIn";
+import PrefetchRSC from "@/shared/components/common/PrefetchRSC";
 import { ThemeSwitch } from "@/shared/components/common/ThemeSwitcher";
 import {
   SidebarInset,
@@ -24,6 +25,8 @@ export default function DashboardLayout({
         </FadeIn>
         <div className="p-6">{children}</div>
       </SidebarInset>
+      {/* Client side navigation to builder to prefetch the RSC */}
+      <PrefetchRSC path="/builder" />
     </SidebarProvider>
   );
 }

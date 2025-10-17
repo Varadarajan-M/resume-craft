@@ -1,26 +1,27 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 
-import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { toast } from "sonner";
+import { ChevronRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
-import { DocumentList, useDocumentListQuery } from "@/features/documents";
-import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { FadeIn } from "@/shared/components/animated/FadeIn";
-import { Button } from "@/shared/components/ui/button";
-import { Resume } from "@/shared/types/resume";
+import { DocumentList } from '@/features/documents';
+import { useResumeStore } from '@/features/resume-builder/store/resume';
+import { FadeIn } from '@/shared/components/animated/FadeIn';
+import { Button } from '@/shared/components/ui/button';
+import { Resume } from '@/shared/types/resume';
 
-const RecentDocumentSection = () => {
-  const {
-    data: documents,
-    isLoading,
-    error,
-  } = useDocumentListQuery({
-    params: { limit: 3 },
-  });
+interface RecentDocumentSectionProps {
+  documents: Resume[];
+  error?: Error | null;
+}
+
+const RecentDocumentSection = ({
+  documents,
+  error,
+}: RecentDocumentSectionProps) => {
   const router = useRouter();
   const setResume = useResumeStore((s) => s.setResume);
 
@@ -31,7 +32,7 @@ const RecentDocumentSection = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error(error.message || "Failed to fetch recent documents");
+      toast.error(error.message || 'Failed to fetch recent documents');
     }
   }, [error]);
 
@@ -46,7 +47,7 @@ const RecentDocumentSection = () => {
           Recent Documents
         </FadeIn>
         <FadeIn transition={{ delay: 0.4 }}>
-          <Button variant={"link"} asChild className="text-xs">
+          <Button variant={'link'} asChild className="text-xs">
             <Link href="/documents" className="flex items-center gap-1">
               View all <ChevronRight className="w-3 h-3" />
             </Link>
@@ -55,7 +56,6 @@ const RecentDocumentSection = () => {
       </div>
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <DocumentList
-          isLoading={isLoading}
           documents={documents}
           onDocumentClick={handleDocumentClick}
         />

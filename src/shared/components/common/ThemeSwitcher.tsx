@@ -46,6 +46,7 @@ export const ThemeSwitch = () => {
     <Button
       variant="ghost"
       size="icon"
+      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       onClick={() =>
         setPreferences((prev) => ({
           ...prev,

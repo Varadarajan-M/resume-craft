@@ -1,27 +1,28 @@
-"use client";
+'use client';
 
-import { Grid, List } from "lucide-react";
+import { Grid, List } from 'lucide-react';
 
-import ViewTypeButton from "@/shared/components/common/ViewTypeButton";
-import DocumentList from "./DocumentList";
-import DocumentSearch from "./DocumentSearch";
+import ViewTypeButton from '@/shared/components/common/ViewTypeButton';
+import DocumentList from './DocumentList';
+import DocumentSearch from './DocumentSearch';
 
-import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { FadeIn } from "@/shared/components/animated/FadeIn";
-import { Resume } from "@/shared/types/resume";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useResumeStore } from '@/features/resume-builder/store/resume';
+import { FadeIn } from '@/shared/components/animated/FadeIn';
+import { Resume } from '@/shared/types/resume';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import useDocumentListQuery from "../hooks/useDocumentListQuery";
+type ViewType = 'grid' | 'list' | undefined;
 
-type ViewType = "grid" | "list" | undefined;
-
-const DocumentsSection = () => {
-  const { data: documents, isLoading } = useDocumentListQuery({});
+interface DocumentsSectionProps {
+  documents: Resume[];
+  isLoading?: boolean;
+}
+const DocumentsSection = ({ documents }: DocumentsSectionProps) => {
   const setResume = useResumeStore((s) => s.setResume);
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const activeView = (searchParams.get("view") || "grid") as ViewType;
+  const activeView = (searchParams.get('view') || 'grid') as ViewType;
 
   const router = useRouter();
 
@@ -32,9 +33,9 @@ const DocumentsSection = () => {
   };
 
   // push the new view type to the URL
-  const handleViewChange = (newView: "grid" | "list") => {
+  const handleViewChange = (newView: 'grid' | 'list') => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("view", newView);
+    params.set('view', newView);
     router.push(pathname + `?${params.toString()}`);
   };
 
@@ -44,15 +45,15 @@ const DocumentsSection = () => {
         <DocumentSearch />
         <div className="flex gap-2 items-center">
           <ViewTypeButton
-            active={activeView === "grid"}
+            active={activeView === 'grid'}
             icon={Grid}
-            onClick={() => handleViewChange("grid")}
+            onClick={() => handleViewChange('grid')}
             tooltipText="Grid View"
           />
           <ViewTypeButton
-            active={activeView === "list"}
+            active={activeView === 'list'}
             icon={List}
-            onClick={() => handleViewChange("list")}
+            onClick={() => handleViewChange('list')}
             tooltipText="List View"
           />
         </div>
@@ -60,7 +61,6 @@ const DocumentsSection = () => {
 
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <DocumentList
-          isLoading={isLoading}
           viewType={activeView}
           documents={documents}
           onDocumentClick={handleDocumentClick}

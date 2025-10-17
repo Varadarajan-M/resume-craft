@@ -51,8 +51,8 @@ export const DocumentCardGrid: React.FC<DocumentCardProps> = ({
           width={200}
           height={200}
           className="m-auto object-cover w-full h-72 rounded-md [background-position:50%_10%]"
-          loading="lazy"
           onClick={() => onClick?.(document)}
+          fetchPriority="high"
         />
       </CardHeader>
       <CardContent className="px-4 pb-4 flex flex-col gap-1">
@@ -93,8 +93,8 @@ export const DocumentCardList: React.FC<DocumentCardProps> = ({
         width={48}
         height={48}
         className="rounded-md w-18 h-18 object-cover"
-        loading="lazy"
         onClick={() => onClick?.(document)}
+        fetchPriority="high"
       />
       <div className="flex flex-col gap-1 justify-center flex-1">
         <div className="flex justify-between items-center w-full">

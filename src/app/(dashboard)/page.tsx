@@ -1,9 +1,8 @@
-import {
-  RecentDocumentsSection,
-  SuggestedTemplatesSection,
-} from "@/features/dashboard";
-import { CreateResumeButton } from "@/features/documents";
-import { PageHeader } from "@/shared/components/common/PageHeader";
+import { SuggestedTemplatesSection } from '@/features/dashboard';
+import { CreateResumeButton, DocumentSkeleton } from '@/features/documents';
+import { PageHeader } from '@/shared/components/common/PageHeader';
+import { Suspense } from 'react';
+import RecentDocumentSectionRsc from './_components/RecentDocumentsSectionRsc';
 
 export default function DashboardPage() {
   return (
@@ -13,7 +12,18 @@ export default function DashboardPage() {
         description="Welcome to your dashboard! Here you can manage your resumes, templates, and more."
         renderAction={() => <CreateResumeButton />}
       />
-      <RecentDocumentsSection />
+      <Suspense
+        fallback={
+          <DocumentSkeleton
+            skeletonCount={3}
+            viewType="grid"
+            isLoading={true}
+          />
+        }
+      >
+        <RecentDocumentSectionRsc />
+      </Suspense>
+
       <SuggestedTemplatesSection />
     </section>
   );
