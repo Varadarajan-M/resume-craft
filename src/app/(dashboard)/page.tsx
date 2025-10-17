@@ -1,9 +1,10 @@
 import { SuggestedTemplatesSection } from '@/features/dashboard';
 import { CreateResumeButton, DocumentSkeleton } from '@/features/documents';
-import { FadeIn } from '@/shared/components/animated/FadeIn';
 import { PageHeader } from '@/shared/components/common/PageHeader';
 import { Suspense } from 'react';
 import RecentDocumentSectionRsc from './_components/RecentDocumentsSectionRsc';
+
+export const revalidate = 60; // Revalidate this page every 60 seconds
 
 export default function DashboardPage() {
   return (
@@ -16,13 +17,9 @@ export default function DashboardPage() {
       <Suspense
         fallback={
           <div className="flex flex-col gap-4 min-h-[200px]">
-            <FadeIn
-              as="h2"
-              transition={{ delay: 0.3 }}
-              className="text-base md:text-xl font-semibold tracking-tight"
-            >
+            <h2 className="text-base md:text-xl font-semibold tracking-tight">
               Recent Documents
-            </FadeIn>
+            </h2>
             <DocumentSkeleton
               skeletonCount={3}
               viewType="grid"

@@ -10,6 +10,8 @@ import { Grid, List } from 'lucide-react';
 import { Suspense } from 'react';
 import MyDocumentsSectionRsc from '../_components/MyDocumentsSectionRsc';
 
+export const revalidate = 60; // Revalidate this page every 60 seconds
+
 const DocumentsPage = async ({
   searchParams,
 }: {
@@ -32,16 +34,10 @@ const DocumentsPage = async ({
             <FadeIn transition={{ delay: 0.3 }} className="flex flex-row gap-4">
               <DocumentSearch />
               <div className="flex gap-2 items-center">
-                <ViewTypeButton
-                  active
-                  icon={Grid}
-                  onClick={() => {}}
-                  tooltipText="Grid View"
-                />
+                <ViewTypeButton active icon={Grid} tooltipText="Grid View" />
                 <ViewTypeButton
                   active={false}
                   icon={List}
-                  onClick={() => {}}
                   tooltipText="List View"
                 />
               </div>
@@ -49,7 +45,7 @@ const DocumentsPage = async ({
             <DocumentSkeleton
               skeletonCount={8}
               viewType={view || 'grid'}
-              isLoading={true}
+              isLoading
             />
           </>
         }
