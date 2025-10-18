@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
-import { toast } from "sonner";
-import useAutoSaveAndLoadResume from "../hooks/useAutoSaveAndLoadResume";
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import useAutoSaveAndLoadResume from '../hooks/useAutoSaveAndLoadResume';
 
 /**
  * This handles auto-saving the resume and loading it from local storage.
@@ -12,10 +13,13 @@ import useAutoSaveAndLoadResume from "../hooks/useAutoSaveAndLoadResume";
  * and may not render on initial load in mobile.
  */
 const AutoSaveAndLoadResume = () => {
+  const router = useRouter();
+
   const handleSaveSuccess = () => {
-    toast.success("Resume saved successfully", {
+    toast.success('Resume saved successfully', {
       duration: 2000,
     });
+    router.prefetch('/');
   };
   const handleSaveError = (error: Error) => {
     toast.error(`Failed to save resume: ${error.message}`, {

@@ -1,14 +1,20 @@
-"use server";
+'use server';
 
-import { DocumentTemplate } from "@/shared/types/document";
-import connectDb from "../config/connection";
-import ResumeTemplate from "../models/template";
+import { DocumentTemplate } from '@/shared/types/document';
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
+import connectDb from '../config/connection';
+import ResumeTemplate from '../models/template';
 
 /**
  * Action to get all templates.
  * @returns {Promise<{ success: boolean; message: string; data?: DocumentTemplate[]; error?: any }>} - The result of the action.
  */
 export const getAllTemplatesAction = async (limit?: number) => {
+  'use cache';
+
+  cacheTag('templates');
+  cacheLife('days');
   try {
     await connectDb();
 
@@ -24,14 +30,14 @@ export const getAllTemplatesAction = async (limit?: number) => {
 
     return {
       success: true,
-      message: "Templates fetched successfully",
+      message: 'Templates fetched successfully',
       data: JSON.parse(JSON.stringify(templates)), // Convert Mongoose documents to plain objects
     };
   } catch (error: unknown) {
-    console.error("Error fetching Templates:", error);
+    console.error('Error fetching Templates:', error);
     return {
       success: false,
-      message: "Failed to fetch templates",
+      message: 'Failed to fetch templates',
       error: (error as Error).message,
     };
   }
@@ -51,14 +57,14 @@ export const createTemplateAction = async (template: DocumentTemplate) => {
 
     return {
       success: true,
-      message: "Template created successfully",
+      message: 'Template created successfully',
       data: JSON.parse(JSON.stringify(newTemplate)), // Convert Mongoose document to plain object
     };
   } catch (error: unknown) {
-    console.error("Error creating template:", error);
+    console.error('Error creating template:', error);
     return {
       success: false,
-      message: "Failed to create template",
+      message: 'Failed to create template',
       error: (error as Error).message,
     };
   }

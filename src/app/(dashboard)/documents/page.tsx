@@ -1,9 +1,9 @@
-import { CreateResumeButton, MyDocumentsSection } from "@/features/documents";
-import { PageHeader } from "@/shared/components/common/PageHeader";
-import { Loader2 } from "lucide-react";
-import { Suspense } from "react";
+import { CreateResumeButton, MyDocumentsSection } from '@/features/documents';
+import { PageHeader } from '@/shared/components/common/PageHeader';
 
-const DocumentsPage = () => {
+export const revalidate = 100; // Revalidate this page every 60 seconds
+
+const DocumentsPage = async () => {
   return (
     <section
       id="documents"
@@ -14,9 +14,8 @@ const DocumentsPage = () => {
         description="Manage your resumes, cover letters, and other documents here."
         renderAction={() => <CreateResumeButton />}
       />
-      <Suspense fallback={<Loader2 className="animate-spin mx-auto" />}>
-        <MyDocumentsSection />
-      </Suspense>
+
+      <MyDocumentsSection />
     </section>
   );
 };

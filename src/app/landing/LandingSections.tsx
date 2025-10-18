@@ -28,7 +28,11 @@ export function HeroSection() {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <FadeInChildren className="mx-auto max-w-4xl text-center">
+        <FadeInChildren
+          duration={0.2}
+          childrenDelay={0.05}
+          className="mx-auto max-w-4xl text-center"
+        >
           <div className="mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-muted px-4 py-2 text-sm font-medium text-foreground border border-border">
               <Sparkles className="h-4 w-4" />
@@ -230,6 +234,7 @@ export function TemplatesSection() {
                 width={400}
                 height={533}
                 className="w-full h-auto"
+                loading="lazy"
               />
               <div className="p-4">
                 <h3 className="font-semibold mb-1">{template}</h3>

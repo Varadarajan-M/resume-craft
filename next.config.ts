@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     reactCompiler: true,
+    useCache: true,
   },
 
   webpack: (config, { nextRuntime }) => {
