@@ -17,7 +17,10 @@ const usePopulateLastViewedResumeFromStorage = () => {
 
     // Ensure the stored resume belongs to the current user
     // This is important to prevent loading resumes from other users
-    if (parsedResume?.userId !== userId) return;
+    if (parsedResume?.userId !== userId) {
+      localStorage.removeItem('resume');
+      return;
+    }
 
     // If the resume is not set in the store, set it from localStorage
     if (!resume?.id) setResume(parsedResume);

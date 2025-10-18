@@ -10,17 +10,17 @@ import { useResumeStore } from '@/features/resume-builder/store/resume';
 import { FadeIn } from '@/shared/components/animated/FadeIn';
 import { Resume } from '@/shared/types/resume';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
+import useDocumentListQuery from '../hooks/useDocumentListQuery';
 
 type ViewType = 'grid' | 'list' | undefined;
 
-interface DocumentsSectionProps {
-  documents: Resume[];
-  isLoading?: boolean;
-}
-const DocumentsSection = ({ documents }: DocumentsSectionProps) => {
+const DocumentsSection = () => {
   const setResume = useResumeStore((s) => s.setResume);
-  const searchParams = useSearchParams();
+  const { data: documents = [], isLoading, error } = useDocumentListQuery({});
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const activeView = (searchParams.get('view') || 'grid') as ViewType;
 
@@ -38,6 +38,12 @@ const DocumentsSection = ({ documents }: DocumentsSectionProps) => {
     params.set('view', newView);
     router.push(pathname + `?${params.toString()}`);
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message || 'Failed to fetch documents');
+    }
+  }, [error]);
 
   return (
     <>
@@ -61,6 +67,7 @@ const DocumentsSection = ({ documents }: DocumentsSectionProps) => {
 
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <DocumentList
+          isLoading={isLoading}
           viewType={activeView}
           documents={documents}
           onDocumentClick={handleDocumentClick}

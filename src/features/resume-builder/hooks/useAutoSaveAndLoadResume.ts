@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useResumeStore } from '../store/resume';
 
 import { Resume } from '@/shared/types/resume';
+import { useQueryClient } from '@tanstack/react-query';
 import usePopulateLastViewedResumeFromStorage from './usePopulateLastViewedResumeFromStorage';
 
 interface UseAutoSaveAndLoadResumeProps {
@@ -20,6 +21,7 @@ const useAutoSaveAndLoadResume = ({
   onSaveError,
 }: UseAutoSaveAndLoadResumeProps) => {
   const resume = useResumeStore((state) => state.resume);
+  const queryClient = useQueryClient();
 
   // Populate last viewed resume from local storage
   usePopulateLastViewedResumeFromStorage();
@@ -48,7 +50,7 @@ const useAutoSaveAndLoadResume = ({
     };
   }, [resume]);
 
-  // Save every 5 seconds
+  // Save every 2 seconds
   useEffect(() => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
@@ -58,11 +60,35 @@ const useAutoSaveAndLoadResume = ({
     timerRef.current = setTimeout(() => {
       if (resume?.id) {
         saveResumeMutation.mutateAsync(resume, {
-          onSuccess: onSave,
+          onSuccess: (data) => {
+            queryClient.setQueriesData(
+              {
+                predicate: (query) => query.queryKey[0] === 'documents',
+              },
+              (oldData) => {
+                if (Array.isArray(oldData)) {
+                  const index = oldData.findIndex(
+                    (doc) => doc?.id === data?.id
+                  );
+                  if (index !== -1) {
+                    // Update existing resume
+                    const newData = [...oldData];
+                    newData[index] = data;
+                    return newData;
+                  } else {
+                    // Add new resume
+                    return [data, ...oldData];
+                  }
+                }
+                return [data];
+              }
+            );
+            onSave?.(data);
+          },
           onError: onSaveError,
         });
       }
-    }, 3000);
+    }, 2000);
 
     return () => {
       if (timerRef.current) {

@@ -1,12 +1,12 @@
-import { createResumeAction } from "@/backend/actions/resume";
-import { Resume } from "@/shared/types/resume";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createResumeAction } from '@/backend/actions/resume';
+import { Resume } from '@/shared/types/resume';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const mutationFn = async (resume: Resume) => {
   const res = await createResumeAction(resume);
 
   if (!res?.success) {
-    throw new Error((res?.error as string) || "Failed to create resume");
+    throw new Error((res?.error as string) || 'Failed to create resume');
   }
 
   return res?.data;
@@ -23,15 +23,25 @@ const useCreateResumeMutation = (props: UseCreateResumeMutationParams) => {
     mutationFn,
     onSuccess: (data) => {
       // Optionally handle success, e.g., show a toast or redirect
-      console.log("Resume created successfully:", data);
       props.onSuccess?.(data);
-      queryClient.invalidateQueries({
-        queryKey: ["documents"],
-      }); // Invalidate documents query to refresh the list
+      // Update the 'documents' query data to include the newly created resume
+      queryClient.setQueriesData(
+        {
+          predicate: (query) => {
+            return query.queryKey[0] === 'documents';
+          },
+        },
+        (oldData) => {
+          if (Array.isArray(oldData)) {
+            return [data, ...oldData];
+          }
+          return [data];
+        }
+      );
     },
     onError: (error) => {
       // Handle error, e.g., show an error message
-      console.error("Error creating resume:", error);
+      console.error('Error creating resume:', error);
       props.onError?.(error);
     },
   });

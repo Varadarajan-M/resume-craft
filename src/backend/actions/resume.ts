@@ -24,6 +24,8 @@ export const createResumeAction = async (resume: ResumeType) => {
       userId, // Associate the resume with the authenticated user
     });
 
+    revalidateTag(`resumes-${userId}`);
+
     return {
       success: true,
       message: 'Resume created successfully',
@@ -50,9 +52,10 @@ const _getAllResumesAction = async (userId: string, limit?: number) => {
     if (limit) {
       resumes = await Resume.find({ userId })
         .limit(limit)
-        .sort({ updatedAt: -1 });
+        .sort({ updatedAt: -1 })
+        .lean();
     } else {
-      resumes = await Resume.find({ userId }).sort({ updatedAt: -1 });
+      resumes = await Resume.find({ userId }).sort({ updatedAt: -1 }).lean();
     }
 
     return {
@@ -102,14 +105,15 @@ export const updateResumeAction = async (
     const [, userId] = await Promise.all([connectDb(), verifyAuth()]);
 
     // Find and update the resume
-    const updatedResume = await Resume.updateOne(
+    const updatedResume = await Resume.findOneAndUpdate(
       { id: resumeId, userId },
       updates,
       {
         new: true, // Return the updated document
         upsert: true, // create a new document if it doesn't exist
       }
-    );
+    ).lean();
+
     if (!updatedResume) {
       return { success: false, message: 'Resume not found' };
     }

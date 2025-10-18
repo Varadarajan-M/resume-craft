@@ -1,23 +1,9 @@
-import {
-  CreateResumeButton,
-  DocumentSearch,
-  DocumentSkeleton,
-} from '@/features/documents';
-import { FadeIn } from '@/shared/components/animated/FadeIn';
+import { CreateResumeButton, MyDocumentsSection } from '@/features/documents';
 import { PageHeader } from '@/shared/components/common/PageHeader';
-import ViewTypeButton from '@/shared/components/common/ViewTypeButton';
-import { Grid, List } from 'lucide-react';
-import { Suspense } from 'react';
-import MyDocumentsSectionRsc from '../_components/MyDocumentsSectionRsc';
 
-export const revalidate = 60; // Revalidate this page every 60 seconds
+export const revalidate = 100; // Revalidate this page every 60 seconds
 
-const DocumentsPage = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) => {
-  const { view } = (await searchParams) as { view?: 'grid' | 'list' };
+const DocumentsPage = async () => {
   return (
     <section
       id="documents"
@@ -28,30 +14,8 @@ const DocumentsPage = async ({
         description="Manage your resumes, cover letters, and other documents here."
         renderAction={() => <CreateResumeButton />}
       />
-      <Suspense
-        fallback={
-          <>
-            <FadeIn transition={{ delay: 0.3 }} className="flex flex-row gap-4">
-              <DocumentSearch />
-              <div className="flex gap-2 items-center">
-                <ViewTypeButton active icon={Grid} tooltipText="Grid View" />
-                <ViewTypeButton
-                  active={false}
-                  icon={List}
-                  tooltipText="List View"
-                />
-              </div>
-            </FadeIn>
-            <DocumentSkeleton
-              skeletonCount={8}
-              viewType={view || 'grid'}
-              isLoading
-            />
-          </>
-        }
-      >
-        <MyDocumentsSectionRsc />
-      </Suspense>
+
+      <MyDocumentsSection />
     </section>
   );
 };

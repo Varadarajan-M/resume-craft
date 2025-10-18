@@ -2,6 +2,7 @@ import FadeInChildren from '@/shared/components/animated/FadeIn';
 import { cn } from '@/shared/lib/utils';
 import { Resume } from '@/shared/types/resume';
 import { DocumentCardGrid, DocumentCardList } from './DocumentCard';
+import DocumentSkeleton from './DocumentSkeleton';
 
 interface DocumentListProps {
   viewType?: 'grid' | 'list';
@@ -11,11 +12,16 @@ interface DocumentListProps {
 }
 
 const DocumentList: React.FC<DocumentListProps> = ({
+  isLoading,
   documents,
   viewType = 'grid',
   onDocumentClick,
 }) => {
   const isList = viewType === 'list';
+
+  if (isLoading) {
+    return <DocumentSkeleton skeletonCount={3} viewType={viewType} isLoading />;
+  }
 
   if (!documents || documents.length === 0) {
     return (

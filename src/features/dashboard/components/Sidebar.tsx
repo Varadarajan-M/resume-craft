@@ -1,9 +1,9 @@
-import { Files, Grid, LayoutDashboard } from "lucide-react";
+import { Files, Grid, LayoutDashboard } from 'lucide-react';
 
-import FadeInChildren, { FadeIn } from "@/shared/components/animated/FadeIn";
-import ResumeCraftBrand from "@/shared/components/common/ResumeCraftBrand";
-import UserButton from "@/shared/components/common/UserButton";
-import { Button } from "@/shared/components/ui/button";
+import FadeInChildren, { FadeIn } from '@/shared/components/animated/FadeIn';
+import ResumeCraftBrand from '@/shared/components/common/ResumeCraftBrand';
+import UserButton from '@/shared/components/common/UserButton';
+import { Button } from '@/shared/components/ui/button';
 import {
   Sidebar,
   SidebarContent,
@@ -14,26 +14,26 @@ import {
   SidebarMenu,
   SidebarMenuButtonWithActiveIndicator,
   SidebarMenuItem,
-} from "@/shared/components/ui/sidebar";
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
-import Link from "next/link";
+} from '@/shared/components/ui/sidebar';
+import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs';
+import Link from 'next/link';
 
 // Menu items.
 const items = [
   {
-    title: "Dashboard",
-    url: "/",
+    title: 'Dashboard',
+    url: '/',
     icon: LayoutDashboard,
   },
 
   {
-    title: "My Documents",
-    url: "/documents",
+    title: 'My Documents',
+    url: '/documents',
     icon: Files,
   },
   {
-    title: "Templates",
-    url: "/templates",
+    title: 'Templates',
+    url: '/templates',
     icon: Grid,
   },
 ];
@@ -52,7 +52,7 @@ export default function DashboardSidebar() {
                 {items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButtonWithActiveIndicator path={item.url}>
-                      <Link href={item.url}>
+                      <Link href={item.url} prefetch>
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>

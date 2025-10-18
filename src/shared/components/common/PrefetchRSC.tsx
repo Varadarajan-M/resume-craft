@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 
 const PrefetchRSC = ({ path }: { path: string }) => {
   const router = useRouter();
@@ -12,7 +12,7 @@ const PrefetchRSC = ({ path }: { path: string }) => {
       if (path) {
         router.prefetch(path);
       }
-    }, 1500); // Prefetch after 1.5 second delay
+    }, 1000); // Prefetch after 1 second delay
     return () => {
       clearTimeout(timerId.current!);
     };

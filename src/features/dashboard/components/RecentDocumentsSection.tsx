@@ -7,21 +7,18 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
-import { DocumentList } from '@/features/documents';
+import { DocumentList, useDocumentListQuery } from '@/features/documents';
 import { useResumeStore } from '@/features/resume-builder/store/resume';
 import { FadeIn } from '@/shared/components/animated/FadeIn';
 import { Button } from '@/shared/components/ui/button';
 import { Resume } from '@/shared/types/resume';
 
-interface RecentDocumentSectionProps {
-  documents: Resume[];
-  error?: Error | null;
-}
-
-const RecentDocumentSection = ({
-  documents,
-  error,
-}: RecentDocumentSectionProps) => {
+const RecentDocumentSection = () => {
+  const {
+    data: documents = [],
+    error,
+    isLoading,
+  } = useDocumentListQuery({ limit: 3 });
   const router = useRouter();
   const setResume = useResumeStore((s) => s.setResume);
 
@@ -56,6 +53,7 @@ const RecentDocumentSection = ({
       </div>
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <DocumentList
+          isLoading={isLoading}
           documents={documents}
           onDocumentClick={handleDocumentClick}
         />
