@@ -1,11 +1,11 @@
-import FadeInChildren from "@/shared/components/animated/FadeIn";
-import { Button } from "@/shared/components/ui/button";
+import FadeInChildren from '@/shared/components/animated/FadeIn';
+import { Button } from '@/shared/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
-import { RESUME_BUILDER_SECTIONS } from "../../lib/constants";
+} from '@/shared/components/ui/tooltip';
+import { RESUME_BUILDER_SECTIONS } from '../../lib/constants';
 
 const ResumeSectionQuickNavigationPanel = () => {
   /**
@@ -22,13 +22,13 @@ const ResumeSectionQuickNavigationPanel = () => {
     );
     if (sectionAccordionTrigger && sectionAccordionItem) {
       // open the section if it's closed
-      if (sectionAccordionItem.getAttribute("data-state") === "closed") {
+      if (sectionAccordionItem.getAttribute('data-state') === 'closed') {
         sectionAccordionTrigger.click();
       }
 
       sectionAccordionTrigger.scrollIntoView({
-        behavior: "smooth",
-        inline: "nearest",
+        behavior: 'smooth',
+        inline: 'nearest',
       });
     }
   };
@@ -43,7 +43,7 @@ const ResumeSectionQuickNavigationPanel = () => {
           <Tooltip key={key}>
             <TooltipTrigger asChild>
               <Button
-                size={"icon"}
+                size={'icon'}
                 variant="ghost"
                 className="rounded-full mb-2"
                 onClick={() => handleSectionIconClick(sectionId)}

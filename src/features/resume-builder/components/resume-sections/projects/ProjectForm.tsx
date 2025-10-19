@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { Input } from "@/shared/components/ui/input";
-import RichTextEditor from "@/shared/components/ui/rich-text-editor";
-import { memo } from "react";
-import EnhanceWithAI from "../../EnhanceWithAI";
-import ResumeItem from "../ResumeItem";
+import { useResumeStore } from '@/features/resume-builder/store/resume';
+import { Input } from '@/shared/components/ui/input';
+import RichTextEditor from '@/shared/components/ui/rich-text-editor';
+import { memo } from 'react';
+import EnhanceWithAI from '../../EnhanceWithAI';
+import ResumeItem from '../ResumeItem';
 
 const ProjectForm = ({ id }: { id: string }) => {
   const project = useResumeStore((s) =>
@@ -42,7 +42,7 @@ const ProjectForm = ({ id }: { id: string }) => {
       >
         <Input
           id={`${id}-tech`}
-          value={project.technologies?.join(", ") || ""}
+          value={project.technologies?.join(', ') || ''}
           onChange={(e) =>
             handleUpdateProject(id, {
               technologies: [e.target.value],
@@ -75,7 +75,7 @@ const ProjectForm = ({ id }: { id: string }) => {
 const DescriptionEditor = memo(({ id }: { id: string }) => {
   const description = useResumeStore(
     (s) =>
-      s.resume?.sections.projects?.find((p) => p.id === id)?.description || ""
+      s.resume?.sections.projects?.find((p) => p.id === id)?.description || ''
   );
   const handleUpdateProject = useResumeStore((s) => s.updateProjectItem);
 
@@ -83,7 +83,9 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
     <ResumeItem label="Description" itemId={`${id}-desc`} className="p-0">
       <EnhanceWithAI
         content={description}
-        onEnhance={console.log}
+        onEnhance={(content) =>
+          handleUpdateProject(id, { description: content })
+        }
         enhanceDialogTitle="Enhance Projects with AI"
       >
         <RichTextEditor
@@ -97,6 +99,6 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
   );
 });
 
-DescriptionEditor.displayName = "DescriptionEditor";
+DescriptionEditor.displayName = 'DescriptionEditor';
 
 export default ProjectForm;

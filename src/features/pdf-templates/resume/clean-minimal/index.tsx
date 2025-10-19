@@ -364,14 +364,14 @@ const sectionRenderers: Record<
             <SubsectionRow
               left={
                 (proj?.technologies?.length || 0) > 0 ? (
-                  <Text style={[styles.labelItalic, styles.flexBasis68]}>
+                  <Text style={[styles.labelItalic, styles.flexBasis65]}>
                     {proj.technologies?.join(', ')}
                   </Text>
                 ) : undefined
               }
               right={
                 proj.url ? (
-                  <Text style={{ textAlign: 'right', ...styles.flexBasis30 }}>
+                  <Text style={{ textAlign: 'right', ...styles.flexBasis35 }}>
                     {htmlParser(
                       `<a href="${proj.url}" style="text-decoration:underline;color:black">${proj.url}</a>`
                     )}
@@ -403,6 +403,7 @@ const sectionRenderers: Record<
                   style={[
                     styles.smallText,
                     styles.labelSemibold,
+                    styles.textRight,
                     styles.flexBasis30,
                   ]}
                 >
