@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { Input } from "@/shared/components/ui/input";
-import RichTextEditor from "@/shared/components/ui/rich-text-editor";
-import { memo } from "react";
-import EnhanceWithAI from "../../EnhanceWithAI";
-import ResumeItem from "../ResumeItem";
+import { useResumeStore } from '@/features/resume-builder/store/resume';
+import { Input } from '@/shared/components/ui/input';
+import RichTextEditor from '@/shared/components/ui/rich-text-editor';
+import { memo } from 'react';
+import EnhanceWithAI from '../../EnhanceWithAI';
+import ResumeItem from '../ResumeItem';
 
 const AchievementForm = ({ id }: { id: string }) => {
   const title = useResumeStore(
@@ -21,7 +21,7 @@ const AchievementForm = ({ id }: { id: string }) => {
       <ResumeItem label="Title" itemId={`${id}-title`} className="p-0">
         <Input
           id={`${id}-title`}
-          value={title || ""}
+          value={title || ''}
           onChange={(e) =>
             handleUpdateAchievement(id, { title: e.target.value })
           }
@@ -38,7 +38,7 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
   const description = useResumeStore(
     (s) =>
       s.resume?.sections.achievements?.find((a) => a.id === id)?.description ||
-      ""
+      ''
   );
 
   const handleUpdateAchievement = useResumeStore(
@@ -53,7 +53,9 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
     >
       <EnhanceWithAI
         content={description}
-        onEnhance={console.log}
+        onEnhance={(content) =>
+          handleUpdateAchievement(id, { description: content })
+        }
         enhanceDialogTitle="Enhance Achievements with AI"
       >
         <RichTextEditor
@@ -67,6 +69,6 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
   );
 });
 
-DescriptionEditor.displayName = "DescriptionEditor";
+DescriptionEditor.displayName = 'DescriptionEditor';
 
 export default AchievementForm;

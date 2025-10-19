@@ -21,7 +21,7 @@ export const getLocalStorageTheme = () => {
   return preferences?.theme || null;
 };
 
-export const ThemeSwitch = () => {
+export const ThemeSwitch = ({ className }: { className?: string }) => {
   const { setTheme } = useTheme();
   const [preferences, setPreferences] = useLocalStorageState<Preferences>(
     { theme: 'light' },
@@ -41,6 +41,7 @@ export const ThemeSwitch = () => {
 
   return (
     <span
+      className={className}
       role="button"
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
       onClick={() =>

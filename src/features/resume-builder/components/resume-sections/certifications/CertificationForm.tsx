@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { Input } from "@/shared/components/ui/input";
-import RichTextEditor from "@/shared/components/ui/rich-text-editor";
-import { memo } from "react";
-import EnhanceWithAI from "../../EnhanceWithAI";
-import ResumeItem from "../ResumeItem";
-import TwoItemGrid from "../TwoItemGrid";
+import { useResumeStore } from '@/features/resume-builder/store/resume';
+import { Input } from '@/shared/components/ui/input';
+import RichTextEditor from '@/shared/components/ui/rich-text-editor';
+import { memo } from 'react';
+import EnhanceWithAI from '../../EnhanceWithAI';
+import ResumeItem from '../ResumeItem';
+import TwoItemGrid from '../TwoItemGrid';
 
 const CertificationForm = ({ id }: { id: string }) => {
   const cert = useResumeStore((s) =>
@@ -85,7 +85,7 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
   const description = useResumeStore(
     (s) =>
       s.resume?.sections.certifications?.find((c) => c.id === id)
-        ?.description || ""
+        ?.description || ''
   );
   const handleUpdateCertificationItem = useResumeStore(
     (s) => s.updateCertificationItem
@@ -95,7 +95,9 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
     <ResumeItem label="Description" itemId={`${id}-description`}>
       <EnhanceWithAI
         content={description}
-        onEnhance={console.log}
+        onEnhance={(content) =>
+          handleUpdateCertificationItem(id, { description: content })
+        }
         enhanceDialogTitle="Enhance Certification with AI"
       >
         <RichTextEditor
@@ -110,6 +112,6 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
   );
 });
 
-DescriptionEditor.displayName = "DescriptionEditor";
+DescriptionEditor.displayName = 'DescriptionEditor';
 
 export default CertificationForm;

@@ -1,8 +1,8 @@
-import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { Input } from "@/shared/components/ui/input";
-import RichTextEditor from "@/shared/components/ui/rich-text-editor";
-import EnhanceWithAI from "../../EnhanceWithAI";
-import ResumeItem from "../ResumeItem";
+import { useResumeStore } from '@/features/resume-builder/store/resume';
+import { Input } from '@/shared/components/ui/input';
+import RichTextEditor from '@/shared/components/ui/rich-text-editor';
+import EnhanceWithAI from '../../EnhanceWithAI';
+import ResumeItem from '../ResumeItem';
 
 const WorkExperienceForm = ({ id }: { id: string }) => {
   const experience = useResumeStore((s) =>
@@ -65,7 +65,7 @@ const WorkExperienceForm = ({ id }: { id: string }) => {
 const ExperienceDescription = ({ id }: { id: string }) => {
   const description = useResumeStore(
     (s) =>
-      s.resume?.sections.experience?.find((e) => e.id === id)?.description || ""
+      s.resume?.sections.experience?.find((e) => e.id === id)?.description || ''
   );
   const handleUpdateExperienceField = useResumeStore(
     (s) => s.updateExperienceItem
@@ -75,14 +75,17 @@ const ExperienceDescription = ({ id }: { id: string }) => {
     <ResumeItem label="Description" itemId={`${id}-description`}>
       <EnhanceWithAI
         content={description}
-        onEnhance={console.log}
+        onEnhance={(updatedContent) =>
+          handleUpdateExperienceField(id, { description: updatedContent })
+        }
         enhanceDialogTitle="Enhance Work experice with AI"
       >
         <RichTextEditor
           content={description}
-          onChange={(content) =>
-            handleUpdateExperienceField(id, { description: content })
-          }
+          onChange={(content) => {
+            console.log('Description changed:', content);
+            handleUpdateExperienceField(id, { description: content });
+          }}
           placeholder="Describe your key responsibilities and achievements in this role..."
         />
       </EnhanceWithAI>

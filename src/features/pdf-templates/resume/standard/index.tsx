@@ -627,7 +627,13 @@ const sectionRenderers: Record<
                 </DescriptionText>
               }
               right={
-                <LinkText href={cert.credentialUrl!} style={styles.fb32}>
+                <LinkText
+                  href={cert.credentialUrl!}
+                  style={{
+                    ...styles.fb32,
+                    ...styles.textRight,
+                  }}
+                >
                   {cert.credentialUrl}
                 </LinkText>
               }

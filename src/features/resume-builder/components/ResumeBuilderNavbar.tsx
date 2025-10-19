@@ -111,8 +111,8 @@ const ResumeBuilderNavbar = () => {
   return (
     <nav className="flex items-center-safe sticky top-0 z-50 justify-between border-b border-border bg-background px-4 py-2 transition-all duration-200">
       <ResumeCraftBrand />
-      <FadeIn className="flex flex-row justify-end gap-4">
-        <ThemeSwitch />
+      <FadeIn className="flex flex-row items-center justify-end gap-4">
+        <ThemeSwitch className="cursor-pointer mr-4 lg:mr-2" />
         <ResumeDownloadButton resumeTitle={resumeTitle} />
         <ResumeShareButton resumeTitle={resumeTitle} />
       </FadeIn>
