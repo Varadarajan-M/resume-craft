@@ -1,11 +1,11 @@
-import { cn } from "@/shared/lib/utils";
+import { cn } from '@/shared/lib/utils';
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/shared/components/ui/accordion";
+} from '@/shared/components/ui/accordion';
 
 interface ResumeSectionProps {
   icon: React.ReactNode;
@@ -26,7 +26,7 @@ const ResumeSection = ({
   sectionId,
   defaultOpen = false,
 }: ResumeSectionProps) => {
-  const classes = cn("flex flex-col gap-5 mb-2 pt-2", className);
+  const classes = cn('flex flex-col gap-5 mb-2 pt-2', className);
 
   return (
     <Accordion
@@ -35,12 +35,12 @@ const ResumeSection = ({
       defaultValue={defaultOpen ? title : undefined}
     >
       <AccordionItem value={title} id={`accordion-item-${sectionId}`}>
-        <AccordionTrigger>
+        <AccordionTrigger className="accordion-trigger">
           <div className="flex flex-col" id={sectionId}>
             <div className="flex items-start gap-2">
               {icon}
               <h3 className="-mt-[6px] font-semibold text-foreground text-sm tracking-tight md:text-base">
-                {" "}
+                {' '}
                 {title}
               </h3>
             </div>

@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     fontSize: THEME.fontSizes.sm,
     paddingHorizontal: 22,
     paddingVertical: 20,
-    lineHeight: 1.2,
+    lineHeight: 1.3,
     color: THEME.colors.primary,
     backgroundColor: THEME.colors.background,
     gap: 5,
