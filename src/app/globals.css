@@ -1,12 +1,12 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "@clerk/themes/shadcn.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import '@clerk/themes/shadcn.css';
 
 @custom-variant dark (&:is(.dark *));
 
 /* === CSS Variables === */
 :root {
-  --font-sans: var(--font-inter, "Inter", sans-serif);
+  --font-sans: var(--font-inter, 'Inter', sans-serif);
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -242,5 +242,11 @@ body {
       transparent 1px
     );
     background-size: 20px 20px;
+  }
+
+  .highlight {
+    outline: 2px solid #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+    transition: background 0.4s ease;
   }
 }

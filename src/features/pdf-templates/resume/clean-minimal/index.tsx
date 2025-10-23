@@ -45,11 +45,13 @@ const styles = StyleSheet.create({
   page: {
     fontFamily: THEME.fontFamily,
     fontSize: THEME.fontSize,
-    padding: 24,
     lineHeight: 1.3,
     color: THEME.colors.primary,
     backgroundColor: '#fff',
     gap: 6,
+
+    paddingHorizontal: 22,
+    paddingVertical: 20,
   },
   section: {},
   headerRow: {
