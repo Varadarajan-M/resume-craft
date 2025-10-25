@@ -74,6 +74,7 @@ export const htmlParser = (taskDescription: string | null): JSX.Element => {
               <View
                 key={getUniqId()}
                 style={{ flexDirection: 'row', gap: 4, marginBottom: 2 }}
+                wrap={false}
               >
                 <Svg width={4} height={4} style={{ marginTop: 5 }}>
                   <Circle cx={2} cy={2} r={2} fill="#000000" />
@@ -101,8 +102,6 @@ export const htmlParser = (taskDescription: string | null): JSX.Element => {
     const parsedHtml = ReactHtmlParser(taskDescription);
 
     const returnContentConst = parseElements(parsedHtml);
-
-    console.log('returnContentConst', taskDescription, returnContentConst);
 
     return <>{returnContentConst}</>;
   } else {

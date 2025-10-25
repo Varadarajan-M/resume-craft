@@ -86,7 +86,8 @@ const RichTextEditor = ({
         HTMLAttributes: { class: 'list-item mb-2' },
       }),
     ],
-    content,
+    content: content?.replaceAll('‑', '-') || '<p></p>',
+    enablePasteRules: true,
 
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());

@@ -79,6 +79,12 @@ export default function PDFPreview({ fileUrl }: Props) {
       fileUrl={fileUrl}
       plugins={[defaultLayoutPluginInstance]}
       defaultScale={1.1}
+      pageLayout={{
+        transformSize: ({ size }) => ({
+          height: size.height + 30, // Add 30 pixels to the height for top/bottom margin
+          width: size.width + 30, // Add 30 pixels to the width for left/right margin
+        }),
+      }}
     />
   );
 }

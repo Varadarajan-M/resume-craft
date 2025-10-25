@@ -1,13 +1,13 @@
-import { Button } from "@/shared/components/ui/button";
+import { Button } from '@/shared/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
-import { Eye, EyeOff, Grip, Info, Settings2 } from "lucide-react";
-import { Reorder } from "motion/react";
-import { useResumeStore } from "../../store/resume";
-import ResumeSection from "../resume-sections/ResumeSection";
+} from '@/shared/components/ui/tooltip';
+import { Eye, EyeOff, Grip, Info, Settings2 } from 'lucide-react';
+import { Reorder } from 'motion/react';
+import { useResumeStore } from '../../store/resume';
+import ResumeSection from '../resume-sections/ResumeSection';
 
 const SectionConfig = () => {
   const config = useResumeStore((state) => state.resume?.config);
@@ -44,15 +44,15 @@ const SectionConfig = () => {
       defaultOpen
     >
       <div className="">
-        <h3 className="text-sm font-medium underline p-2">
+        {/* <h3 className="text-sm font-medium underline p-2">
           Main Column Sections
-        </h3>
+        </h3> */}
         <div className="flex flex-col gap-2 border border-accent border-dashed rounded-md p-2 bg-neutral-200/35 dark:bg-neutral-800/35">
           <Reorder.Group
             axis="y"
             values={mainColumnSectionOrder || []}
             onReorder={(newOrder) => {
-              console.log("New Order:", newOrder);
+              console.log('New Order:', newOrder);
 
               updateProperties({
                 config: {
@@ -95,10 +95,10 @@ const SectionConfig = () => {
                     sideOffset={-15}
                     className="flex items-center gap-1"
                   >
-                    <Info className="w-3 h-3" />{" "}
+                    <Info className="w-3 h-3" />{' '}
                     {sectionDetails?.[sectionId]?.visible
-                      ? "Visible, Click to hide"
-                      : "Hidden, Click to show"}
+                      ? 'Visible, Click to hide'
+                      : 'Hidden, Click to show'}
                   </TooltipContent>
                 </Tooltip>
               </Reorder.Item>

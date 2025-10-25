@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ViewProps,
 } from '@react-pdf/renderer';
 import { Fragment, JSX } from 'react';
 import DestroyAndMountChildrenOnPropChange from '../../DestroyAndMountChildrenOnPropChange';
@@ -280,12 +281,13 @@ const styles = StyleSheet.create({
 const Section = ({
   children,
   title,
+  ...props
 }: {
   title: string;
   children: JSX.Element | JSX.Element[];
-}) => {
+} & ViewProps) => {
   return (
-    <View style={styles.section}>
+    <View style={styles.section} {...props}>
       <View style={[styles.sectionDivider, styles.mb3]}>
         <Text style={[styles.sectionTitle, styles.mb3]}>{title}</Text>
       </View>
@@ -466,7 +468,7 @@ const sectionRenderers: Record<
             <SubsectionRow
               left={
                 <DescriptionText style={styles.fb68}>
-                  {edu.fieldOfStudy}
+                  {edu.fieldOfStudy} {edu.gpa ? `- ${edu.gpa}` : ''}
                 </DescriptionText>
               }
               right={
@@ -526,7 +528,7 @@ const sectionRenderers: Record<
             />
             <SubsectionRow
               left={
-                <DescriptionText style={styles.fb68}>
+                <DescriptionText style={{ ...styles.fb68, ...styles.mt_1 }}>
                   {exp.title}
                 </DescriptionText>
               }
@@ -535,6 +537,7 @@ const sectionRenderers: Record<
                   style={{
                     ...styles.textRight,
                     ...styles.fb32,
+                    ...styles.mt_1,
                   }}
                 >
                   {exp.location}
@@ -654,7 +657,7 @@ const sectionRenderers: Record<
     if (!languages || languages.length === 0) return null;
 
     return (
-      <Section title="Languages">
+      <Section title="Languages" wrap={false}>
         {languages?.map((lang) => (
           <Text key={lang.id} style={[styles.languageText, styles.mb2]}>
             {lang.language} — {lang.proficiency}
