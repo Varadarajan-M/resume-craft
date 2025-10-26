@@ -1,9 +1,10 @@
 "use client";
 
 import { useResumeStore } from "@/features/resume-builder/store/resume";
+import { DeleteButton } from "@/shared/components/common/DeleteButton";
 import { Input } from "@/shared/components/ui/input";
 import ResumeItem from "../ResumeItem";
-import { DeleteButton, SkillLevelSelect } from "./Skills";
+import { SkillLevelSelect } from "./Skills";
 
 interface SkillFormProps {
   categoryId: string;
