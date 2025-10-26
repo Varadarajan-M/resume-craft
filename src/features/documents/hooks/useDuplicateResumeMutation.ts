@@ -7,18 +7,21 @@ import useCreateResumeMutation from './useCreateResumeMutation';
 const useDuplicateResumeMutation = () => {
   const mutation = useCreateResumeMutation({});
 
-  const duplicateResume = useCallback(async (resume: Resume) => {
-    const duplicatedDocument = createDuplicateResume(resume);
+  const duplicateResume = useCallback(
+    async (resume: Resume) => {
+      const duplicatedDocument = createDuplicateResume(resume);
 
-    await mutation.mutateAsync(duplicatedDocument, {
-      onSuccess: () => {
-        toast.success('Document duplicated successfully!');
-      },
-      onError: (error) => {
-        toast.error(`Failed to duplicate resume: ${error.message}`);
-      },
-    });
-  }, []);
+      await mutation.mutateAsync(duplicatedDocument, {
+        onSuccess: () => {
+          toast.success('Document duplicated successfully!');
+        },
+        onError: (error) => {
+          toast.error(`Failed to duplicate resume: ${error.message}`);
+        },
+      });
+    },
+    [mutation]
+  );
 
   return {
     mutate: duplicateResume,

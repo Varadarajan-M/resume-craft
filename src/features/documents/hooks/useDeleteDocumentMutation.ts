@@ -47,7 +47,7 @@ const useDeleteResumeMutation = (props: UseDeleteResumeMutationParams) => {
     },
 
     // --- SUCCESS ---
-    onSuccess: (data) => {
+    onSuccess: () => {
       props.onSuccess?.();
 
       // Replace optimistic resume with the actual data

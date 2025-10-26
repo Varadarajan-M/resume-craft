@@ -22,9 +22,7 @@ const DocumentsSection = () => {
   const setResume = useResumeStore((s) => s.setResume);
   const { data: documents = [], isLoading, error } = useDocumentListQuery({});
   const { mutate: handleDocumentDuplication } = useDuplicateResumeMutation();
-  const { mutate: deleteResumeMutation, isPending } = useDeleteResumeMutation(
-    {}
-  );
+  const { mutate: deleteResumeMutation } = useDeleteResumeMutation({});
   const pathname = usePathname();
   const searchParams = useSearchParams();
 

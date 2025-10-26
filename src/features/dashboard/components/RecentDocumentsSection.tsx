@@ -25,12 +25,9 @@ const RecentDocumentSection = () => {
     isLoading,
   } = useDocumentListQuery({ limit: 3 });
 
-  const { mutate: deleteResumeMutation, isPending } = useDeleteResumeMutation(
-    {}
-  );
+  const { mutate: deleteResumeMutation } = useDeleteResumeMutation({});
 
-  const { mutate: handleDocumentDuplication, isLoading: isDuplicating } =
-    useDuplicateResumeMutation();
+  const { mutate: handleDocumentDuplication } = useDuplicateResumeMutation();
 
   const router = useRouter();
   const setResume = useResumeStore((s) => s.setResume);
