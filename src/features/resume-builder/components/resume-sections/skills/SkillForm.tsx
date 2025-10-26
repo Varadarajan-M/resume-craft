@@ -38,7 +38,7 @@ const SkillForm = ({ categoryId, skillId }: SkillFormProps) => {
         <SkillLevelSelect
           value={skill.level || ""}
           onValueChange={(level) =>
-            updateSkill(categoryId, skillId, "level",  level )
+            updateSkill(categoryId, skillId, "level", level)
           }
         />
       </ResumeItem>
@@ -46,6 +46,7 @@ const SkillForm = ({ categoryId, skillId }: SkillFormProps) => {
       <DeleteButton
         onDelete={() => deleteSkill(categoryId, skillId)}
         ariaLabel={`Delete ${skill.name || "skill"}`}
+        tooltipText="Delete Skill"
       />
     </div>
   );

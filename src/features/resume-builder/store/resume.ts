@@ -83,6 +83,7 @@ type ResumeStore = {
   addCategory: () => void;
   updateCategory: (categoryId: string, name: string) => void;
   deleteCategory: (categoryId: string) => void;
+  duplicateCategory: (id: string) => void;
   addSkill: (categoryId: string) => void;
   updateSkill: (
     categoryId: string,
@@ -418,6 +419,21 @@ export const useResumeStore = create<ResumeStore>()(
           state.resume.sections.skills.categories.filter(
             (c) => c.id !== categoryId
           );
+      }),
+    
+    duplicateCategory: (id: string) =>
+      set((state) => {
+        const categories = state.resume?.sections.skills?.categories ?? [];
+        const index = categories.findIndex((item) => item.id === id);
+        const original = categories[index];
+        const copy = {
+          ...original,
+          id: getUniqId(),
+          title: `${original.name} (Copy)`,
+        };
+        const updated = [...categories];
+        updated.splice(index + 1, 0, copy);
+        state.resume!.sections.skills!.categories = updated;
       }),
 
     addSkill: (categoryId) =>
