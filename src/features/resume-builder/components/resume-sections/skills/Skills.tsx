@@ -1,4 +1,5 @@
-import { Button } from "@/shared/components/ui/button";
+import { DeleteButton } from "@/shared/components/common/DeleteButton";
+import { TooltipButton } from "@/shared/components/common/ToolTipButton";
 import { Input } from "@/shared/components/ui/input";
 import {
   Select,
@@ -8,7 +9,7 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 import { ResumeSkill, ResumeSkillCategoryItem } from "@/shared/types/resume";
-import { Trash2 } from "lucide-react";
+import { Copy } from "lucide-react";
 import AddNewButton from "../AddNewItemButton";
 import ResumeItem from "../ResumeItem";
 
@@ -31,7 +32,7 @@ export const SkillLevelSelect = ({
   placeholder = "Level",
 }: SkillLevelSelectProps) => (
   <Select value={value} onValueChange={onValueChange}>
-    <SelectTrigger className="text-xs sm:max-w-[100px]  md:text-sm">
+    <SelectTrigger className="text-xs sm:max-w-[100px] 	md:text-sm">
       <SelectValue placeholder={placeholder} />
     </SelectTrigger>
     <SelectContent>
@@ -44,25 +45,18 @@ export const SkillLevelSelect = ({
   </Select>
 );
 
-interface DeleteButtonProps {
-  onDelete: () => void;
-  ariaLabel: string;
-  variant?: "ghost" | "destructive";
+interface CategoryHeaderProps {
+  name: string;
+  onNameChange: (name: string) => void;
 }
 
-export const DeleteButton = ({
-  onDelete,
-  ariaLabel,
-  variant = "ghost",
-}: DeleteButtonProps) => (
-  <Button
-    variant={variant}
-    size="icon"
-    onClick={onDelete}
-    aria-label={ariaLabel}
-  >
-    <Trash2 className="w-4 h-4 text-muted-foreground" />
-  </Button>
+export const CategoryHeader = ({ name, onNameChange }: CategoryHeaderProps) => (
+  <Input
+    className="flex-1"
+    placeholder="e.g., Frontend, Soft Skills"
+    value={name}
+    onChange={(e) => onNameChange(e.target.value)}
+  />
 );
 
 interface SkillInputProps {
@@ -91,39 +85,19 @@ export const SkillInput = ({
       <DeleteButton
         onDelete={onDelete}
         ariaLabel={`Delete ${skill.name || "skill"}`}
+        tooltipText="Delete Skill"
       />
     </div>
   </div>
 );
 
-interface CategoryHeaderProps {
-  name: string;
-  onNameChange: (name: string) => void;
-  onDelete: () => void;
-}
-
-export const CategoryHeader = ({
-  name,
-  onNameChange,
-  onDelete,
-}: CategoryHeaderProps) => (
-  <div className="flex items-center gap-2 w-full">
-    <Input
-      className="flex-1"
-      placeholder="e.g., Frontend, Soft Skills"
-      value={name}
-      onChange={(e) => onNameChange(e.target.value)}
-    />
-    <DeleteButton
-      onDelete={onDelete}
-      ariaLabel={`Delete ${name || "category"}`}
-    />
-  </div>
-);
-
 interface SkillsListProps {
   skills: ResumeSkill[];
-  onSkillUpdate: (skillId: string, field: keyof ResumeSkill, value: string) => void;
+  onSkillUpdate: (
+    skillId: string,
+    field: keyof ResumeSkill,
+    value: string
+  ) => void;
   onSkillDelete: (skillId: string) => void;
   onAddSkill: () => void;
 }
@@ -134,7 +108,7 @@ export const SkillsList = ({
   onSkillDelete,
   onAddSkill,
 }: SkillsListProps) => (
-  <div className="flex flex-col gap-8 md:gap-4">
+  <div className="flex flex-col gap-4">
     {skills.map((skill) => (
       <SkillInput
         key={skill.id}
@@ -151,29 +125,52 @@ export const SkillsList = ({
 
 interface SkillCategoryItemProps {
   category: ResumeSkillCategoryItem;
+  index: number;
   onCategoryUpdate: (name: string) => void;
   onCategoryDelete: () => void;
-  onSkillUpdate: (skillId: string, field: keyof ResumeSkill, value: string) => void;
+  onCategoryDuplicate: () => void;
+  onSkillUpdate: (
+    skillId: string,
+    field: keyof ResumeSkill,
+    value: string
+  ) => void;
   onSkillDelete: (skillId: string) => void;
   onAddSkill: () => void;
 }
 
 export const SkillCategoryItem = ({
   category,
+  index,
   onCategoryUpdate,
   onCategoryDelete,
+  onCategoryDuplicate,
   onSkillUpdate,
   onSkillDelete,
   onAddSkill,
 }: SkillCategoryItemProps) => (
-  <div className="border border-primary/10 rounded-lg p-4">
+  <div className="border border-primary/10 rounded-lg p-3">
     <div className="flex flex-col gap-4">
-      <ResumeItem itemId={category.id} label="Category">
-        <CategoryHeader
-          name={category.name}
-          onNameChange={onCategoryUpdate}
-          onDelete={onCategoryDelete}
-        />
+      <ResumeItem
+        itemId={category.id}
+        label={`Category ${index + 1}`}
+        labelClassName="mb-3 flex items-center m-0 p-0"
+        renderHeaderAction={() => (
+          <div className="flex items-center gap-1">
+            <TooltipButton
+              icon={Copy}
+              tooltipText="Duplicate Category"
+              onClick={onCategoryDuplicate}
+              variant="ghost"
+            />
+            <DeleteButton
+              onDelete={onCategoryDelete}
+              ariaLabel={`Delete ${category.name || "category"}`}
+              tooltipText="Delete Category"
+            />
+          </div>
+        )}
+      >
+        <CategoryHeader name={category.name} onNameChange={onCategoryUpdate} />
       </ResumeItem>
 
       <ResumeItem

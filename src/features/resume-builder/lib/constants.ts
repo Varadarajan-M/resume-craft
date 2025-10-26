@@ -25,18 +25,18 @@ export const RESUME_BUILDER_SECTIONS = {
     subtitle: "A brief overview of your professional background and strengths.",
     defaultOpen: false,
   },
-  experience: {
-    sectionId: "experience",
-    icon: Briefcase,
-    title: "Work Experience",
-    subtitle: "Your relevant roles, starting from the most recent.",
-    defaultOpen: false,
-  },
   education: {
     sectionId: "education",
     icon: Book,
     title: "Education",
     subtitle: "Your academic qualifications, including schools and degrees.",
+    defaultOpen: false,
+  },
+  experience: {
+    sectionId: "experience",
+    icon: Briefcase,
+    title: "Work Experience",
+    subtitle: "Your relevant roles, starting from the most recent.",
     defaultOpen: false,
   },
   skills: {

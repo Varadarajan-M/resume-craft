@@ -9,6 +9,7 @@ type SkillsAction =
   | { type: "ADD_CATEGORY" }
   | { type: "UPDATE_CATEGORY"; categoryId: string; name: string }
   | { type: "DELETE_CATEGORY"; categoryId: string }
+  | { type: "DUPLICATE_CATEGORY"; categoryId: string }
   | { type: "ADD_SKILL"; categoryId: string }
   | {
       type: "UPDATE_SKILL";
@@ -81,6 +82,38 @@ function skillsReducer(state: SkillsState, action: SkillsAction): SkillsState {
           (category) => category.id !== action.categoryId
         ),
       };
+
+    case "DUPLICATE_CATEGORY": {
+      const originalCategory = state.categories.find(
+        (c) => c.id === action.categoryId
+      );
+
+      if (!originalCategory) return state;
+
+      const newSkills: ResumeSkill[] = originalCategory.skills.map((skill) => ({
+        ...skill,
+        id: createSkillId(),
+      }));
+
+      const newCategory: ResumeSkillCategoryItem = {
+        ...originalCategory,
+        id: createCategoryId(),
+        name: `${originalCategory.name} (Copy)`,
+        skills: newSkills,
+      };
+
+      const originalIndex = state.categories.findIndex(
+        (c) => c.id === action.categoryId
+      );
+
+      const newCategories = [...state.categories];
+      newCategories.splice(originalIndex + 1, 0, newCategory);
+
+      return {
+        ...state,
+        categories: newCategories,
+      };
+    }
 
     case "ADD_SKILL":
       return {
@@ -163,6 +196,8 @@ export const useSkillsReducer = () => {
         dispatch({ type: "UPDATE_CATEGORY", categoryId, name }),
       deleteCategory: (categoryId: string) =>
         dispatch({ type: "DELETE_CATEGORY", categoryId }),
+      duplicateCategory: (categoryId: string) =>
+        dispatch({ type: "DUPLICATE_CATEGORY", categoryId }),
       addSkill: (categoryId: string) =>
         dispatch({ type: "ADD_SKILL", categoryId }),
       updateSkill: (

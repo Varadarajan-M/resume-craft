@@ -1,12 +1,13 @@
 import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { Button } from "@/shared/components/ui/button";
-import { Copy, Trash2 } from "lucide-react";
+import { TooltipButton } from "@/shared/components/common/ToolTipButton";
+import { Copy } from "lucide-react";
 import ResumeItem from "../ResumeItem";
+import { DeleteButton } from "@/shared/components/common/DeleteButton";
 import EducationForm from "./EducationForm";
 
 const EducationItem = ({ id, index }: { id: string; index: number }) => {
-  const remove = useResumeStore((s) => s.deleteEducationItem);
-  const duplicate = useResumeStore((s) => s.duplicateEducationItem);
+  const removeEducation = useResumeStore((s) => s.deleteEducationItem);
+  const duplicateEducation = useResumeStore((s) => s.duplicateEducationItem);
 
   return (
     <ResumeItem
@@ -16,17 +17,17 @@ const EducationItem = ({ id, index }: { id: string; index: number }) => {
       className="flex flex-col gap-4"
       renderHeaderAction={() => (
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => duplicate(id)}>
-            <Copy className="w-4 h-4" />
-          </Button>
-          <Button
+          <TooltipButton
+            icon={Copy}
+            tooltipText="Duplicate Education"
+            onClick={() => duplicateEducation(id)}
             variant="ghost"
-            size="icon"
-            onClick={() => remove(id)}
-            className="text-red-500 hover:text-red-700"
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
+          />
+          <DeleteButton
+            onDelete={() => removeEducation(id)}
+            tooltipText="Delete Education"
+            variant="ghost"
+          />
         </div>
       )}
     >

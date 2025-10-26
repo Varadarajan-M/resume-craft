@@ -1,7 +1,8 @@
 import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { Button } from "@/shared/components/ui/button";
-import { Copy, Trash2 } from "lucide-react";
+import { TooltipButton } from "@/shared/components/common/ToolTipButton";
+import { Copy } from "lucide-react";
 import ResumeItem from "../ResumeItem";
+import { DeleteButton } from "@/shared/components/common/DeleteButton";
 import CertificationForm from "./CertificationForm";
 
 const CertificationItem = ({ id, index }: { id: string; index: number }) => {
@@ -20,21 +21,17 @@ const CertificationItem = ({ id, index }: { id: string; index: number }) => {
       className="flex flex-col gap-4"
       renderHeaderAction={() => (
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
+          <TooltipButton
+            icon={Copy}
+            tooltipText="Duplicate Certification"
             onClick={() => handleDuplicateCertificationItem(id)}
-          >
-            <Copy className="w-4 h-4" />
-          </Button>
-          <Button
             variant="ghost"
-            size="icon"
-            onClick={() => handleDeleteCertificationItem(id)}
-            className="text-red-500 hover:text-red-700"
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
+          />
+          <DeleteButton
+            onDelete={() => handleDeleteCertificationItem(id)}
+            tooltipText="Delete Certification"
+            variant="ghost"
+          />
         </div>
       )}
     >

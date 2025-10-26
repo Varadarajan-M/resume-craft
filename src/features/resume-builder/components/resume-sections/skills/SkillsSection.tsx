@@ -26,6 +26,7 @@ const SkillsSection = () => {
   const addCategory = useResumeStore((s) => s.addCategory);
   const updateCategory = useResumeStore((s) => s.updateCategory);
   const deleteCategory = useResumeStore((s) => s.deleteCategory);
+  const duplicateCategory = useResumeStore((s) => s.duplicateCategory);
   const addSkill = useResumeStore((s) => s.addSkill);
   const updateSkill = useResumeStore((s) => s.updateSkill);
   const deleteSkill = useResumeStore((s) => s.deleteSkill);
@@ -52,12 +53,14 @@ const SkillsSection = () => {
           </Alert>
         )}
 
-        {categories?.map((category) => (
+        {categories?.map((category, index) => (
           <SkillCategoryItem
             key={category.id}
             category={category}
+            index={index}
             onCategoryUpdate={(name) => updateCategory(category.id, name)}
             onCategoryDelete={() => deleteCategory(category.id)}
+            onCategoryDuplicate={() => duplicateCategory(category.id)}
             onSkillUpdate={(skillId, field, value) =>
               updateSkill(category.id, skillId, field, value)
             }

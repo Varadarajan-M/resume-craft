@@ -1,6 +1,7 @@
 import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { Button } from "@/shared/components/ui/button";
-import { Copy, Trash2 } from "lucide-react";
+import { DeleteButton } from "@/shared/components/common/DeleteButton";
+import { TooltipButton } from "@/shared/components/common/ToolTipButton";
+import { Copy } from "lucide-react";
 import ResumeItem from "../ResumeItem";
 import ProjectForm from "./ProjectForm";
 
@@ -16,23 +17,17 @@ const ProjectItem = ({ id, index }: { id: string; index: number }) => {
       className="flex flex-col gap-4"
       renderHeaderAction={() => (
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
+          <TooltipButton
+            icon={Copy}
+            tooltipText="Duplicate Project"
             onClick={() => handleDuplicateProject(id)}
-            title="Duplicate Project"
-          >
-            <Copy className="w-4 h-4" />
-          </Button>
-          <Button
             variant="ghost"
-            size="icon"
-            onClick={() => handleDeleteProject(id)}
-            title="Delete Project"
-            className="text-red-500 hover:text-red-700"
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
+          />
+          <DeleteButton
+            onDelete={() => handleDeleteProject(id)}
+            tooltipText="Delete Project"
+            variant="ghost"
+          />
         </div>
       )}
     >

@@ -1,9 +1,10 @@
 "use client";
 
 import { useResumeStore } from "@/features/resume-builder/store/resume";
+import { DeleteButton } from "@/shared/components/common/DeleteButton";
 import { Input } from "@/shared/components/ui/input";
 import ResumeItem from "../ResumeItem";
-import { DeleteButton, SkillLevelSelect } from "./Skills";
+import { SkillLevelSelect } from "./Skills";
 
 interface SkillFormProps {
   categoryId: string;
@@ -38,7 +39,7 @@ const SkillForm = ({ categoryId, skillId }: SkillFormProps) => {
         <SkillLevelSelect
           value={skill.level || ""}
           onValueChange={(level) =>
-            updateSkill(categoryId, skillId, "level",  level )
+            updateSkill(categoryId, skillId, "level", level)
           }
         />
       </ResumeItem>
@@ -46,6 +47,7 @@ const SkillForm = ({ categoryId, skillId }: SkillFormProps) => {
       <DeleteButton
         onDelete={() => deleteSkill(categoryId, skillId)}
         ariaLabel={`Delete ${skill.name || "skill"}`}
+        tooltipText="Delete Skill"
       />
     </div>
   );
