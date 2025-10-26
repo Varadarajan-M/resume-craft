@@ -26,7 +26,7 @@ const ResumeItem = ({
       aria-label={`This item represents ${label} in the resume`}
       aria-live="polite"
     >
-      <div className="flex justify-between items-center-safe w-full">
+      <div className="flex justify-between items-center w-full">
         <Label
           className={cn("text-sm text-foreground font-medium", labelClassName)}
           htmlFor={itemId}
