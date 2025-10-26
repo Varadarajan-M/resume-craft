@@ -1,46 +1,46 @@
-import { DocumentTemplate } from "../types/document";
-import { Resume, ResumeSkill, ResumeSkillCategoryItem } from "../types/resume";
-import { getUniqId } from "./utils";
+import { DocumentTemplate } from '../types/document';
+import { Resume, ResumeSkill, ResumeSkillCategoryItem } from '../types/resume';
+import { getUniqId } from './utils';
 
 export const getPlaceholderResume = (
   userId?: string,
   templateConfig?: DocumentTemplate
 ): Resume => ({
   id: getUniqId(),
-  userId: userId || "anonymous",
-  category: "resume",
-  status: "draft",
-  title: "Jane Doe Resume",
-  templateId: templateConfig?.id || "standard",
-  image: `/templates/${templateConfig?.id || "standard"}.webp`,
+  userId: userId || 'anonymous',
+  category: 'resume',
+  status: 'draft',
+  title: 'Jane Doe Resume',
+  templateId: templateConfig?.id || 'clean-minimal',
+  image: `/templates/${templateConfig?.id || 'standard'}.webp`,
   createdAt: new Date(),
   updatedAt: new Date(),
 
   sections: {
     personalInfo: {
-      fullName: "First Last",
-      headline: "Software Engineer",
-      email: "jane.doe@example.com",
-      phone: "+1 (555) 123-4567",
-      location: "123 Street Name, Town, State 12345",
+      fullName: 'First Last',
+      headline: 'Software Engineer',
+      email: 'jane.doe@example.com',
+      phone: '+1 (555) 123-4567',
+      location: '123 Street Name, Town, State 12345',
       links: [
         {
           id: getUniqId(),
-          label: "Portfolio",
-          url: "https://janedoe.dev",
-          iconName: "link",
+          label: 'Portfolio',
+          url: 'https://firstlast.dev',
+          iconName: 'link',
         },
         {
-          label: "GitHub",
-          url: "https://github.com/janedoe",
+          label: 'GitHub',
+          url: 'https://github.com/firstlast',
           id: getUniqId(),
-          iconName: "github",
+          iconName: 'github',
         },
         {
           id: getUniqId(),
-          label: "LinkedIn",
-          url: "https://linkedin.com/in/janedoe",
-          iconName: "linkedin",
+          label: 'LinkedIn',
+          url: 'https://linkedin.com/in/firstlast',
+          iconName: 'linkedin',
         },
       ],
     },
@@ -54,10 +54,10 @@ export const getPlaceholderResume = (
     experience: [
       {
         id: getUniqId(),
-        company: "TechFlow Inc.",
-        title: "Senior Frontend Engineer",
-        location: "San Francisco, CA",
-        timePeriod: "Jan 2023 – Present",
+        company: 'TechFlow Inc.',
+        title: 'Senior Frontend Engineer',
+        location: 'San Francisco, CA',
+        timePeriod: 'Jan 2023 – Present',
         description: `
           <ul>
             <li>Led migration of a monolithic React app to micro‑frontend architecture, reducing load time by 60%.</li>
@@ -68,10 +68,10 @@ export const getPlaceholderResume = (
       },
       {
         id: getUniqId(),
-        company: "DataSpark Corp.",
-        title: "Full Stack Developer",
-        location: "Seattle, WA",
-        timePeriod: "Jun 2020 – Dec 2022",
+        company: 'DataSpark Corp.',
+        title: 'Full Stack Developer',
+        location: 'Seattle, WA',
+        timePeriod: 'Jun 2020 – Dec 2022',
         description: `
           <ul>
             <li>Designed and built RESTful APIs in Node.js and Express, serving over 100,000 daily users.</li>
@@ -82,10 +82,10 @@ export const getPlaceholderResume = (
       },
       {
         id: getUniqId(),
-        company: "CloudWorks LLC",
-        title: "Software Engineer",
-        location: "Remote",
-        timePeriod: "Aug 2018 – May 2020",
+        company: 'CloudWorks LLC',
+        title: 'Software Engineer',
+        location: 'Remote',
+        timePeriod: 'Aug 2018 – May 2020',
         description: `
           <ul>
             <li>Developed AWS Lambda functions and serverless workflows, reducing infrastructure costs by 40%.</li>
@@ -96,14 +96,13 @@ export const getPlaceholderResume = (
       },
       {
         id: getUniqId(),
-        company: "StartupX",
-        title: "Junior Web Developer",
-        location: "Austin, TX",
-        timePeriod: "Jul 2017 – Jul 2018",
+        company: 'StartupX',
+        title: 'Junior Web Developer',
+        location: 'Austin, TX',
+        timePeriod: 'Jul 2017 – Jul 2018',
         description: `
           <ul>
             <li>Built interactive UI features in Vue.js, increasing customer sign‑up conversion by 15%.</li>
-            <li>Collaborated with design team to implement mobile‑first layouts using Tailwind CSS.</li>
             <li>Deployed applications to Docker and Kubernetes, automating CI/CD pipelines with GitLab CI.</li>
           </ul>
         `,
@@ -113,12 +112,12 @@ export const getPlaceholderResume = (
     education: [
       {
         id: getUniqId(),
-        institution: "State University",
-        fieldOfStudy: "Bachelor of Science in Computer Science",
-        gpa: "3.8",
-        location: "City, State",
-        timePeriod: "Sep. 2017 – May 2021",
-        description: "",
+        institution: 'State University',
+        fieldOfStudy: 'Bachelor of Science in Computer Science',
+        gpa: '3.8',
+        location: 'City, State',
+        timePeriod: 'Sep. 2017 – May 2021',
+        description: '',
       },
     ],
 
@@ -126,20 +125,20 @@ export const getPlaceholderResume = (
       categories: [
         {
           id: getUniqId(),
-          name: "Languages",
+          name: 'Languages',
           skills: [
-            { id: getUniqId(), name: "JavaScript" },
-            { id: getUniqId(), name: "TypeScript" },
-            { id: getUniqId(), name: "Python" },
+            { id: getUniqId(), name: 'JavaScript' },
+            { id: getUniqId(), name: 'TypeScript' },
+            { id: getUniqId(), name: 'Python' },
           ],
         },
         {
           id: getUniqId(),
-          name: "Frameworks",
+          name: 'Frameworks',
           skills: [
-            { id: getUniqId(), name: "React" },
-            { id: getUniqId(), name: "Node.js" },
-            { id: getUniqId(), name: "Express" },
+            { id: getUniqId(), name: 'React' },
+            { id: getUniqId(), name: 'Node.js' },
+            { id: getUniqId(), name: 'Express' },
           ],
         },
       ],
@@ -148,27 +147,27 @@ export const getPlaceholderResume = (
     projects: [
       {
         id: getUniqId(),
-        name: "RealTime Chat Platform",
+        name: 'RealTime Chat Platform',
         description: `
           <ul>
             <li>Engineered a Node.js and Socket.IO chat service supporting 5,000+ concurrent users with end‑to‑end encryption.</li>
             <li>Built React dashboard for moderators with live analytics and message moderation tools.</li>
           </ul>
         `,
-        url: "https://github.com/janedoe/chat-platform",
-        technologies: ["React", "Node.js", "Socket.IO", "Docker"],
-        timePeriod: "Jan 2024 - Mar 2024",
+        url: 'https://github.com/firstlast/chat-platform',
+        technologies: ['React', 'Node.js', 'Socket.IO', 'Docker'],
+        timePeriod: 'Jan 2024 - Mar 2024',
       },
     ],
 
     certifications: [
       {
         id: getUniqId(),
-        name: "AWS Certified Solutions Architect – Associate",
-        issuer: "Amazon Web Services",
-        date: "April 2022",
-        expirationDate: "April 2025",
-        credentialUrl: "https://aws.amazon.com/certification/",
+        name: 'AWS Certified Solutions Architect – Associate',
+        issuer: 'Amazon Web Services',
+        date: 'April 2022',
+        expirationDate: 'April 2025',
+        credentialUrl: 'https://aws.amazon.com/certification/',
         description: `
           <ul>
           <li>Validated proficiency in designing scalable, cost‑efficient architectures on AWS using EC2, S3, RDS, and Lambda.</li>
@@ -180,7 +179,7 @@ export const getPlaceholderResume = (
     achievements: [
       {
         id: getUniqId(),
-        title: "Hackathon Champion",
+        title: 'Hackathon Champion',
         description: `
           <ul>
           <li>Awarded 1st place in TechCrunch Disrupt 2019 Hackathon for building an AI‑powered health monitoring app.</li>
@@ -190,80 +189,80 @@ export const getPlaceholderResume = (
     ],
 
     languages: [
-      { id: getUniqId(), language: "English", proficiency: "Native" },
-      { id: getUniqId(), language: "Spanish", proficiency: "Professional" },
+      { id: getUniqId(), language: 'English', proficiency: 'Native' },
+      { id: getUniqId(), language: 'Spanish', proficiency: 'Professional' },
     ],
   },
 
   config: {
     theme: {
-      fontFamily: "Inter",
-      headingColor: "#000000",
-      textColor: "#333333",
-      backgroundColor: "#ffffff",
-      linkColor: "#0066cc",
-      headingFontSize: "1.25rem",
-      textFontSize: "1rem",
+      fontFamily: 'Inter',
+      headingColor: '#000000',
+      textColor: '#333333',
+      backgroundColor: '#ffffff',
+      linkColor: '#0066cc',
+      headingFontSize: '1.25rem',
+      textFontSize: '1rem',
     },
 
     mainColumnSectionOrder: templateConfig?.mainColumnSectionOrder || [
-      "personalInfo",
-      "summary",
-      "education",
-      "skills",
-      "experience",
-      "projects",
-      "certifications",
-      "achievements",
-      "languages",
+      'personalInfo',
+      'summary',
+      'education',
+      'skills',
+      'experience',
+      'projects',
+      'certifications',
+      'achievements',
+      'languages',
     ],
 
     sideColumnSectionOrder: templateConfig?.sideColumnSectionOrder || [],
 
     sectionDetails: {
       personalInfo: {
-        id: "personalInfo",
-        name: "Personal Information",
+        id: 'personalInfo',
+        name: 'Personal Information',
         visible: true,
       },
       summary: {
-        id: "summary",
-        name: "Professional Summary",
+        id: 'summary',
+        name: 'Professional Summary',
         visible: true,
       },
       experience: {
-        id: "experience",
-        name: "Work Experience",
+        id: 'experience',
+        name: 'Work Experience',
         visible: true,
       },
       education: {
-        id: "education",
-        name: "Education",
+        id: 'education',
+        name: 'Education',
         visible: true,
       },
       skills: {
-        id: "skills",
-        name: "Skills",
+        id: 'skills',
+        name: 'Skills',
         visible: true,
       },
       projects: {
-        id: "projects",
-        name: "Projects",
+        id: 'projects',
+        name: 'Projects',
         visible: true,
       },
       certifications: {
-        id: "certifications",
-        name: "Certifications",
+        id: 'certifications',
+        name: 'Certifications',
         visible: true,
       },
       achievements: {
-        id: "achievements",
-        name: "Achievements",
+        id: 'achievements',
+        name: 'Achievements',
         visible: true,
       },
       languages: {
-        id: "languages",
-        name: "Languages",
+        id: 'languages',
+        name: 'Languages',
         visible: true,
       },
     },
@@ -272,12 +271,51 @@ export const getPlaceholderResume = (
 
 export const createSkill = (): ResumeSkill => ({
   id: getUniqId(),
-  name: "",
+  name: '',
   level: undefined,
 });
 
 export const createCategory = (): ResumeSkillCategoryItem => ({
   id: getUniqId(),
-  name: "",
+  name: '',
   skills: [],
 });
+
+export const recursivelyNullifyKey = (obj: any, keyToNullify: string): any => {
+  if (Array.isArray(obj)) {
+    return obj.map((item) => recursivelyNullifyKey(item, keyToNullify));
+  } else if (obj !== null && typeof obj === 'object') {
+    const newObj: any = {};
+    for (const key in obj) {
+      if (key === keyToNullify) {
+        delete newObj[key];
+      } else {
+        newObj[key] = recursivelyNullifyKey(obj[key], keyToNullify);
+      }
+    }
+    return newObj;
+  }
+  return obj;
+};
+
+export const createDuplicateResume = (resume: Resume): Resume => {
+  const clone = structuredClone(resume);
+
+  // Remove IDs recursively
+  const cleanedClone = recursivelyNullifyKey(clone, '_id');
+
+  return {
+    ...cleanedClone,
+    id: getUniqId(),
+    title: `${resume.title} (Copy)`,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    sections: {
+      ...cleanedClone.sections,
+      personalInfo: {
+        ...cleanedClone.sections.personalInfo,
+        fullName: `${cleanedClone.sections.personalInfo.fullName} (Copy)`,
+      },
+    },
+  };
+};

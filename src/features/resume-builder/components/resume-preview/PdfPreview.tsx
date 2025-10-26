@@ -1,16 +1,16 @@
-"use client";
-import { Button } from "@/shared/components/ui/button";
-import { Input } from "@/shared/components/ui/input";
+'use client';
+import { Button } from '@/shared/components/ui/button';
+import { Input } from '@/shared/components/ui/input';
 import {
   defaultLayoutPlugin,
   ToolbarSlot,
-} from "@react-pdf-viewer/default-layout";
-import { Minus, Plus } from "lucide-react";
-import dynamic from "next/dynamic";
-import { useState } from "react";
+} from '@react-pdf-viewer/default-layout';
+import { Minus, Plus } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { useState } from 'react';
 
 const Viewer = dynamic(
-  () => import("@react-pdf-viewer/core").then((mod) => mod.Viewer),
+  () => import('@react-pdf-viewer/core').then((mod) => mod.Viewer),
   { ssr: false }
 );
 
@@ -79,6 +79,12 @@ export default function PDFPreview({ fileUrl }: Props) {
       fileUrl={fileUrl}
       plugins={[defaultLayoutPluginInstance]}
       defaultScale={1.1}
+      pageLayout={{
+        transformSize: ({ size }) => ({
+          height: size.height + 30, // Add 30 pixels to the height for top/bottom margin
+          width: size.width + 30, // Add 30 pixels to the width for left/right margin
+        }),
+      }}
     />
   );
 }
@@ -102,7 +108,7 @@ const PdfSearch = ({ searchProps }: PdfSearchProps) => {
             searchProps.setKeyword(e.target.value);
           }}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && searchProps.keyword) {
+            if (e.key === 'Enter' && searchProps.keyword) {
               setReadyToSearch(true);
               searchProps.search();
             }
@@ -110,7 +116,7 @@ const PdfSearch = ({ searchProps }: PdfSearchProps) => {
         />
 
         <Button
-          variant={searchProps.matchCase ? "default" : "ghost"}
+          variant={searchProps.matchCase ? 'default' : 'ghost'}
           size="sm"
           onClick={() => searchProps.changeMatchCase(!searchProps.matchCase)}
           title="Match case"
@@ -124,7 +130,7 @@ const PdfSearch = ({ searchProps }: PdfSearchProps) => {
       {readyToSearch && searchProps.keyword && (
         <span className="text-xs text-muted-foreground">
           {searchProps.numberOfMatches === 0
-            ? "Not found"
+            ? 'Not found'
             : `${searchProps.currentMatch} of ${searchProps.numberOfMatches}`}
         </span>
       )}

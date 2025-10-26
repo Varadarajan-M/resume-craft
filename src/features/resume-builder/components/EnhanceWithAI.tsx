@@ -1,23 +1,23 @@
-import { TapAnimationButton } from "@/shared/components/animated/TapAnimationButton";
-import { Button } from "@/shared/components/ui/button";
+import { TapAnimationButton } from '@/shared/components/animated/TapAnimationButton';
+import { Button } from '@/shared/components/ui/button';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/shared/components/ui/card";
+} from '@/shared/components/ui/card';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTrigger,
-} from "@/shared/components/ui/dialog";
-import RichTextEditor from "@/shared/components/ui/rich-text-editor";
-import { Skeleton } from "@/shared/components/ui/skeleton";
-import { AIContentSuggestion } from "@/shared/types/ai";
-import { SparklesIcon } from "lucide-react";
-import React from "react";
-import useContentEnhancerQuery from "../hooks/useContentEnhancerQuery";
+} from '@/shared/components/ui/dialog';
+import RichTextEditor from '@/shared/components/ui/rich-text-editor';
+import { Skeleton } from '@/shared/components/ui/skeleton';
+import { AIContentSuggestion } from '@/shared/types/ai';
+import { SparklesIcon } from 'lucide-react';
+import React from 'react';
+import useContentEnhancerQuery from '../hooks/useContentEnhancerQuery';
 
 interface EnhanceWithAIProps {
   children: React.ReactNode;
@@ -102,7 +102,7 @@ const EnhanceWithAI = (props: EnhanceWithAIProps) => {
     children,
     content,
     onEnhance,
-    enhanceDialogTitle = "Enhance with AI",
+    enhanceDialogTitle = 'Enhance with AI',
   } = props;
 
   const [open, setOpen] = React.useState(false);
@@ -120,8 +120,8 @@ const EnhanceWithAI = (props: EnhanceWithAIProps) => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="self-end">
           <TapAnimationButton className="w-fit self-end">
-            <Button size={"sm"} variant="secondary">
-              <SparklesIcon className="mr-1 h-2 w-2" />
+            <Button size={'sm'} variant="secondary" className="animate-pulse">
+              <SparklesIcon className="mr-1 h-2 w-2 dark:text-yellow-300 " />
               <span className="text-xs"> Enhance with AI</span>
             </Button>
           </TapAnimationButton>

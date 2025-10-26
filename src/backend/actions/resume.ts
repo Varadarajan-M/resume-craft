@@ -150,6 +150,9 @@ export const deleteResumeAction = async (resumeId: string) => {
     if (!result) {
       return { success: false, message: 'Resume not found' };
     }
+
+    revalidateTag(`resumes-${userId}`);
+
     return {
       success: true,
       message: 'Resume deleted successfully',

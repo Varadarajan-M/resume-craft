@@ -1,29 +1,29 @@
 // components/Editor.tsx
 
-"use client";
+'use client';
 
-import Bold from "@tiptap/extension-bold";
-import BulletList from "@tiptap/extension-bullet-list";
-import Document from "@tiptap/extension-document";
-import HardBreak from "@tiptap/extension-hard-break";
-import History from "@tiptap/extension-history";
-import Italic from "@tiptap/extension-italic";
-import Link from "@tiptap/extension-link";
-import ListItem from "@tiptap/extension-list-item";
-import Paragraph from "@tiptap/extension-paragraph";
-import Placeholder from "@tiptap/extension-placeholder";
-import Text from "@tiptap/extension-text";
-import Underline from "@tiptap/extension-underline";
-import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
+import Bold from '@tiptap/extension-bold';
+import BulletList from '@tiptap/extension-bullet-list';
+import Document from '@tiptap/extension-document';
+import HardBreak from '@tiptap/extension-hard-break';
+import History from '@tiptap/extension-history';
+import Italic from '@tiptap/extension-italic';
+import Link from '@tiptap/extension-link';
+import ListItem from '@tiptap/extension-list-item';
+import Paragraph from '@tiptap/extension-paragraph';
+import Placeholder from '@tiptap/extension-placeholder';
+import Text from '@tiptap/extension-text';
+import Underline from '@tiptap/extension-underline';
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react';
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
-import { cn } from "@/shared/lib/utils";
-import { Editor } from "@tiptap/react";
+} from '@/shared/components/ui/tooltip';
+import { cn } from '@/shared/lib/utils';
+import { Editor } from '@tiptap/react';
 import {
   BoldIcon,
   ItalicIcon,
@@ -31,8 +31,8 @@ import {
   ListIcon,
   UnderlineIcon,
   UnlinkIcon,
-} from "lucide-react";
-import { Toggle } from "./toggle";
+} from 'lucide-react';
+import { Toggle } from './toggle';
 
 interface EditorProps {
   content?: string;
@@ -73,20 +73,21 @@ const RichTextEditor = ({
       Link.configure({
         autolink: false,
         openOnClick: false,
-        HTMLAttributes: { class: "text-blue-500 underline" },
+        HTMLAttributes: { class: 'text-blue-500 underline' },
       }),
       Placeholder.configure({
-        placeholder: placeholder ?? "Start typing...",
+        placeholder: placeholder ?? 'Start typing...',
       }),
       BulletList.configure({
-        HTMLAttributes: { class: "list-disc pl-5" },
+        HTMLAttributes: { class: 'list-disc pl-5' },
       }),
 
       ListItem.configure({
-        HTMLAttributes: { class: "list-item" },
+        HTMLAttributes: { class: 'list-item mb-2' },
       }),
     ],
-    content,
+    content: content?.replaceAll('‑', '-') || '<p></p>',
+    enablePasteRules: true,
 
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
@@ -96,7 +97,7 @@ const RichTextEditor = ({
         // class:
         //   "whitespace-pre-wrap break-words prose resize-y prose-sm w-full min-h-[160px] max-h-[400px] overflow-y-auto rounded-md border bg-background border-muted px-4 py-3 text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary focus-visible:ring-ring/20 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-xs shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
         class:
-          "prose prose-sm w-full min-h-[160px] resize-y max-h-[400px] overflow-y-auto rounded-md border bg-background border-muted px-4 py-3 text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary focus-visible:ring-ring/20",
+          'prose prose-sm w-full min-h-[160px] resize-y max-h-[400px] overflow-y-auto rounded-md border bg-background border-muted px-4 py-3 text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary focus-visible:ring-ring/20 rich-text-editor-tiptap',
       },
     },
   });
@@ -104,9 +105,9 @@ const RichTextEditor = ({
   if (!editor) return null;
 
   return (
-    <div className={cn("flex flex-col gap-2 sss", rootClassName)}>
+    <div className={cn('flex flex-col gap-2 sss', rootClassName)}>
       {showToolbar && <EditorToolbar editor={editor} />}
-      <EditorContent id={id} editor={editor} className={className ?? ""} />
+      <EditorContent id={id} editor={editor} className={className ?? ''} />
     </div>
   );
 };
@@ -121,11 +122,11 @@ export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
     // This function will be called every time the editor state changes
     selector: ({ editor }: { editor: Editor }) => ({
       // It will only re-render if these values change
-      isBold: editor.isActive("bold"),
-      isItalic: editor.isActive("italic"),
-      isUnderline: editor.isActive("underline"),
-      isLink: editor.isActive("link"),
-      isBulletList: editor.isActive("bulletList"),
+      isBold: editor.isActive('bold'),
+      isItalic: editor.isActive('italic'),
+      isUnderline: editor.isActive('underline'),
+      isLink: editor.isActive('link'),
+      isBulletList: editor.isActive('bulletList'),
     }),
   });
 
@@ -134,28 +135,28 @@ export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
   const actions = [
     {
       icon: BoldIcon,
-      label: "Bold",
+      label: 'Bold',
       isActive: editorState.isBold,
       onClick: () => editor.chain().focus().toggleBold().run(),
     },
     {
       icon: ItalicIcon,
-      label: "Italic",
+      label: 'Italic',
       isActive: editorState.isItalic,
       onClick: () => editor.chain().focus().toggleItalic().run(),
     },
     {
       icon: UnderlineIcon,
-      label: "Underline",
+      label: 'Underline',
       isActive: editorState.isUnderline,
       onClick: () => editor.chain().focus().toggleUnderline().run(),
     },
     {
       icon: LinkIcon,
-      label: "Add Link",
+      label: 'Add Link',
       isActive: editorState.isLink,
       onClick: () => {
-        const url = window.prompt("Enter URL:");
+        const url = window.prompt('Enter URL:');
         if (url) {
           editor.chain().focus().setLink({ href: url }).run();
         }
@@ -163,13 +164,13 @@ export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
     },
     {
       icon: UnlinkIcon,
-      label: "Remove Link",
+      label: 'Remove Link',
       isActive: false,
       onClick: () => editor.chain().focus().unsetLink().run(),
     },
     {
       icon: ListIcon,
-      label: "Bullet List",
+      label: 'Bullet List',
       isActive: editorState.isBulletList,
       onClick: () => editor.chain().focus().toggleBulletList().run(),
     },
@@ -183,7 +184,7 @@ export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             <TooltipTrigger asChild>
               <Toggle
                 pressed={isActive}
-                className={`h-8 w-8 ${isActive ? "bg-secondary" : ""}`}
+                className={`h-8 w-8 ${isActive ? 'bg-secondary' : ''}`}
                 onPressedChange={onClick}
               >
                 <Icon className="h-[14px] w-[14px]" />

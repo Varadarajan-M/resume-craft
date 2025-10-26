@@ -1,21 +1,23 @@
-"use client";
+'use client';
 
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import { cn } from '@/shared/lib/utils';
+import dynamic from 'next/dynamic';
+import { useEffect, useRef, useState } from 'react';
 
-import ResumeRenderer from "./ResumeRenderer";
+import { useSelectToHighlightPdfText } from '../../hooks/useSelectToHighlightPdfText';
+import { useResumeStore } from '../../store/resume';
+
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+
+import ResumeRenderer from './ResumeRenderer';
 
 const Worker = dynamic(
-  () => import("@react-pdf-viewer/core").then((mod) => mod.Worker),
+  () => import('@react-pdf-viewer/core').then((mod) => mod.Worker),
   {
     ssr: false,
   }
 );
-
-import { cn } from "@/shared/lib/utils";
-import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
-import { useResumeStore } from "../../store/resume";
 
 interface ResumePreviewPanelProps {
   className?: string;
@@ -23,7 +25,6 @@ interface ResumePreviewPanelProps {
 
 const ResumePreviewPanel = ({ className }: ResumePreviewPanelProps) => {
   const resume = useResumeStore((state) => state.resume);
-
   const [debouncedResume, setDebouncedResume] = useState(resume);
   const timerId = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -38,16 +39,19 @@ const ResumePreviewPanel = ({ className }: ResumePreviewPanelProps) => {
     }, 1000);
   }, [resume]);
 
+  const resumePreviewPanelRef = useSelectToHighlightPdfText();
+
   return (
     <div
       className={cn(
-        "h-[calc(100dvh_-_56px)] max-w-screen md:max-w-[900px] md:max-h-full md:m-auto py-4 px-5 flex flex-col gap-4 overflow-y-auto",
+        'h-[calc(100dvh_-_56px)] max-w-screen md:max-w-[900px] md:max-h-full md:m-auto py-4 px-5 flex flex-col gap-4 overflow-y-auto',
         className
       )}
+      ref={resumePreviewPanelRef}
     >
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
         <ResumeRenderer
-          templateId={debouncedResume?.templateId || ""}
+          templateId={debouncedResume?.templateId || ''}
           resume={debouncedResume!}
         />
       </Worker>

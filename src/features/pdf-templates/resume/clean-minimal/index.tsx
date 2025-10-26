@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ViewProps,
 } from '@react-pdf/renderer';
 import { Fragment, JSX } from 'react';
 import DestroyAndMountChildrenOnPropChange from '../../DestroyAndMountChildrenOnPropChange';
@@ -45,13 +46,20 @@ const styles = StyleSheet.create({
   page: {
     fontFamily: THEME.fontFamily,
     fontSize: THEME.fontSize,
-    padding: 24,
     lineHeight: 1.3,
     color: THEME.colors.primary,
     backgroundColor: '#fff',
     gap: 6,
+
+    paddingHorizontal: 22,
+    paddingTop: 20,
+    paddingBottom: 38,
   },
-  section: {},
+
+  section: {
+    // Add break-inside to prevent sections from breaking awkwardly
+    breakInside: 'avoid',
+  },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -65,14 +73,17 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     marginBottom: 4,
     borderBottom: `0.5 solid ${THEME.colors.border}`,
+    // Prevent orphaned section titles
+    breakInside: 'avoid',
   },
   subsection: {
     marginBottom: 5,
+    // Keep subsections together when possible
+    breakInside: 'avoid',
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // flexWrap: "wrap",
   },
   contactRow: {
     flexDirection: 'row',
@@ -123,11 +134,12 @@ const styles = StyleSheet.create({
 const Section = ({
   title,
   children,
+  ...props
 }: {
   title: string;
   children: JSX.Element | JSX.Element[];
-}) => (
-  <View style={styles.section}>
+} & ViewProps) => (
+  <View style={styles.section} {...props}>
     <Text style={styles.sectionTitle}>{title}</Text>
     {children}
   </View>
@@ -163,6 +175,10 @@ const ContactItem = ({
   </View>
 );
 
+const HtmlContent = ({ content }: { content: string }) => {
+  return <View style={{ marginTop: 2 }}>{htmlParser(content)}</View>;
+};
+
 // Section Renderers
 const sectionRenderers: Record<
   string,
@@ -175,7 +191,10 @@ const sectionRenderers: Record<
     const s = sections?.[id] as Resume['sections']['personalInfo'];
     if (!s) return null;
     return (
-      <View style={[styles.row, { marginBottom: 6, alignItems: 'flex-start' }]}>
+      <View
+        style={[styles.row, { marginBottom: 6, alignItems: 'flex-start' }]}
+        wrap={false}
+      >
         <View style={{ gap: 2, flexBasis: '65%' }}>
           <Text style={styles.name}>{s.fullName}</Text>
           {s.headline && <Text style={styles.headline}>{s.headline}</Text>}
@@ -237,8 +256,15 @@ const sectionRenderers: Record<
       <Section title="Skills">
         {s.categories.map((cat) => (
           <Text key={cat.id} style={styles.smallText}>
-            <Text style={styles.labelBold}>{cat.name}:</Text>{' '}
-            {cat.skills.map((s) => s.name).join(', ')}
+            {
+              <Text style={styles.labelBold}>
+                {cat.name?.trim()?.length > 0 ? `${cat.name}:` : ''}
+              </Text>
+            }{' '}
+            {cat.skills
+              ?.filter((s) => s?.name?.trim()?.length > 0)
+              .map((s) => s.name)
+              .join(', ')}
           </Text>
         ))}
       </Section>
@@ -286,7 +312,7 @@ const sectionRenderers: Record<
                 ) : undefined
               }
             />
-            {edu.description && <View>{htmlParser(edu.description)}</View>}
+            {edu.description && <HtmlContent content={edu.description} />}
           </View>
         ))}
       </Section>
@@ -336,7 +362,7 @@ const sectionRenderers: Record<
                 </Text>
               }
             />
-            {exp.description && <View>{htmlParser(exp.description)}</View>}
+            {exp.description && <HtmlContent content={exp.description} />}
           </View>
         ))}
       </Section>
@@ -379,7 +405,7 @@ const sectionRenderers: Record<
                 ) : undefined
               }
             />
-            {proj.description && <View>{htmlParser(proj.description)}</View>}
+            {proj.description && <HtmlContent content={proj.description} />}
           </View>
         ))}
       </Section>
@@ -395,7 +421,11 @@ const sectionRenderers: Record<
             <SubsectionRow
               left={
                 <Text style={[styles.labelBold, styles.flexBasis68]}>
-                  {cert.name} {cert.issuer && `(${cert.issuer})`}
+                  {cert.name} {cert.issuer && `(${cert.issuer})`}{' '}
+                  {cert?.credentialUrl &&
+                    htmlParser(
+                      `<a href="${cert.credentialUrl}" style="text-decoration:underline;color:black;font-weight:400;font-style:italic">Link</a>`
+                    )}
                 </Text>
               }
               right={
@@ -412,14 +442,7 @@ const sectionRenderers: Record<
                 </Text>
               }
             />
-            {cert.credentialUrl && (
-              <Text style={[styles.smallText]}>
-                {htmlParser(
-                  `<a href="${cert.credentialUrl}" style="text-decoration:underline;color:black">${cert.credentialUrl}</a>`
-                )}
-              </Text>
-            )}
-            {cert.description && <View>{htmlParser(cert.description)}</View>}
+            {cert.description && <HtmlContent content={cert.description} />}
           </View>
         ))}
       </Section>
@@ -429,7 +452,7 @@ const sectionRenderers: Record<
     const s = sections[id] as Resume['sections']['languages'];
     if (!s?.length) return null;
     return (
-      <Section title="Languages">
+      <Section title="Languages" wrap={false}>
         {s.map((lang) => (
           <Text key={lang.id} style={styles.smallText}>
             {lang.language} — {lang.proficiency}
@@ -446,7 +469,7 @@ const sectionRenderers: Record<
         {s.map((ach) => (
           <View key={ach.id} style={styles.subsection}>
             <Text style={styles.labelBold}>{ach.title}</Text>
-            {ach.description && <View>{htmlParser(ach.description)}</View>}
+            {ach.description && <HtmlContent content={ach.description} />}
           </View>
         ))}
       </Section>
