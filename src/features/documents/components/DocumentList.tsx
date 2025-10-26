@@ -9,6 +9,8 @@ interface DocumentListProps {
   isLoading?: boolean;
   documents: Resume[];
   onDocumentClick?: <T extends Resume>(document: T) => void;
+  onDocumentDelete?: <T extends Resume>(document: T) => void;
+  onDocumentCopy?: <T extends Resume>(document: T) => void;
 }
 
 const DocumentList: React.FC<DocumentListProps> = ({
@@ -16,6 +18,8 @@ const DocumentList: React.FC<DocumentListProps> = ({
   documents,
   viewType = 'grid',
   onDocumentClick,
+  onDocumentCopy,
+  onDocumentDelete,
 }) => {
   const isList = viewType === 'list';
 
@@ -45,12 +49,16 @@ const DocumentList: React.FC<DocumentListProps> = ({
             key={document.id}
             document={document}
             onClick={onDocumentClick}
+            onDelete={onDocumentDelete}
+            onCopy={onDocumentCopy}
           />
         ) : (
           <DocumentCardGrid
             key={document.id}
             document={document}
             onClick={onDocumentClick}
+            onDelete={onDocumentDelete}
+            onCopy={onDocumentCopy}
           />
         )
       )}

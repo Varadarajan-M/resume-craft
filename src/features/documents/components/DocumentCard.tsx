@@ -1,76 +1,76 @@
-import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
-import { Skeleton } from "@/shared/components/ui/skeleton";
-import { timeFromNow } from "@/shared/lib/datetime";
-import { Resume } from "@/shared/types/resume";
-import { Clock } from "lucide-react";
-import Image from "next/image";
-import React from "react";
+import { Card, CardContent, CardHeader } from '@/shared/components/ui/card';
+import { Skeleton } from '@/shared/components/ui/skeleton';
+import { timeFromNow } from '@/shared/lib/datetime';
+import { Resume } from '@/shared/types/resume';
+import { Clock, Copy, Trash2 } from 'lucide-react';
+import Image from 'next/image';
+import React from 'react';
+import DocumentActions from './DocumentActions';
 
 interface DocumentCardProps {
   document: Resume;
   onClick?: (document: Resume) => void;
+  onDelete?: (document: Resume) => void;
+  onCopy?: (document: Resume) => void;
 }
-
-// const statusColorMap: Record<Document["status"], string> = {
-//   draft: "bg-yellow-100 text-yellow-800",
-//   published: "bg-green-100 text-green-800",
-//   archived: "bg-gray-200 text-gray-600",
-// };
-
-// const DocumentStatusTag: React.FC<{
-//   status: Document["status"];
-//   className?: string;
-// }> = ({ status, className }) => {
-//   return (
-//     <span
-//       className={cn(
-//         "text-xs px-2 py-0.5 rounded-full font-medium capitalize",
-//         statusColorMap[status],
-//         className
-//       )}
-//     >
-//       {status}
-//     </span>
-//   );
-// };
 
 export const DocumentCardGrid: React.FC<DocumentCardProps> = ({
   document,
   onClick,
+  onDelete,
+  onCopy,
 }) => {
   return (
     <Card
       tabIndex={0}
       aria-label="Card with document details"
-      className="hover:shadow-md transition-shadow duration-200 bg-neutral-50 dark:bg-neutral-950/95 pt-5"
+      className="relative hover:shadow-md transition-all duration-200 bg-neutral-50 dark:bg-neutral-950/95 pt-5 overflow-hidden"
     >
-      <CardHeader className="flex flex-row items-center justify-between px-4 pb-2 ">
-        <Image
-          src={document?.image || "/placeholder.jpg"}
-          alt="Document Icon"
-          width={200}
-          height={200}
-          className="m-auto object-cover w-full h-72 rounded-md [background-position:50%_10%]"
-          onClick={() => onClick?.(document)}
-          fetchPriority="high"
-        />
+      <CardHeader className="relative px-4 pb-2">
+        <div className="relative w-full">
+          <Image
+            src={document?.image || '/placeholder.jpg'}
+            alt="Document preview"
+            width={200}
+            height={200}
+            className="m-auto object-cover w-full h-72 rounded-md [background-position:50%_10%] cursor-pointer"
+            onClick={() => onClick?.(document)}
+            fetchPriority="high"
+          />
+        </div>
       </CardHeader>
+
       <CardContent className="px-4 pb-4 flex flex-col gap-1">
-        <h3
-          onClick={() => onClick?.(document)}
-          className="text-md font-semibold capitalize text-foreground line-clamp-1 tracking-tight cursor-pointer underline transition-colors hover:text-gray-400"
-        >
-          {document?.sections?.personalInfo?.fullName} -{" "}
-          {document?.sections?.personalInfo?.headline || document?.category}
-        </h3>
+        <div className="flex justify-between items-center gap-4">
+          <h3
+            onClick={() => onClick?.(document)}
+            className="text-md basis-[98%] font-semibold capitalize text-foreground line-clamp-1 tracking-tight cursor-pointer underline transition-colors hover:text-gray-400"
+          >
+            {document?.sections?.personalInfo?.fullName} -{' '}
+            {document?.sections?.personalInfo?.headline || document?.category}
+          </h3>
+          <DocumentActions
+            actions={[
+              {
+                label: 'Duplicate',
+                icon: <Copy className="w-4 h-4 mr-2" />,
+                onClick: () => onCopy?.(document),
+              },
+              {
+                label: 'Delete',
+                icon: <Trash2 className="w-4 h-4 mr-2" />,
+                onClick: () => onDelete?.(document),
+                labelClass: 'text-red-600 hover:bg-red-100 hover:text-red-800',
+              },
+            ]}
+          />
+        </div>
+
         <div className="flex items-center gap-1 mt-1 text-sm text-muted-foreground">
-          <div className="flex gap-4 items-center justify-between w-100">
-            <p className="text-xs flex items-center gap-1">
-              <Clock className="w-3 h-3 shrink-0" />
-              <span>{timeFromNow(document.updatedAt)}</span>
-            </p>
-            {/* <DocumentStatusTag status={document.status} /> */}
-          </div>
+          <p className="text-xs flex items-center gap-1">
+            <Clock className="w-3 h-3 shrink-0" />
+            <span>{timeFromNow(document.updatedAt)}</span>
+          </p>
         </div>
       </CardContent>
     </Card>
@@ -80,6 +80,8 @@ export const DocumentCardGrid: React.FC<DocumentCardProps> = ({
 export const DocumentCardList: React.FC<DocumentCardProps> = ({
   document,
   onClick,
+  onDelete,
+  onCopy,
 }) => {
   return (
     <Card
@@ -88,7 +90,7 @@ export const DocumentCardList: React.FC<DocumentCardProps> = ({
       className="flex flex-row items-center gap-4 px-4 py-3 border border-border hover:shadow-sm bg-background transition-shadow"
     >
       <Image
-        src={document?.image || "/placeholder.jpg"}
+        src={document?.image || '/placeholder.jpg'}
         alt="Document Icon"
         width={48}
         height={48}
@@ -102,9 +104,25 @@ export const DocumentCardList: React.FC<DocumentCardProps> = ({
             onClick={() => onClick?.(document)}
             className="font-medium text-sm capitalize line-clamp-1 text-foreground cursor-pointer underline transition-colors hover:text-gray-400"
           >
-            {document?.sections?.personalInfo?.fullName} -{" "}
+            {document?.sections?.personalInfo?.fullName} -{' '}
             {document?.sections?.personalInfo?.headline || document?.category}
           </h3>
+
+          <DocumentActions
+            actions={[
+              {
+                label: 'Copy',
+                icon: <Copy className="w-4 h-4 mr-2" />,
+                onClick: () => onCopy?.(document),
+              },
+              {
+                label: 'Delete',
+                icon: <Trash2 className="w-4 h-4 mr-2" />,
+                onClick: () => onDelete?.(document),
+                labelClass: 'text-red-600 hover:bg-red-100 hover:text-red-800',
+              },
+            ]}
+          />
         </div>
         <p className="text-xs text-muted-foreground flex items-center gap-1">
           <Clock className="w-3 h-3" />
