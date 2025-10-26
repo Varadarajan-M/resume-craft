@@ -280,3 +280,42 @@ export const createCategory = (): ResumeSkillCategoryItem => ({
   name: '',
   skills: [],
 });
+
+export const recursivelyNullifyKey = (obj: any, keyToNullify: string): any => {
+  if (Array.isArray(obj)) {
+    return obj.map((item) => recursivelyNullifyKey(item, keyToNullify));
+  } else if (obj !== null && typeof obj === 'object') {
+    const newObj: any = {};
+    for (const key in obj) {
+      if (key === keyToNullify) {
+        delete newObj[key];
+      } else {
+        newObj[key] = recursivelyNullifyKey(obj[key], keyToNullify);
+      }
+    }
+    return newObj;
+  }
+  return obj;
+};
+
+export const createDuplicateResume = (resume: Resume): Resume => {
+  const clone = structuredClone(resume);
+
+  // Remove IDs recursively
+  const cleanedClone = recursivelyNullifyKey(clone, '_id');
+
+  return {
+    ...cleanedClone,
+    id: getUniqId(),
+    title: `${resume.title} (Copy)`,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    sections: {
+      ...cleanedClone.sections,
+      personalInfo: {
+        ...cleanedClone.sections.personalInfo,
+        fullName: `${cleanedClone.sections.personalInfo.fullName} (Copy)`,
+      },
+    },
+  };
+};

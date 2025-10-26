@@ -12,13 +12,19 @@ import { Resume } from '@/shared/types/resume';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
+import useDeleteResumeMutation from '../hooks/useDeleteDocumentMutation';
 import useDocumentListQuery from '../hooks/useDocumentListQuery';
+import useDuplicateResumeMutation from '../hooks/useDuplicateResumeMutation';
 
 type ViewType = 'grid' | 'list' | undefined;
 
 const DocumentsSection = () => {
   const setResume = useResumeStore((s) => s.setResume);
   const { data: documents = [], isLoading, error } = useDocumentListQuery({});
+  const { mutate: handleDocumentDuplication } = useDuplicateResumeMutation();
+  const { mutate: deleteResumeMutation, isPending } = useDeleteResumeMutation(
+    {}
+  );
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -37,6 +43,17 @@ const DocumentsSection = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('view', newView);
     router.push(pathname + `?${params.toString()}`);
+  };
+
+  const handleDeleteDocument = <T extends Resume>(document: T) => {
+    deleteResumeMutation(document.id, {
+      onSuccess: () => {
+        toast.success('Document deleted successfully!');
+      },
+      onError: (error) => {
+        toast.error(`Failed to delete document: ${error.message}`);
+      },
+    });
   };
 
   useEffect(() => {
@@ -71,6 +88,8 @@ const DocumentsSection = () => {
           viewType={activeView}
           documents={documents}
           onDocumentClick={handleDocumentClick}
+          onDocumentCopy={handleDocumentDuplication}
+          onDocumentDelete={handleDeleteDocument}
         />
       </FadeIn>
     </>
