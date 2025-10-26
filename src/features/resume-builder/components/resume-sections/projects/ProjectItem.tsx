@@ -1,9 +1,9 @@
 import { useResumeStore } from "@/features/resume-builder/store/resume";
+import { DeleteButton } from "@/shared/components/common/DeleteButton";
 import { TooltipButton } from "@/shared/components/common/ToolTipButton";
-import { Copy, Trash2 } from "lucide-react";
+import { Copy } from "lucide-react";
 import ResumeItem from "../ResumeItem";
 import ProjectForm from "./ProjectForm";
-import { DeleteButton } from "@/shared/components/common/DeleteButton";
 
 const ProjectItem = ({ id, index }: { id: string; index: number }) => {
   const handleDeleteProject = useResumeStore((s) => s.deleteProjectItem);

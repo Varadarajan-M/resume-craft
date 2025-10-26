@@ -1,5 +1,5 @@
 import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { TooltipButton } from "@/shared/components/common/ToolTipButton";
+import { DeleteButton } from "@/shared/components/common/DeleteButton";
 import { Input } from "@/shared/components/ui/input";
 import {
   Select,
@@ -9,9 +9,7 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 import { ResumeLanguageItem } from "@/shared/types/resume";
-import { Trash2 } from "lucide-react";
 import ResumeItem from "../ResumeItem";
-import { DeleteButton } from "@/shared/components/common/DeleteButton";
 
 const LanguageItem = ({ id }: { id: string }) => {
   const lang = useResumeStore((s) =>
