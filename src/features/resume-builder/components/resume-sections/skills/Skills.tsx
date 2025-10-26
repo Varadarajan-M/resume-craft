@@ -1,3 +1,4 @@
+import { DeleteButton } from "@/shared/components/common/DeleteButton";
 import { TooltipButton } from "@/shared/components/common/ToolTipButton";
 import { Input } from "@/shared/components/ui/input";
 import {
@@ -8,7 +9,7 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 import { ResumeSkill, ResumeSkillCategoryItem } from "@/shared/types/resume";
-import { Copy, Trash2 } from "lucide-react";
+import { Copy } from "lucide-react";
 import AddNewButton from "../AddNewItemButton";
 import ResumeItem from "../ResumeItem";
 
@@ -44,35 +45,12 @@ export const SkillLevelSelect = ({
   </Select>
 );
 
-interface DeleteButtonProps {
-  onDelete: () => void;
-  tooltipText: string;
-  ariaLabel: string;
-  variant?: "ghost" | "destructive";
-}
-
-export const DeleteButton = ({
-  onDelete,
-  tooltipText,
-  variant = "ghost",
-}: DeleteButtonProps) => (
-  <TooltipButton
-    buttonIcon={<Trash2 className="h-4 w-4 text-red-500" />}
-    tooltipText={tooltipText}
-    onClickAction={onDelete}
-    variant={variant}
-  />
-);
-
 interface CategoryHeaderProps {
   name: string;
   onNameChange: (name: string) => void;
 }
 
-export const CategoryHeader = ({
-  name,
-  onNameChange,
-}: CategoryHeaderProps) => (
+export const CategoryHeader = ({ name, onNameChange }: CategoryHeaderProps) => (
   <Input
     className="flex-1"
     placeholder="e.g., Frontend, Soft Skills"
@@ -175,13 +153,13 @@ export const SkillCategoryItem = ({
       <ResumeItem
         itemId={category.id}
         label={`Category ${index + 1}`}
-        labelClassName="mb-3 flex items-center m-0 p-0" 
+        labelClassName="mb-3 flex items-center m-0 p-0"
         renderHeaderAction={() => (
-          <div className="flex items-center gap-1"> 
+          <div className="flex items-center gap-1">
             <TooltipButton
-              buttonIcon={<Copy className="h-4 w-4" />}
+              icon={Copy}
               tooltipText="Duplicate Category"
-              onClickAction={onCategoryDuplicate}
+              onClick={onCategoryDuplicate}
               variant="ghost"
             />
             <DeleteButton

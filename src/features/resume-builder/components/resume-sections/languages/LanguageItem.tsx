@@ -1,5 +1,5 @@
 import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { Button } from "@/shared/components/ui/button";
+import { TooltipButton } from "@/shared/components/common/ToolTipButton";
 import { Input } from "@/shared/components/ui/input";
 import {
   Select,
@@ -11,6 +11,7 @@ import {
 import { ResumeLanguageItem } from "@/shared/types/resume";
 import { Trash2 } from "lucide-react";
 import ResumeItem from "../ResumeItem";
+import { DeleteButton } from "@/shared/components/common/DeleteButton";
 
 const LanguageItem = ({ id }: { id: string }) => {
   const lang = useResumeStore((s) =>
@@ -49,13 +50,11 @@ const LanguageItem = ({ id }: { id: string }) => {
             <SelectItem value="Basic">Basic</SelectItem>
           </SelectContent>
         </Select>
-        <Button
-          size="icon"
+        <DeleteButton
+          onDelete={() => handleRemoveLanguage(id)}
+          tooltipText="Delete Language"
           variant="ghost"
-          onClick={() => handleRemoveLanguage(id)}
-        >
-          <Trash2 className="w-4 h-4 text-muted-foreground" />
-        </Button>
+        />
       </div>
     </ResumeItem>
   );

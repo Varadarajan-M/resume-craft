@@ -1,34 +1,46 @@
-import React from "react";
 import { Button } from "@/shared/components/ui/button";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/shared/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
+import { cn } from "@/shared/lib/utils";
+import { LucideIcon } from "lucide-react";
+import React, { ComponentProps } from "react";
 
-interface TooltipButtonProps {
-  buttonIcon: React.ReactNode;
+interface TooltipButtonProps extends ComponentProps<typeof Button> {
+  icon: LucideIcon;
   tooltipText: string;
-  onClickAction: () => void;
-  variant?: "default" | "secondary" | "ghost" | "link" | "outline" | "destructive";
+  iconProps?: React.ComponentPropsWithoutRef<"svg">;
+  side?: ComponentProps<typeof TooltipContent>["side"];
 }
 
 export const TooltipButton: React.FC<TooltipButtonProps> = ({
-  buttonIcon,
+  icon: Icon,
   tooltipText,
-  onClickAction,
-  variant = "ghost", // Default to 'ghost' if not provided
+  onClick,
+  variant = "ghost",
+  iconProps = {},
+  side = "top",
+  ...props
 }) => {
+  const baseIconClasses = "h-4 w-4";
+
+  const { className: customClassString, ...otherIconProps } = iconProps;
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
           variant={variant}
           size="icon"
-          onClick={onClickAction}
+          onClick={onClick}
+          {...props}
         >
-          {buttonIcon}
+          <Icon {...otherIconProps} className={cn(baseIconClasses, customClassString)} />
         </Button>
       </TooltipTrigger>
-      <TooltipContent sideOffset={5}>
-        {tooltipText}
-      </TooltipContent>
+      <TooltipContent sideOffset={5} side={side}>{tooltipText}</TooltipContent>
     </Tooltip>
   );
 };
