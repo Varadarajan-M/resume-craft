@@ -32,6 +32,7 @@ const ResumeDownloadButton = ({ resumeTitle }: SharedButtonProps) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        console.log('Keyboard shortcut pressed for download');
         e.preventDefault();
         handleDownload();
       }

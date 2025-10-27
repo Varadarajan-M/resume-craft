@@ -91,7 +91,7 @@ function SidebarProvider({
 
   // Helper to toggle the sidebar.
   const toggleSidebar = React.useCallback(() => {
-    // console.log('Toggling sidebar', isMobile);
+    console.log('Toggling sidebar', isMobile);
     return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open);
   }, [isMobile, setOpen, setOpenMobile]);
 
@@ -102,6 +102,7 @@ function SidebarProvider({
         event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
         (event.metaKey || event.ctrlKey)
       ) {
+        console.log('Keyboard shortcut pressed for sidebar toggle');
         event.preventDefault();
         toggleSidebar();
       }
@@ -270,6 +271,7 @@ function SidebarTrigger({
       size="icon"
       className={cn('size-7', className)}
       onClick={(event) => {
+        console.log('Sidebar trigger clicked');
         onClick?.(event);
         toggleSidebar();
       }}
