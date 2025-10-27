@@ -561,7 +561,10 @@ function SidebarMenuButtonWithActiveIndicator({
   const { isMobile, toggleSidebar, open } = useSidebar();
 
   React.useEffect(() => {
-    if (isMobile && open) toggleSidebar();
+    if (isMobile && open) {
+      console.log('Closing sidebar on mobile due to navigation');
+      // toggleSidebar();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, isMobile, open]);
 
