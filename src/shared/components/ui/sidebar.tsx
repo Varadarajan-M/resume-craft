@@ -558,7 +558,7 @@ function SidebarMenuButtonWithActiveIndicator({
   const pathname = usePathname();
   // Check if the current pathname matches the provided path.
   const isActive = pathname === path;
-  const { isMobile, toggleSidebar, open } = useSidebar();
+  const { isMobile, open } = useSidebar();
 
   React.useEffect(() => {
     if (isMobile && open) {
