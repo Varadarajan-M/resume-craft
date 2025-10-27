@@ -556,15 +556,13 @@ function SidebarMenuButtonWithActiveIndicator({
   const pathname = usePathname();
   // Check if the current pathname matches the provided path.
   const isActive = pathname === path;
-  const { isMobile, toggleSidebar, open } = useSidebar();
-
-  React.useEffect(() => {
-    if (isMobile && open) toggleSidebar();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, isMobile, open]);
+  const { setOpenMobile } = useSidebar();
 
   return (
     <SidebarMenuButton
+      onClick={() => {
+        setOpenMobile(false);
+      }}
       asChild
       className={cn({
         'bg-sidebar-accent text-sidebar-accent-foreground': isActive,
