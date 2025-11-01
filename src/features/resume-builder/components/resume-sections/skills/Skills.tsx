@@ -72,7 +72,7 @@ export const SkillInput = ({
   onLevelChange,
   onDelete,
 }: SkillInputProps) => (
-  <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] items-center gap-2">
+  <div className="grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_auto] items-center gap-2">
     <Input
       placeholder="Skill (e.g., React)"
       value={skill.name}
@@ -80,7 +80,9 @@ export const SkillInput = ({
     />
 
     <div className="flex items-center gap-3">
-      <SkillLevelSelect value={skill.level} onValueChange={onLevelChange} />
+      <div className="min-w-[100px]">
+        <SkillLevelSelect value={skill.level} onValueChange={onLevelChange} />
+      </div>
 
       <DeleteButton
         onDelete={onDelete}
