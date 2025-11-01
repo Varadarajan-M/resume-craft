@@ -4,6 +4,8 @@ An open-source, AI-powered resume builder that helps you create professional, AT
 
 ---
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Varadarajan-M/resume-craft)
+
 ## Introduction
 
 Resume Craft is a modern web application designed to simplify the resume creation process. It provides users with professionally designed templates, a real-time WYSIWYG editor, and AI-powered content suggestions to help them craft the perfect resume and land their dream job.
