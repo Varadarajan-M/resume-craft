@@ -32,7 +32,7 @@ export const SkillLevelSelect = ({
   placeholder = "Level",
 }: SkillLevelSelectProps) => (
   <Select value={value} onValueChange={onValueChange}>
-    <SelectTrigger className="text-xs sm:max-w-[100px] 	md:text-sm">
+    <SelectTrigger className="text-xs sm:max-w-[100px] flex-1	md:text-sm">
       <SelectValue placeholder={placeholder} />
     </SelectTrigger>
     <SelectContent>
