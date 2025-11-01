@@ -1,5 +1,5 @@
 // components
-export { default as CreateResumeButton } from './components/CreateResumeButton';
+export { default as CreateResumeButton } from './components/CreateResumeButtonGroup';
 export { default as DocumentList } from './components/DocumentList';
 export { default as DocumentSearch } from './components/DocumentSearch';
 export { default as DocumentSkeleton } from './components/DocumentSkeleton';
