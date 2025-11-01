@@ -35,7 +35,7 @@ const useCreateResumeFromTextMutation = (
       });
     },
 
-    onError: (error, _variables, context) => {
+    onError: (error) => {
       props.onError?.(error);
     },
   });
