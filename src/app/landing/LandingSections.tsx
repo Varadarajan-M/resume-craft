@@ -11,6 +11,7 @@ import {
 } from "./MotionComponents";
 
 import FadeInChildren from "@/shared/components/animated/FadeIn";
+import AuthGuard from "@/shared/components/common/AuthGuard";
 import { Button } from "@/shared/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
@@ -54,24 +55,17 @@ export function HeroSection() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/">
-              <Button
-                size="lg"
-                className="w-full sm:w-auto bg-foreground text-background hover:bg-foreground/90 text-sm tracking-tight px-8"
-              >
-                Create Your Resume
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
+            <AuthGuard
+              signedOutContent={<CreateYourResumeButton />}
+              signedInContent={
+                <Link href="/">
+                  <CreateYourResumeButton />
+                </Link>
+              }
+            />
 
             <Link href="#templates">
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto text-sm tracking-tight px-8 bg-transparent"
-              >
-                View Templates
-              </Button>
+              <ViewTemplatesButton />
             </Link>
           </div>
         </FadeInChildren>
@@ -79,6 +73,26 @@ export function HeroSection() {
     </section>
   );
 }
+
+export const CreateYourResumeButton = () => (
+  <Button
+    size="lg"
+    className="w-full sm:w-auto bg-foreground text-background hover:bg-foreground/90 text-sm tracking-tight px-8"
+  >
+    Create Your Resume
+    <ArrowRight className="ml-2 h-5 w-5" />
+  </Button>
+);
+
+export const ViewTemplatesButton = () => (
+  <Button
+    size="lg"
+    variant="outline"
+    className="w-full sm:w-auto text-sm tracking-tight px-8 bg-transparent"
+  >
+    View Templates
+  </Button>
+);
 
 const features = [
   {
@@ -250,6 +264,16 @@ export function TemplatesSection() {
   );
 }
 
+export const StartBuildingButton = () => (
+  <Button
+    size="lg"
+    className="w-full sm:w-auto bg-foreground text-background hover:bg-foreground/90 text-base px-8"
+  >
+    Start Building Now
+    <ArrowRight className="ml-2 h-5 w-5" />
+  </Button>
+);
+
 export function CTASection() {
   return (
     <section
@@ -274,13 +298,14 @@ export function CTASection() {
               with ResumeCraft
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button
-                size="lg"
-                className="w-full sm:w-auto bg-foreground text-background hover:bg-foreground/90 text-base px-8"
-              >
-                Start Building Now
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <AuthGuard
+                signedOutContent={<StartBuildingButton />}
+                signedInContent={
+                  <Link href="/">
+                    <StartBuildingButton />
+                  </Link>
+                }
+              />
             </div>
             <div className="mt-8 flex items-center justify-center gap-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
