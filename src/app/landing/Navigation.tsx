@@ -1,7 +1,8 @@
 import FadeInChildren from "@/shared/components/animated/FadeIn";
+import AuthGuard from "@/shared/components/common/AuthGuard";
 import ResumeCraftBrand from "@/shared/components/common/ResumeCraftBrand";
 import { ThemeSwitch } from "@/shared/components/common/ThemeSwitcher";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { MotionNav } from "./MotionComponents";
 
@@ -32,16 +33,14 @@ export function Navigation() {
               <Link href="#pricing" className="hidden sm:inline-flex text-sm">
                 Pricing
               </Link>
-              <SignedOut>
-                <SignInButton forceRedirectUrl="/" mode="modal">
+              <AuthGuard
+                signedInContent={<UserButton />}
+                signedOutContent={
                   <span className="cursor-pointer bg-foreground text-background hover:bg-foreground/90 p-2 px-4 rounded-md text-sm font-medium transition-colors">
                     Get Started
                   </span>
-                </SignInButton>
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
+                }
+              />
             </div>
           </FadeInChildren>
         </div>
