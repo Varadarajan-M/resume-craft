@@ -40,7 +40,7 @@ const useAutoSaveAndLoadResume = ({
       clearTimeout(localStorageUpdateTimerRef.current);
     }
     localStorageUpdateTimerRef.current = setTimeout(() => {
-      localStorage.setItem('resume', JSON.stringify(resume));
+      localStorage.setItem('resume-craft:resume', JSON.stringify(resume));
     }, 1000);
 
     return () => {

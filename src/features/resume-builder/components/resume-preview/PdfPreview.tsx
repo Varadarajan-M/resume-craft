@@ -16,9 +16,15 @@ const Viewer = dynamic(
 
 interface Props {
   fileUrl: string;
+  zoomScale?: number;
+  onZoomChange?: (scale: number) => void;
 }
 
-export default function PDFPreview({ fileUrl }: Props) {
+export default function PDFPreview({
+  fileUrl,
+  zoomScale,
+  onZoomChange,
+}: Props) {
   const defaultLayoutPluginInstance = defaultLayoutPlugin({
     // Remove all sidebar tabs:
     sidebarTabs: () => [],
@@ -78,7 +84,10 @@ export default function PDFPreview({ fileUrl }: Props) {
     <Viewer
       fileUrl={fileUrl}
       plugins={[defaultLayoutPluginInstance]}
-      defaultScale={0.95}
+      defaultScale={zoomScale}
+      onZoom={({ scale }) => {
+        onZoomChange?.(scale);
+      }}
       pageLayout={{
         transformSize: ({ size }) => ({
           height: size.height + 30, // Add 30 pixels to the height for top/bottom margin

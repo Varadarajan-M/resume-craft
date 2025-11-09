@@ -25,7 +25,7 @@ export const ThemeSwitch = ({ className }: { className?: string }) => {
   const { setTheme } = useTheme();
   const [preferences, setPreferences] = useLocalStorageState<Preferences>(
     { theme: 'light' },
-    'preferences'
+    'resume-craft:preferences'
   );
 
   const theme = preferences.theme || 'light';

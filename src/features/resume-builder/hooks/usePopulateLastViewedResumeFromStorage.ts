@@ -12,7 +12,7 @@ const usePopulateLastViewedResumeFromStorage = () => {
   useLayoutEffect(() => {
     if (typeof window === 'undefined' || !userId) return;
 
-    const storedResume = localStorage.getItem('resume');
+    const storedResume = localStorage.getItem('resume-craft:resume');
     const parsedResume = safeJsonParse<typeof resume>(storedResume);
 
     // Ensure the stored resume belongs to the current user
