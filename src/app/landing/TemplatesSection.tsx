@@ -1,31 +1,21 @@
-import AuthGuard from "@/shared/components/common/AuthGuard";
-import { Button } from "@/shared/components/ui/button";
-import Image from "next/image";
-import Link from "next/link";
-import { AnimatedSection, AnimatedTemplateCard } from "./MotionComponents";
+import AuthGuard from '@/shared/components/common/AuthGuard';
+import { Button } from '@/shared/components/ui/button';
+import Image from 'next/image';
+import Link from 'next/link';
+import { AnimatedSection, AnimatedTemplateCard } from './MotionComponents';
 
-const templates = ["Clean Minimal", "Standard"];
+const templates = ['Clean Minimal', 'Standard'];
 
 export const UseTemplateButton = () => {
   return (
-    <Button
-      variant="outline"
-      className="
-                bg-transparent 
-                text-white 
-                border-white 
-                font-semibold 
-                px-4 py-2 rounded-lg border-2
-                transition-all duration-300
-                hover:bg-white 
-                hover:text-gray-900
-                dark:hover:bg-gray-900
-                dark:hover:text-white 
-            "
-    >
+    <Button className="bg-background text-foreground hover:bg-background/90 hover:scale-105 hover:text-foreground/90">
       Use Template
     </Button>
   );
+};
+
+const templateNameToId = (name: string) => {
+  return name.replace(' ', '-').toLowerCase();
 };
 
 export default function TemplatesSection() {
@@ -50,45 +40,35 @@ export default function TemplatesSection() {
         <div className="flex flex-row flex-wrap justify-center gap-8">
           {templates.map((template, index) => {
             const templateRedirectUrl =
-              "/builder?new=true&templateId=" +
-              template.replace(" ", "-").toLowerCase();
+              '/builder?new=true&templateId=' + templateNameToId(template);
 
             return (
               <AnimatedTemplateCard
                 key={index}
                 index={index}
-                className="group relative overflow-hidden border-border/50 hover:border-foreground/20 transition-all duration-300 bg-card/50 backdrop-blur-sm"
+                className="group relative overflow-hidden border-border/50 hover:border-foreground/20 transition-all duration-300 bg-card/50 backdrop-blur-sm pt-0"
               >
-                <div
-                  className="
-                                        absolute inset-0 top-0 bottom-[92px] lg:bottom-[88px] 
-                                        flex items-center justify-center 
-                                        opacity-0 group-hover:opacity-100 
-                                        transition-opacity duration-300 z-20 
-                                        bg-black/0 group-hover:bg-black/40
-                                    "
-                >
-                  <AuthGuard
-                    redirectUrl={templateRedirectUrl}
-                    signedOutContent={<UseTemplateButton />}
-                    signedInContent={
-                      <Link href={templateRedirectUrl}>
-                        <UseTemplateButton />
-                      </Link>
-                    }
+                <div className="relative overflow-hidden">
+                  <Image
+                    src={`/templates/${templateNameToId(template)}.webp`}
+                    alt={`${template} Template`}
+                    width={400}
+                    height={533}
+                    className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.02] relative z-10"
+                    loading="lazy"
                   />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 group-hover:bg-black/5 dark:group-hover:bg-black/20">
+                    <AuthGuard
+                      redirectUrl={templateRedirectUrl}
+                      signedOutContent={<UseTemplateButton />}
+                      signedInContent={
+                        <Link href={templateRedirectUrl}>
+                          <UseTemplateButton />
+                        </Link>
+                      }
+                    />
+                  </div>
                 </div>
-
-                <Image
-                  src={`/templates/${template
-                    .replace(" ", "-")
-                    .toLowerCase()}.webp`}
-                  alt={`${template} Template`}
-                  width={400}
-                  height={533}
-                  className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.02] relative z-10"
-                  loading="lazy"
-                />
                 <div className="p-4 relative z-10">
                   <h3 className="font-semibold mb-1">{template}</h3>
                   <p className="text-sm text-muted-foreground">

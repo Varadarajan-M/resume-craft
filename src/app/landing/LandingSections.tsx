@@ -1,18 +1,18 @@
-import { Card } from "@/shared/components/ui/card";
+import { Card } from '@/shared/components/ui/card';
 
-import { CheckCircle2, Download, Palette, Play, Zap } from "lucide-react";
+import { CheckCircle2, Download, Palette, Play, Zap } from 'lucide-react';
 
 import {
   AnimatedCard,
   AnimatedFeatureCard,
-  AnimatedSection
-} from "./MotionComponents";
+  AnimatedSection,
+} from './MotionComponents';
 
-import FadeInChildren from "@/shared/components/animated/FadeIn";
-import AuthGuard from "@/shared/components/common/AuthGuard";
-import { Button } from "@/shared/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
-import Link from "next/link";
+import FadeInChildren from '@/shared/components/animated/FadeIn';
+import AuthGuard from '@/shared/components/common/AuthGuard';
+import { Button } from '@/shared/components/ui/button';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 
 export function HeroSection() {
   return (
@@ -40,7 +40,7 @@ export function HeroSection() {
           </div>
 
           <h1 className="mb-6 text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-            Craft Your Perfect Resume in{" "}
+            Craft Your Perfect Resume in{' '}
             <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
               Minutes
             </span>
@@ -75,7 +75,7 @@ export function HeroSection() {
 export const CreateYourResumeButton = () => (
   <Button
     size="lg"
-    className="w-full sm:w-auto bg-foreground text-background hover:bg-foreground/90 text-sm tracking-tight px-8"
+    className="w-fit sm:w-auto bg-foreground text-background hover:bg-foreground/90 text-sm tracking-tight px-8"
   >
     Create Your Resume
     <ArrowRight className="ml-2 h-5 w-5" />
@@ -86,7 +86,7 @@ export const ViewTemplatesButton = () => (
   <Button
     size="lg"
     variant="outline"
-    className="w-full sm:w-auto text-sm tracking-tight px-8 bg-transparent"
+    className="w-fit sm:w-auto text-sm tracking-tight px-8 bg-transparent"
   >
     View Templates
   </Button>
@@ -95,27 +95,27 @@ export const ViewTemplatesButton = () => (
 const features = [
   {
     icon: Sparkles,
-    title: "AI-Powered Content",
+    title: 'AI-Powered Content',
     description:
-      "Generate professional resume content with intelligent suggestions tailored to your experience.",
+      'Generate professional resume content with intelligent suggestions tailored to your experience.',
   },
   {
     icon: Palette,
-    title: "Beautiful Templates",
+    title: 'Beautiful Templates',
     description:
-      "Choose from professionally designed templates that make your resume stand out.",
+      'Choose from professionally designed templates that make your resume stand out.',
   },
   {
     icon: Zap,
-    title: "Real-Time Preview",
+    title: 'Real-Time Preview',
     description:
-      "See your changes instantly with our live preview editor as you build your resume.",
+      'See your changes instantly with our live preview editor as you build your resume.',
   },
   {
     icon: Download,
-    title: "Instant Download",
+    title: 'Instant Download',
     description:
-      "Download your resume as PDF or share to other platforms with just a click.",
+      'Download your resume as PDF or share to other platforms with just a click.',
   },
 ];
 
@@ -209,7 +209,6 @@ export function FeaturesSection() {
     </section>
   );
 }
-
 
 export const StartBuildingButton = () => (
   <Button
