@@ -144,6 +144,10 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
+  html {
+    @apply scroll-smooth;
+  }
   body {
     @apply bg-background text-foreground;
   }
@@ -248,5 +252,18 @@ body {
     outline: 2px solid #3b82f6;
     background: rgba(59, 130, 246, 0.1);
     transition: background 0.4s ease;
+  }
+
+  .clerk-footer {
+    padding-bottom: 10px;
+  }
+  .cl-userProfile-root .cl-cardBox .cl-navbar div:nth-of-type(3),
+  .clerk-footer div:last-child,
+  .cl-userButtonPopoverFooter {
+    display: none !important;
+  }
+
+  .cl-footer p:last-child {
+    display: none !important;
   }
 }
