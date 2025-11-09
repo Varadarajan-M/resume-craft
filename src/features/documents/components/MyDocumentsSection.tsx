@@ -9,24 +9,21 @@ import DocumentSearch from './DocumentSearch';
 import { useResumeStore } from '@/features/resume-builder/store/resume';
 import { FadeIn } from '@/shared/components/animated/FadeIn';
 import { Resume } from '@/shared/types/resume';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import useDeleteResumeMutation from '../hooks/useDeleteDocumentMutation';
 import useDocumentListQuery from '../hooks/useDocumentListQuery';
 import useDuplicateResumeMutation from '../hooks/useDuplicateResumeMutation';
 
-type ViewType = 'grid' | 'list' | undefined;
-
 const DocumentsSection = () => {
+  const [activeView, setActiveView] = useState<'grid' | 'list'>('grid');
+
   const setResume = useResumeStore((s) => s.setResume);
+
   const { data: documents = [], isLoading, error } = useDocumentListQuery({});
   const { mutate: handleDocumentDuplication } = useDuplicateResumeMutation();
   const { mutate: deleteResumeMutation } = useDeleteResumeMutation({});
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const activeView = (searchParams.get('view') || 'grid') as ViewType;
 
   const router = useRouter();
 
@@ -34,13 +31,6 @@ const DocumentsSection = () => {
   const handleDocumentClick = <T extends Resume>(document: T) => {
     setResume(document);
     router.push(`/builder`);
-  };
-
-  // push the new view type to the URL
-  const handleViewChange = (newView: 'grid' | 'list') => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('view', newView);
-    router.push(pathname + `?${params.toString()}`);
   };
 
   const handleDeleteDocument = <T extends Resume>(document: T) => {
@@ -68,13 +58,13 @@ const DocumentsSection = () => {
           <ViewTypeButton
             active={activeView === 'grid'}
             icon={Grid}
-            onClick={() => handleViewChange('grid')}
+            onClick={() => setActiveView('grid')}
             tooltipText="Grid View"
           />
           <ViewTypeButton
             active={activeView === 'list'}
             icon={List}
-            onClick={() => handleViewChange('list')}
+            onClick={() => setActiveView('list')}
             tooltipText="List View"
           />
         </div>

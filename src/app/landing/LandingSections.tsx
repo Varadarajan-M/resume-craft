@@ -1,20 +1,18 @@
-import { Card } from "@/shared/components/ui/card";
+import { Card } from '@/shared/components/ui/card';
 
-import { CheckCircle2, Download, Palette, Play, Zap } from "lucide-react";
-import Image from "next/image";
+import { CheckCircle2, Download, Palette, Play, Zap } from 'lucide-react';
 
 import {
   AnimatedCard,
   AnimatedFeatureCard,
   AnimatedSection,
-  AnimatedTemplateCard,
-} from "./MotionComponents";
+} from './MotionComponents';
 
-import FadeInChildren from "@/shared/components/animated/FadeIn";
-import AuthGuard from "@/shared/components/common/AuthGuard";
-import { Button } from "@/shared/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
-import Link from "next/link";
+import FadeInChildren from '@/shared/components/animated/FadeIn';
+import AuthGuard from '@/shared/components/common/AuthGuard';
+import { Button } from '@/shared/components/ui/button';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 
 export function HeroSection() {
   return (
@@ -42,7 +40,7 @@ export function HeroSection() {
           </div>
 
           <h1 className="mb-6 text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-            Craft Your Perfect Resume in{" "}
+            Craft Your Perfect Resume in{' '}
             <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
               Minutes
             </span>
@@ -77,7 +75,7 @@ export function HeroSection() {
 export const CreateYourResumeButton = () => (
   <Button
     size="lg"
-    className="w-full sm:w-auto bg-foreground text-background hover:bg-foreground/90 text-sm tracking-tight px-8"
+    className="w-fit sm:w-auto bg-foreground text-background hover:bg-foreground/90 text-sm tracking-tight px-8"
   >
     Create Your Resume
     <ArrowRight className="ml-2 h-5 w-5" />
@@ -88,7 +86,7 @@ export const ViewTemplatesButton = () => (
   <Button
     size="lg"
     variant="outline"
-    className="w-full sm:w-auto text-sm tracking-tight px-8 bg-transparent"
+    className="w-fit sm:w-auto text-sm tracking-tight px-8 bg-transparent"
   >
     View Templates
   </Button>
@@ -97,31 +95,29 @@ export const ViewTemplatesButton = () => (
 const features = [
   {
     icon: Sparkles,
-    title: "AI-Powered Content",
+    title: 'AI-Powered Content',
     description:
-      "Generate professional resume content with intelligent suggestions tailored to your experience.",
+      'Generate professional resume content with intelligent suggestions tailored to your experience.',
   },
   {
     icon: Palette,
-    title: "Beautiful Templates",
+    title: 'Beautiful Templates',
     description:
-      "Choose from professionally designed templates that make your resume stand out.",
+      'Choose from professionally designed templates that make your resume stand out.',
   },
   {
     icon: Zap,
-    title: "Real-Time Preview",
+    title: 'Real-Time Preview',
     description:
-      "See your changes instantly with our live preview editor as you build your resume.",
+      'See your changes instantly with our live preview editor as you build your resume.',
   },
   {
     icon: Download,
-    title: "Instant Download",
+    title: 'Instant Download',
     description:
-      "Download your resume as PDF or share to other platforms with just a click.",
+      'Download your resume as PDF or share to other platforms with just a click.',
   },
 ];
-
-const templates = ["Clean Minimal", "Standard"];
 
 export function VideoSection() {
   return (
@@ -207,56 +203,6 @@ export function FeaturesSection() {
                 </p>
               </div>
             </AnimatedFeatureCard>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function TemplatesSection() {
-  return (
-    <section
-      id="templates"
-      className="py-20 sm:py-32 bg-muted/30 relative dot-pattern"
-    >
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_70%_50%,rgba(120,119,198,0.03),rgba(255,255,255,0))]" />
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="mx-auto max-w-2xl text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4 text-balance">
-            Professional Templates
-          </h2>
-          <p className="text-lg text-muted-foreground text-balance">
-            Choose from our collection of ATS-friendly, professionally designed
-            templates
-          </p>
-        </AnimatedSection>
-
-        <div className="flex flex-row flex-wrap justify-center gap-8">
-          {templates.map((template, index) => (
-            <AnimatedTemplateCard
-              key={index}
-              index={index}
-              className="group overflow-hidden border-border/50 hover:border-foreground/20 transition-all duration-300 bg-card/50 backdrop-blur-sm"
-            >
-              <Image
-                src={`/templates/${template
-                  .replace(" ", "-")
-                  .toLowerCase()}.webp`}
-                alt={`${template} Template`}
-                width={400}
-                height={533}
-                className="w-full h-auto"
-                loading="lazy"
-              />
-              <div className="p-4">
-                <h3 className="font-semibold mb-1">{template}</h3>
-                <p className="text-sm text-muted-foreground">
-                  Professional and clean design
-                </p>
-              </div>
-            </AnimatedTemplateCard>
           ))}
         </div>
       </div>
