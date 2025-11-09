@@ -3,10 +3,10 @@ import {
   CTASection,
   FeaturesSection,
   HeroSection,
-  TemplatesSection,
   VideoSection,
 } from "./LandingSections";
 import { Navigation } from "./Navigation";
+import TemplatesSection from "./TemplatesSection";
 
 export default function LandingPage() {
   return (
