@@ -16,8 +16,6 @@ import useDeleteResumeMutation from '../hooks/useDeleteDocumentMutation';
 import useDocumentListQuery from '../hooks/useDocumentListQuery';
 import useDuplicateResumeMutation from '../hooks/useDuplicateResumeMutation';
 
-type ViewType = 'grid' | 'list' | undefined;
-
 const DocumentsSection = () => {
   const [activeView, setActiveView] = useState<'grid' | 'list'>('grid');
 
