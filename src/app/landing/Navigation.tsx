@@ -1,10 +1,11 @@
-import FadeInChildren from "@/shared/components/animated/FadeIn";
-import AuthGuard from "@/shared/components/common/AuthGuard";
-import ResumeCraftBrand from "@/shared/components/common/ResumeCraftBrand";
-import { ThemeSwitch } from "@/shared/components/common/ThemeSwitcher";
-import { UserButton } from "@clerk/nextjs";
-import Link from "next/link";
-import { MotionNav } from "./MotionComponents";
+import FadeInChildren from '@/shared/components/animated/FadeIn';
+import AuthGuard from '@/shared/components/common/AuthGuard';
+import ResumeCraftBrand from '@/shared/components/common/ResumeCraftBrand';
+import { ThemeSwitch } from '@/shared/components/common/ThemeSwitcher';
+import { Button } from '@/shared/components/ui/button';
+import { UserButton } from '@clerk/nextjs';
+import { MotionNav } from './MotionComponents';
+import NavLinks from './NavLinks';
 
 export function Navigation() {
   return (
@@ -17,28 +18,20 @@ export function Navigation() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <ResumeCraftBrand className="text-xl" />
+            <ResumeCraftBrand className="text-sm sm:text-xl" />
           </div>
 
           <FadeInChildren
             asProp="div"
             className="flex flex-row items-center gap-4"
           >
-            <ThemeSwitch />
-
             <div className="flex gap-8 items-center">
-              <Link href="#templates" className="hidden sm:inline-flex text-sm">
-                Templates
-              </Link>
-              <Link href="#pricing" className="hidden sm:inline-flex text-sm">
-                Pricing
-              </Link>
+              <ThemeSwitch />
+              <NavLinks />
               <AuthGuard
                 signedInContent={<UserButton />}
                 signedOutContent={
-                  <span className="cursor-pointer bg-foreground text-background hover:bg-foreground/90 p-2 px-4 rounded-md text-sm font-medium transition-colors">
-                    Get Started
-                  </span>
+                  <Button className="text-xs sm:text-sm">Get Started</Button>
                 }
               />
             </div>
