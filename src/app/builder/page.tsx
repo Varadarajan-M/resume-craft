@@ -26,10 +26,16 @@ const ResumePreviewPanel = dynamic(
     ),
   }
 );
+
+enum ResumeBuilderSection {
+  Sections = 'Sections',
+  Preview = 'Preview',
+  Settings = 'Settings',
+}
+
 const ResumeBuilderPage = () => {
-  const [activeSection, setActiveSection] = useState<
-    'Sections' | 'Preview' | 'Config' | null
-  >('Preview');
+  const [activeSection, setActiveSection] =
+    useState<ResumeBuilderSection | null>(ResumeBuilderSection.Preview);
 
   return (
     <section
@@ -45,28 +51,28 @@ const ResumeBuilderPage = () => {
         <ResumeSectionQuickNavigationPanel />
         <ResumeSectionsPanel
           className={cn('basis-full lg:flex md:border-r lg:basis-[25%]', {
-            hidden: activeSection !== 'Sections',
+            hidden: activeSection !== ResumeBuilderSection.Sections,
           })}
         />
         <ResumePreviewPanel
           className={cn('flex-1 lg:flex', {
-            hidden: activeSection !== 'Preview',
+            hidden: activeSection !== ResumeBuilderSection.Preview,
           })}
         />
         <ResumeConfigPanel
           className={cn(
             'lg:block lg:basis-[24%] md:border-l lg:max-w-[400px]  w-full',
             {
-              hidden: activeSection !== 'Config',
+              hidden: activeSection !== ResumeBuilderSection.Settings,
             }
           )}
         />
 
         <FadeIn
           as="footer"
-          className="absolute flex flex-row lg:hidden justify-center gap-4 items-center bottom-5 left-1/2 -translate-x-1/2 text-sm shadow-sm px-4 py-2 rounded-full bg-background backdrop-blur-lg"
+          className="absolute flex flex-row lg:hidden justify-center gap-4 items-center bottom-20 left-1/2 -translate-x-1/2 text-sm shadow-sm px-4 py-2 rounded-full bg-background backdrop-blur-lg"
         >
-          {['Sections', 'Preview', 'Config'].map((section) => (
+          {['Sections', 'Preview', 'Settings'].map((section) => (
             <button
               key={section}
               className={`px-3 py-1 rounded-lg text-xs ${

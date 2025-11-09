@@ -1,38 +1,26 @@
-"use client";
+'use client';
 
-import { Grid, List } from "lucide-react";
-import { useState } from "react";
+import { Grid, List } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { FadeIn } from "@/shared/components/animated/FadeIn";
-import ViewTypeButton from "@/shared/components/common/ViewTypeButton";
-import TemplateList from "./TemplateList";
-import TemplateSearch from "./TemplateSearch";
+import { FadeIn } from '@/shared/components/animated/FadeIn';
+import ViewTypeButton from '@/shared/components/common/ViewTypeButton';
+import TemplateList from './TemplateList';
+import TemplateSearch from './TemplateSearch';
 
-import { useResumeStore } from "@/features/resume-builder/store/resume";
-import { getPlaceholderResume } from "@/shared/lib/resume";
-import { DocumentTemplate } from "@/shared/types/document";
-import { useAuth } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import useTemplatesQuery from "../hooks/useTemplatesQuery";
+import useTemplatesQuery from '../hooks/useTemplatesQuery';
+
+import type { DocumentTemplate } from '@/shared/types/document';
 
 const AllTemplatesSection = () => {
-  const [activeView, setActiveView] = useState<"grid" | "list">("grid");
-  const setResume = useResumeStore((state) => state.setResume);
-
-  const userId = useAuth()?.userId;
-
-  const { data: templates, isLoading } = useTemplatesQuery();
+  const [activeView, setActiveView] = useState<'grid' | 'list'>('grid');
 
   const router = useRouter();
+  const { data: templates, isLoading } = useTemplatesQuery();
 
-  const handleTemplateClick = <T extends DocumentTemplate>(template: T) => {
-    const newResume = getPlaceholderResume(
-      userId!,
-      template as DocumentTemplate
-    );
-    setResume(newResume);
-    router.push(`/builder`);
-  };
+  const handleTemplateClick = (template: DocumentTemplate) =>
+    router.push(`/builder?new=true&templateId=${template.id}`);
 
   return (
     <>
@@ -40,15 +28,15 @@ const AllTemplatesSection = () => {
         <TemplateSearch />
         <div className="flex gap-2 items-center">
           <ViewTypeButton
-            active={activeView === "grid"}
+            active={activeView === 'grid'}
             icon={Grid}
-            onClick={() => setActiveView("grid")}
+            onClick={() => setActiveView('grid')}
             tooltipText="Grid View"
           />
           <ViewTypeButton
-            active={activeView === "list"}
+            active={activeView === 'list'}
             icon={List}
-            onClick={() => setActiveView("list")}
+            onClick={() => setActiveView('list')}
             tooltipText="List View"
           />
         </div>

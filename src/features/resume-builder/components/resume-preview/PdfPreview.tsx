@@ -78,7 +78,7 @@ export default function PDFPreview({ fileUrl }: Props) {
     <Viewer
       fileUrl={fileUrl}
       plugins={[defaultLayoutPluginInstance]}
-      defaultScale={1.1}
+      defaultScale={0.95}
       pageLayout={{
         transformSize: ({ size }) => ({
           height: size.height + 30, // Add 30 pixels to the height for top/bottom margin
