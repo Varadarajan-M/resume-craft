@@ -1,59 +1,91 @@
-import ClerkProvider from "@/shared/lib/clerk";
-import { ThemeProvider } from "@/shared/lib/next-themes";
-import ReactQueryProvider from "@/shared/lib/react-query";
-import { Metadata } from "next";
-import { Poppins } from "next/font/google";
-import { Toaster } from "sonner";
+import ClerkProvider from '@/shared/lib/clerk';
+import { ThemeProvider } from '@/shared/lib/next-themes';
+import ReactQueryProvider from '@/shared/lib/react-query';
+import { Metadata } from 'next';
+import { Poppins } from 'next/font/google';
+import { Toaster } from 'sonner';
 
-import "./globals.css";
+import './globals.css';
 
 const poppins = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
-  display: "swap",
-  subsets: ["latin"],
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
+  display: 'swap',
+  subsets: ['latin'],
 });
 
+// This is the single source of truth.
+const canonicalDomain = 'https://theresumecraft.vercel.app';
+const pageUrl = 'https://theresumecraft.vercel.app/landing';
+
+// Define your core site details
+const siteTitle =
+  'ResumeCraft | Online Resume Builder for Modern, ATS-Friendly Resumes';
+const siteDescription =
+  'Build a job-winning resume in minutes with ResumeCraft. Our online resume builder features professional, ATS-friendly templates, real-time editing, and easy PDF export.';
+const siteKeywords = [
+  'resume builder',
+  'online resume builder',
+  'ATS-friendly resume',
+  'professional resume templates',
+  'cv builder',
+  'resume maker',
+  'create resume online',
+  'build resume',
+  'modern resume',
+  'pdf resume',
+  'ResumeCraft',
+];
+
 export const metadata: Metadata = {
-  title: "ResumeCraft – Build Stunning Resumes Effortlessly",
-  description:
-    "Create professional, ATS-friendly resumes with ease using ResumeCraft. Choose from modern templates, edit in real-time, and export high-quality PDFs. Simple, fast, and beautifully designed.",
-  keywords: [
-    "resume builder",
-    "cv builder",
-    "professional resume",
-    "online resume editor",
-    "resume templates",
-    "build resume",
-    "modern resume generator",
-    "pdf resume maker",
-    "ResumeCraft",
-    "create resume online",
-  ],
-  metadataBase: new URL("https://resumecraft.app"), // replace with your actual domain
+  // --- Core SEO ---
+  title: siteTitle,
+  description: siteDescription,
+  keywords: siteKeywords,
+
+  // --- Canonical & Robots ---
+  // metadataBase points to the *domain*
+  metadataBase: new URL(canonicalDomain),
+  // alternates.canonical points to the *specific page path*
+  alternates: {
+    canonical: '/landing', // This page's path
+  },
+  robots: {
+    index: true, // We WANT this page indexed
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+
+  // --- Open Graph (Facebook, LinkedIn, etc.) ---
   openGraph: {
-    title: "ResumeCraft – Build Stunning Resumes Effortlessly",
-    description:
-      "Design, edit, and export beautiful resumes in minutes. With live preview, modern templates, and dark mode – ResumeCraft helps you land the job.",
-    url: "https://resumecraft.app",
-    siteName: "ResumeCraft",
+    title: siteTitle,
+    description: siteDescription,
+    url: pageUrl, // The *full* URL to this specific page
+    siteName: 'ResumeCraft',
     images: [
       {
-        url: "https://resumecraft.app/og-image.png", // replace with your actual OG image
+        url: `${canonicalDomain}/og-image.png`, // Absolute URL to the image
         width: 1200,
         height: 630,
-        alt: "ResumeCraft – Resume Builder Preview",
+        alt: 'A preview of the ResumeCraft online resume builder interface',
       },
     ],
-    locale: "en_US",
-    type: "website",
+    locale: 'en_US',
+    type: 'website',
   },
+
+  // --- Twitter Card (X) ---
   twitter: {
-    card: "summary_large_image",
-    title: "ResumeCraft – Build Stunning Resumes Effortlessly",
-    description:
-      "Design, edit, and export beautiful resumes in minutes. With live preview, modern templates, and dark mode – ResumeCraft helps you land the job.",
-    images: ["https://resumecraft.app/og-image.png"], // replace with actual image
-    creator: "@varadcodes", // optional
+    card: 'summary_large_image',
+    title: siteTitle,
+    description: siteDescription,
+    images: [`${canonicalDomain}/og-image.png`], // Absolute URL
+    creator: '@varadcodes',
   },
 };
 
