@@ -1,12 +1,13 @@
-import { Footer } from "./Footer";
+import PrefetchRSC from '@/shared/components/common/PrefetchRSC';
+import { Footer } from './Footer';
 import {
   CTASection,
   FeaturesSection,
   HeroSection,
   VideoSection,
-} from "./LandingSections";
-import { Navigation } from "./Navigation";
-import TemplatesSection from "./TemplatesSection";
+} from './LandingSections';
+import { Navigation } from './Navigation';
+import TemplatesSection from './TemplatesSection';
 
 export default function LandingPage() {
   return (
@@ -18,6 +19,8 @@ export default function LandingPage() {
       <TemplatesSection />
       <CTASection />
       <Footer />
+      <PrefetchRSC path="/builder" />
+      <PrefetchRSC path="/" />
     </div>
   );
 }

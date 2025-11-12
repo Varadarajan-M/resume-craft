@@ -1,6 +1,8 @@
+import PosthogIdentify from '@/shared/components/common/PosthogIdentify';
 import ClerkProvider from '@/shared/lib/clerk';
 import { ThemeProvider } from '@/shared/lib/next-themes';
 import ReactQueryProvider from '@/shared/lib/react-query';
+
 import { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
@@ -107,6 +109,7 @@ export default function RootLayout({
                 className="z-[99999999999999999999999] mt-3"
                 duration={2000}
               />
+              <PosthogIdentify />
             </ReactQueryProvider>
           </ClerkProvider>
         </ThemeProvider>
