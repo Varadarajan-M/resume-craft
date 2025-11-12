@@ -17,6 +17,7 @@ const PosthogIdentify = () => {
         posthog.default.identify(email, {
           email,
           userId,
+          time: new Date().toISOString(),
         });
       });
     }
