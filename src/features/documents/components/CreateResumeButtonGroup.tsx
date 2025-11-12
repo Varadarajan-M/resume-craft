@@ -12,6 +12,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/components/ui/dropdown-menu';
+import { usePosthog } from '@/shared/hooks/usePosthog';
+import { POSTHOG_EVENTS } from '@/shared/lib/constants';
 import { getPlaceholderResume } from '@/shared/lib/resume';
 import { extractTextFromPdf } from '@/shared/lib/utils';
 import { Resume } from '@/shared/types/resume';
@@ -27,6 +29,8 @@ export default function CreateResumeButtonGroup() {
   const createResumeMutation = useCreateResumeMutation({});
   const createResumeFromTextMutation = useCreateResumeFromTextMutation({});
 
+  const { captureEvent } = usePosthog();
+
   const userId = useAuth()?.userId;
   const router = useRouter();
   const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
@@ -40,6 +44,9 @@ export default function CreateResumeButtonGroup() {
       onSuccess: (data: Resume) => {
         toast.success('Resume created successfully!');
         setResume(data);
+        captureEvent(POSTHOG_EVENTS.RESUME_CREATED, {
+          templateId: data?.templateId,
+        });
         router.push(`/builder`);
       },
       onError: (error) => {
@@ -55,6 +62,7 @@ export default function CreateResumeButtonGroup() {
 
     if (!textContent) {
       toast.error('Failed to extract text from the PDF.');
+      captureEvent(POSTHOG_EVENTS.RESUME_IMPORT_FAILED);
       return;
     }
 
@@ -62,6 +70,9 @@ export default function CreateResumeButtonGroup() {
       onSuccess: (data: Resume) => {
         toast.success('Resume created successfully from PDF!');
         setResume(data);
+        captureEvent(POSTHOG_EVENTS.RESUME_IMPORTED, {
+          title: data.title,
+        });
         router.push(`/builder`);
       },
       onError: (error) => {

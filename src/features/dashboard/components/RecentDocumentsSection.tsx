@@ -16,6 +16,8 @@ import {
 import { useResumeStore } from '@/features/resume-builder/store/resume';
 import { FadeIn } from '@/shared/components/animated/FadeIn';
 import { Button } from '@/shared/components/ui/button';
+import { usePosthog } from '@/shared/hooks/usePosthog';
+import { POSTHOG_EVENTS } from '@/shared/lib/constants';
 import { Resume } from '@/shared/types/resume';
 
 const RecentDocumentSection = () => {
@@ -26,6 +28,7 @@ const RecentDocumentSection = () => {
   } = useDocumentListQuery({ limit: 3 });
 
   const { mutate: deleteResumeMutation } = useDeleteResumeMutation({});
+  const { captureEvent } = usePosthog();
 
   const { mutate: handleDocumentDuplication } = useDuplicateResumeMutation();
 
@@ -41,6 +44,7 @@ const RecentDocumentSection = () => {
     deleteResumeMutation(document.id, {
       onSuccess: () => {
         toast.success('Document deleted successfully!');
+        captureEvent(POSTHOG_EVENTS.RESUME_DELETED);
       },
       onError: (error) => {
         toast.error(`Failed to delete document: ${error.message}`);

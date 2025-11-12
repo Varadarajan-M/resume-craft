@@ -79,10 +79,12 @@ const DescriptionEditor = memo(({ id }: { id: string }) => {
   );
   const handleUpdateProject = useResumeStore((s) => s.updateProjectItem);
 
+  const contentToEnhance = `Improve the following project description to make it clear, professional, and results-oriented. Highlight your role, key contributions, and measurable or qualitative impact. Avoid overly technical jargon unless relevant to the project:\n\n${description}`;
+
   return (
     <ResumeItem label="Description" itemId={`${id}-desc`} className="p-0">
       <EnhanceWithAI
-        content={description}
+        content={contentToEnhance}
         onEnhance={(content) =>
           handleUpdateProject(id, { description: content })
         }

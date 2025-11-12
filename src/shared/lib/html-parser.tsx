@@ -8,6 +8,14 @@ interface ParsedElementProps {
   [key: string]: unknown;
 }
 
+const fixEncoding = (text: string) =>
+  text
+    .replace(/\u2011/g, '-') // non-breaking hyphen
+    .replace(/\u2013/g, '-') // en dash
+    .replace(/\u2014/g, '-') // em dash
+    .replace(/\u2012/g, '-') // figure dash
+    .replace(/[\u200B-\u200D\uFEFF]/g, '');
+
 export const htmlParser = (taskDescription: string | null): JSX.Element => {
   const parseElements = (elements: React.ReactNode): React.ReactNode[] => {
     const returnContentConst: React.ReactNode[] = [];
@@ -99,7 +107,8 @@ export const htmlParser = (taskDescription: string | null): JSX.Element => {
   };
 
   if (taskDescription) {
-    const parsedHtml = ReactHtmlParser(taskDescription);
+    const sanitizedHtml = fixEncoding(taskDescription);
+    const parsedHtml = ReactHtmlParser(sanitizedHtml);
 
     const returnContentConst = parseElements(parsedHtml);
 

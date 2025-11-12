@@ -1,16 +1,19 @@
-import { useTemplatesQuery } from "@/features/templates";
-import { cn } from "@/shared/lib/utils";
-import { DocumentTemplate } from "@/shared/types/document";
-import { Resume } from "@/shared/types/resume";
-import { LayoutTemplate } from "lucide-react";
-import Image from "next/image";
-import { useResumeStore } from "../../store/resume";
-import ResumeSection from "../resume-sections/ResumeSection";
+import { useTemplatesQuery } from '@/features/templates';
+import { usePosthog } from '@/shared/hooks/usePosthog';
+import { POSTHOG_EVENTS } from '@/shared/lib/constants';
+import { cn } from '@/shared/lib/utils';
+import { DocumentTemplate } from '@/shared/types/document';
+import { Resume } from '@/shared/types/resume';
+import { LayoutTemplate } from 'lucide-react';
+import Image from 'next/image';
+import { useResumeStore } from '../../store/resume';
+import ResumeSection from '../resume-sections/ResumeSection';
 
 const TemplateSelection = () => {
   const { data: templates } = useTemplatesQuery();
   const resume = useResumeStore((state) => state.resume);
   const setResume = useResumeStore((state) => state.setResume);
+  const { captureEvent } = usePosthog();
 
   const handleTemplateClick = (template: DocumentTemplate) => {
     /*  
@@ -24,7 +27,7 @@ const TemplateSelection = () => {
 
     const newResume = {
       ...resume,
-      category: "resume",
+      category: 'resume',
       templateId: template?.id,
       image: template?.image,
       config: {
@@ -33,6 +36,12 @@ const TemplateSelection = () => {
         sideColumnSectionOrder: template?.sideColumnSectionOrder || [],
       },
     } as Resume;
+
+    captureEvent(POSTHOG_EVENTS.TEMPLATE_SWITCHED, {
+      old: resume?.templateId,
+      new: template?.id,
+    });
+
     setResume(newResume);
   };
 
@@ -51,16 +60,16 @@ const TemplateSelection = () => {
             onClick={() => handleTemplateClick(template)}
             key={template.id}
             className={cn(
-              "flex flex-col relative  overflow-hidden gap-2 items-center max-w-fit p-3 rounded-md hover:border-2 dark:hover:border-foreground group duration-200 cursor-pointer",
+              'flex flex-col relative  overflow-hidden gap-2 items-center max-w-fit p-3 rounded-md hover:border-2 dark:hover:border-foreground group duration-200 cursor-pointer',
               {
-                "border-2 border-foreground/60":
+                'border-2 border-foreground/60':
                   resume?.templateId === template.id,
               }
             )}
           >
             <div className="relative">
               <Image
-                src={template.image || "/placeholder.jpg"}
+                src={template.image || '/placeholder.jpg'}
                 alt={template.name}
                 width={250}
                 height={150}

@@ -8,6 +8,8 @@ import DocumentSearch from './DocumentSearch';
 
 import { useResumeStore } from '@/features/resume-builder/store/resume';
 import { FadeIn } from '@/shared/components/animated/FadeIn';
+import { usePosthog } from '@/shared/hooks/usePosthog';
+import { POSTHOG_EVENTS } from '@/shared/lib/constants';
 import { Resume } from '@/shared/types/resume';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -25,6 +27,8 @@ const DocumentsSection = () => {
   const { mutate: handleDocumentDuplication } = useDuplicateResumeMutation();
   const { mutate: deleteResumeMutation } = useDeleteResumeMutation({});
 
+  const { captureEvent } = usePosthog();
+
   const router = useRouter();
 
   // set the resume in the store and navigate to the builder page
@@ -37,6 +41,7 @@ const DocumentsSection = () => {
     deleteResumeMutation(document.id, {
       onSuccess: () => {
         toast.success('Document deleted successfully!');
+        captureEvent(POSTHOG_EVENTS.RESUME_DELETED);
       },
       onError: (error) => {
         toast.error(`Failed to delete document: ${error.message}`);

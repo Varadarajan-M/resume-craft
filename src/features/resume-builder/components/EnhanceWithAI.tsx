@@ -14,9 +14,11 @@ import {
 } from '@/shared/components/ui/dialog';
 import RichTextEditor from '@/shared/components/ui/rich-text-editor';
 import { Skeleton } from '@/shared/components/ui/skeleton';
+import { usePosthog } from '@/shared/hooks/usePosthog';
+import { POSTHOG_EVENTS } from '@/shared/lib/constants';
 import { AIContentSuggestion } from '@/shared/types/ai';
 import { SparklesIcon } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import useContentEnhancerQuery from '../hooks/useContentEnhancerQuery';
 
 interface EnhanceWithAIProps {
@@ -112,6 +114,14 @@ const EnhanceWithAI = (props: EnhanceWithAIProps) => {
     content,
     enabled: open,
   });
+
+  const { captureEvent } = usePosthog();
+
+  useEffect(() => {
+    if (open && content?.trim().length > 0) {
+      captureEvent(POSTHOG_EVENTS.ENHANCE_WITH_AI_USED);
+    }
+  }, [open, captureEvent, content]);
 
   return (
     <div className="flex flex-col gap-4">

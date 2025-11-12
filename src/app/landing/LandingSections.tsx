@@ -143,13 +143,14 @@ export function VideoSection() {
                   </p>
                 </div>
               </div>
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                src="https://www.youtube.com/embed/c421va-7f5Q?si=hD0nmpuS64Hjqlxa"
-                title="ResumeCraft Demo"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+
+              <div className="relative pb-[64.86486486486486%] h-24">
+                <iframe
+                  src="https://www.loom.com/embed/0f9dc5af6fbc48a8852c406e5f133047"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                ></iframe>
+              </div>
             </div>
 
             <div className="text-center my-7">

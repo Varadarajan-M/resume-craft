@@ -8,6 +8,8 @@ import ResumeCraftBrand from '@/shared/components/common/ResumeCraftBrand';
 import { ThemeSwitch } from '@/shared/components/common/ThemeSwitcher';
 import { Button } from '@/shared/components/ui/button';
 
+import { usePosthog } from '@/shared/hooks/usePosthog';
+import { POSTHOG_EVENTS } from '@/shared/lib/constants';
 import { downloadFile } from '@/shared/lib/utils';
 import { Download, Share2 } from 'lucide-react';
 import { useCallback, useEffect } from 'react';
@@ -23,11 +25,14 @@ const getPdfBlobUrl = (): string | null =>
     ?.getAttribute('data-pdf-blob-url') ?? null;
 
 const ResumeDownloadButton = ({ resumeTitle }: SharedButtonProps) => {
+  const { captureEvent } = usePosthog();
+
   const handleDownload = useCallback(() => {
     const url = getPdfBlobUrl();
     if (!url) return;
     downloadFile(url, resumeTitle);
-  }, [resumeTitle]);
+    captureEvent(POSTHOG_EVENTS.RESUME_DOWNLOADED, { title: resumeTitle });
+  }, [resumeTitle, captureEvent]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -56,6 +61,7 @@ const ResumeDownloadButton = ({ resumeTitle }: SharedButtonProps) => {
 };
 
 const ResumeShareButton = ({ resumeTitle }: SharedButtonProps) => {
+  const { captureEvent } = usePosthog();
   const handleShare = async () => {
     try {
       const url = getPdfBlobUrl();
@@ -73,6 +79,7 @@ const ResumeShareButton = ({ resumeTitle }: SharedButtonProps) => {
           text: 'Check out this document!',
         });
         toast.success('Resume shared successfully!');
+        captureEvent(POSTHOG_EVENTS.RESUME_SHARED, { title: resumeTitle });
       } else {
         toast.error('Sharing is not supported on this device.');
       }

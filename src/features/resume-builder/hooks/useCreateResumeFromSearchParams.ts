@@ -1,5 +1,7 @@
 'use client';
 
+import { usePosthog } from '@/shared/hooks/usePosthog';
+import { POSTHOG_EVENTS } from '@/shared/lib/constants';
 import { getPlaceholderResume } from '@/shared/lib/resume';
 import { DocumentTemplate } from '@/shared/types/document';
 import { useAuth } from '@clerk/nextjs';
@@ -13,6 +15,8 @@ const useCreateResumeFromSearchParams = () => {
   const templateId = searchParams.get('templateId');
   const isNew = searchParams.get('new') === 'true';
   const userId = useAuth()?.userId;
+
+  const { captureEvent } = usePosthog();
 
   const router = useRouter();
 
@@ -28,6 +32,10 @@ const useCreateResumeFromSearchParams = () => {
       );
 
       setResume(newResume);
+
+      captureEvent(POSTHOG_EVENTS.RESUME_CREATED, {
+        templateId,
+      });
 
       // Clean up the URL by removing query parameters
       const url = new URL(window.location.href);

@@ -71,10 +71,12 @@ const ExperienceDescription = ({ id }: { id: string }) => {
     (s) => s.updateExperienceItem
   );
 
+  const contentToEnhance = `Improve the following experience description to make it results-driven and professional. Start sentences with strong action verbs and emphasize measurable impact. Keep it concise and suitable for a resume:\n\n${description}`;
+
   return (
     <ResumeItem label="Description" itemId={`${id}-description`}>
       <EnhanceWithAI
-        content={description}
+        content={contentToEnhance}
         onEnhance={(updatedContent) =>
           handleUpdateExperienceField(id, { description: updatedContent })
         }
@@ -83,7 +85,6 @@ const ExperienceDescription = ({ id }: { id: string }) => {
         <RichTextEditor
           content={description}
           onChange={(content) => {
-            console.log('Description changed:', content);
             handleUpdateExperienceField(id, { description: content });
           }}
           placeholder="Describe your key responsibilities and achievements in this role..."
