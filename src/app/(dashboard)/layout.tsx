@@ -9,6 +9,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/shared/components/ui/sidebar';
+import { SignedIn, UserButton } from '@clerk/nextjs';
 
 export default function DashboardLayout({
   children,
@@ -21,7 +22,16 @@ export default function DashboardLayout({
       <SidebarInset>
         <FadeIn className="flex flex-row gap-1 items-center justify-between border-b px-6 py-2 mb-4 sticky top-0 z-10 bg-background">
           <SidebarTrigger />
-          <ThemeSwitch />
+
+          <div className="flex gap-6 items-center">
+            <ThemeSwitch />
+
+            <div className="sm:hidden flex">
+              <SignedIn>
+                <UserButton></UserButton>
+              </SignedIn>
+            </div>
+          </div>
         </FadeIn>
         <div className="p-6">{children}</div>
       </SidebarInset>

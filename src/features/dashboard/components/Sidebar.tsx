@@ -64,7 +64,7 @@ export default function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="hidden sm:flex">
         <SignedOut>
           <FadeIn transition={{ delay: 0.2 }}>
             <SignInButton mode="modal">

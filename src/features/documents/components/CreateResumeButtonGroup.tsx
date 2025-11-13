@@ -90,28 +90,38 @@ export default function CreateResumeButtonGroup() {
           onClick={handleNewClick}
           disabled={createResumeMutation.isPending}
         >
-          {createResumeMutation.isPending ? (
-            <Loader2 className="h-3 w-3" />
-          ) : (
-            <Plus className="h-3 w-3" />
-          )}
+          <Plus className="h-3 w-3" />
 
           <span className="text-xs font-medium">Create Resume</span>
         </Button>
 
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant="default" className="!pl-2">
-              <ChevronDownIcon />
+            <Button
+              variant="default"
+              className="!pl-2"
+              disabled={createResumeMutation.isPending}
+            >
+              {createResumeMutation.isPending ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                <ChevronDownIcon />
+              )}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="[--radius:1rem]">
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={handleNewClick}>
+              <DropdownMenuItem
+                onClick={handleNewClick}
+                disabled={createResumeMutation.isPending}
+              >
                 <Plus />
                 From scratch
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setIsImportDialogOpen(true)}>
+              <DropdownMenuItem
+                onClick={() => setIsImportDialogOpen(true)}
+                disabled={createResumeMutation.isPending}
+              >
                 <Import />
                 Import existing PDF
               </DropdownMenuItem>
