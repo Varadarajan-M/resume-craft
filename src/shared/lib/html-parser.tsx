@@ -60,9 +60,9 @@ export const htmlParser = (taskDescription: string | null): JSX.Element => {
                 src={elementProps.href as string}
                 key={getUniqId()}
                 style={{
-                  color: '#0066cc',
                   textDecoration: 'underline',
                   ...(elementProps?.style || {}),
+                  color: '#000000',
                 }}
               >
                 {children}
