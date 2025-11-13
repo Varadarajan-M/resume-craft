@@ -16,13 +16,16 @@ The goal of this project is to offer a beautiful, intuitive, and powerful tool f
 
 ## Key Features
 
-- **Modern Templates**: A collection of professionally designed and ATS-friendly resume templates.
-- **AI-Powered Content Enhancement**: Get intelligent suggestions to improve your resume's content for various sections like summaries, work experience, and achievements.
-- **Real-Time Preview**: Instantly see your changes with a live PDF preview as you edit your resume.
-- **Theme and Layout Customization**: Easily reorder sections and customize the look and feel of your resume.
-- **Auto-Save**: Your work is automatically saved to both local storage and the server, so you never lose your progress.
-- **PDF Export**: Download a high-quality PDF of your final resume.
-- **Dark & Light Mode**: A comfortable viewing experience in any lighting condition.
+- **Modern Templates** — Choose from a growing collection of professionally designed, ATS-friendly resume templates.
+- **AI-Powered Content Suggestions** — Get intelligent recommendations to refine your summaries, work experience, and achievements.
+- **Real-Time Preview** — Edit your resume and instantly see every change reflected in a live PDF preview.
+- **Smart PDF Import** — Upload your existing resume PDF to automatically extract and prefill your details.
+- **Rich Text Editing** — Format your content with bold, italics, lists, and more using an intuitive editor.
+- **Text Selection Sync** — Click or select text in the preview to automatically scroll to and highlight the matching field in the editor.
+- **Themes & Layout Customization** — Reorder sections, toggle visibility and personalize your resume’s appearance.
+- **Auto-Save** — Your progress is saved automatically to both local storage and the server — no need to worry about losing work.
+- **High-Quality PDF Export** — Download a perfectly formatted, print-ready version of your resume anytime.
+- **Light & Dark Mode** — Switch between light and dark themes for a comfortable editing experience.
 
 ---
 
