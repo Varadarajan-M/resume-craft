@@ -1,4 +1,3 @@
-import PrefetchRSC from '@/shared/components/common/PrefetchRSC';
 import { Footer } from './Footer';
 import {
   CTASection,
@@ -19,8 +18,6 @@ export default function LandingPage() {
       <TemplatesSection />
       <CTASection />
       <Footer />
-      <PrefetchRSC path="/builder" />
-      <PrefetchRSC path="/" />
     </div>
   );
 }
