@@ -23,12 +23,17 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import useCreateResumeFromTextMutation from '../hooks/useCreateResumeFromTextMutation';
 import useCreateResumeMutation from '../hooks/useCreateResumeMutation';
+import useIdbResume from '../hooks/useIdbResume';
 import ImportPdfDialog from './ImportPdfDialog';
 
 export default function CreateResumeButtonGroup() {
   const createResumeMutation = useCreateResumeMutation({});
   const createResumeFromTextMutation = useCreateResumeFromTextMutation({});
   const isSignedIn = useAuth()?.isSignedIn;
+
+  const { createLocalResume: addLocalResume } = useIdbResume({
+    enabled: !isSignedIn,
+  });
 
   const { captureEvent } = usePosthog();
 
@@ -39,17 +44,24 @@ export default function CreateResumeButtonGroup() {
   const setResume = useResumeStore((state) => state.setResume);
 
   const handleNewClick = async () => {
-    if (!userId) return;
+    const placeholderResume = getPlaceholderResume(userId || undefined);
 
-    await createResumeMutation.mutateAsync(getPlaceholderResume(userId), {
-      onSuccess: (data: Resume) => {
-        toast.success('Resume created successfully!');
-        setResume(data);
-        captureEvent(POSTHOG_EVENTS.RESUME_CREATED, {
-          templateId: data?.templateId,
-        });
-        router.push(`/builder`);
-      },
+    const onSuccess = async (data: Resume) => {
+      toast.success('Resume created successfully!');
+      setResume(data);
+      captureEvent(POSTHOG_EVENTS.RESUME_CREATED, {
+        templateId: data?.templateId,
+      });
+      router.push(`/builder`);
+    };
+
+    if (!isSignedIn) {
+      await addLocalResume(placeholderResume);
+      return onSuccess(placeholderResume);
+    }
+
+    await createResumeMutation.mutateAsync(placeholderResume, {
+      onSuccess,
       onError: (error) => {
         toast.error(`Failed to create resume: ${error.message}`);
       },

@@ -29,14 +29,17 @@ const ResumePreviewPanel = ({ className }: ResumePreviewPanelProps) => {
   const timerId = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (timerId.current) {
-      clearTimeout(timerId.current);
-    }
     timerId.current = setTimeout(() => {
       if (resume) {
         setDebouncedResume(resume);
       }
     }, 1000);
+
+    return () => {
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
+    };
   }, [resume]);
 
   const resumePreviewPanelRef = useSelectToHighlightPdfText();

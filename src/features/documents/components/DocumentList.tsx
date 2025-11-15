@@ -16,7 +16,6 @@ interface DocumentListProps {
 
 const DocumentList: React.FC<DocumentListProps> = ({
   isLoading,
-  isSignedIn,
   documents,
   viewType = 'grid',
   onDocumentClick,

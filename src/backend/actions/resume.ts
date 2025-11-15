@@ -61,7 +61,7 @@ const _getAllResumesAction = async (userId: string, limit?: number) => {
     return {
       success: true,
       message: 'Resumes fetched successfully',
-      data: JSON.parse(JSON.stringify(resumes)), // Convert Mongoose documents to plain objects
+      data: JSON.parse(JSON.stringify(resumes)) as ResumeType[], // Convert Mongoose documents to plain objects
     };
   } catch (error: unknown) {
     console.error('Error fetching resumes:', error);

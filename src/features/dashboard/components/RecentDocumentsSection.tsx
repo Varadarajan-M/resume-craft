@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
 import {
@@ -12,6 +12,7 @@ import {
   useDeleteDocumentMutation as useDeleteResumeMutation,
   useDocumentListQuery,
   useDuplicateResumeMutation,
+  useIdbResume,
 } from '@/features/documents';
 import { useResumeStore } from '@/features/resume-builder/store/resume';
 import { FadeIn } from '@/shared/components/animated/FadeIn';
@@ -24,12 +25,27 @@ import { useAuth } from '@clerk/nextjs';
 
 const RecentDocumentSection = () => {
   const isSignedIn = useAuth().isSignedIn;
+  const [searchQuery, setSearchQuery] = useState('');
 
   const {
-    data: documents = [],
-    error,
-    isLoading,
-  } = useDocumentListQuery({ limit: 3, enabled: !!isSignedIn });
+    data: remoteResumes,
+    error: remoteError,
+    isLoading: isLoadingRemote,
+  } = useDocumentListQuery({
+    limit: 3,
+    enabled: !!isSignedIn,
+  });
+
+  const {
+    top3LocalResumes: localResumes,
+    loading: isLoadingLocal,
+    error: localError,
+    deleteLocalResume,
+  } = useIdbResume({ enabled: !isSignedIn });
+
+  const documents = (isSignedIn ? remoteResumes : localResumes) as Resume[];
+  const isLoading = isSignedIn ? isLoadingRemote : isLoadingLocal;
+  const error = isSignedIn ? remoteError : localError;
 
   const { mutate: deleteResumeMutation } = useDeleteResumeMutation({});
   const { captureEvent } = usePosthog();
@@ -39,20 +55,39 @@ const RecentDocumentSection = () => {
   const router = useRouter();
   const setResume = useResumeStore((s) => s.setResume);
 
-  const handleDocumentClick = <T extends Resume>(document: T) => {
+  const filteredDocuments = useMemo(
+    () =>
+      documents?.filter((doc) => {
+        const derivedTitle =
+          doc?.sections?.personalInfo?.fullName +
+          ' - ' +
+          doc?.sections?.personalInfo?.headline;
+        return derivedTitle.toLowerCase().includes(searchQuery?.toLowerCase());
+      }) || [],
+    [documents, searchQuery]
+  );
+
+  const handleDocumentClick = (document: Resume) => {
     setResume(document);
     router.push(`/builder`);
   };
 
-  const handleDeleteDocument = <T extends Resume>(document: T) => {
-    deleteResumeMutation(document.id, {
-      onSuccess: () => {
-        toast.success('Document deleted successfully!');
-        captureEvent(POSTHOG_EVENTS.RESUME_DELETED);
-      },
-      onError: (error) => {
-        toast.error(`Failed to delete document: ${error.message}`);
-      },
+  const handleDeleteDocument = (document: Resume) => {
+    const onSuccess = () => {
+      toast.success('Document deleted successfully!');
+      captureEvent(POSTHOG_EVENTS.RESUME_DELETED);
+    };
+    const onError = (error: Error) => {
+      toast.error(`Failed to delete document: ${error.message}`);
+    };
+
+    if (!isSignedIn) {
+      return deleteLocalResume(document.id).then(onSuccess).catch(onError);
+    }
+
+    deleteResumeMutation(document?.id, {
+      onSuccess,
+      onError,
     });
   };
 
@@ -83,7 +118,7 @@ const RecentDocumentSection = () => {
         )}
       </div>
 
-      {!isSignedIn && documents?.length > 0 ? (
+      {!isSignedIn && filteredDocuments?.length > 0 ? (
         <FadeIn transition={{ delay: 0.3 }} className="mb-3">
           <LocalDocumentsAlert />
         </FadeIn>
@@ -91,9 +126,8 @@ const RecentDocumentSection = () => {
 
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <DocumentList
-          isSignedIn={isSignedIn}
           isLoading={isLoading}
-          documents={documents}
+          documents={filteredDocuments}
           onDocumentClick={handleDocumentClick}
           onDocumentCopy={handleDocumentDuplication}
           onDocumentDelete={handleDeleteDocument}

@@ -6,9 +6,9 @@ export { default as DocumentSkeleton } from './components/DocumentSkeleton';
 export { default as MyDocumentsSection } from './components/MyDocumentsSection';
 
 // hooks
-export { default as useDocumentListQuery } from './hooks/useDocumentListQuery';
-
 export { default as useCreateResumeMutation } from './hooks/useCreateResumeMutation';
 export { default as useDeleteDocumentMutation } from './hooks/useDeleteDocumentMutation';
+export { default as useDocumentListQuery } from './hooks/useDocumentListQuery';
 export { default as useDuplicateResumeMutation } from './hooks/useDuplicateResumeMutation';
+export { default as useIdbResume } from './hooks/useIdbResume';
 export { default as useUpdateResumeMutation } from './hooks/useUpdateResumeMutation';
