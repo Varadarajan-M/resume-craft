@@ -1,11 +1,7 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-const isPublicRoute = createRouteMatcher([
-  "/landing(.*)",
-  "/sign-in(.*)",
-  "/sign-up(.*)",
-]);
+const isPublicRoute = createRouteMatcher(['/(.*)']);
 
 export default clerkMiddleware(async (auth, request) => {
   const { pathname } = request.nextUrl;
@@ -14,11 +10,11 @@ export default clerkMiddleware(async (auth, request) => {
 
   // Redirect authenticated users hitting `/sign-in` or `/sign-up` or '/landing' to `/`
   switch (pathname) {
-    case "/sign-in":
-    case "/sign-up":
+    case '/sign-in':
+    case '/sign-up':
       if (token) {
         const url = request.nextUrl.clone();
-        url.pathname = "/";
+        url.pathname = '/';
         return NextResponse.redirect(url);
       }
       break;
@@ -28,13 +24,13 @@ export default clerkMiddleware(async (auth, request) => {
 
   // Redirect unauthenticated users hitting the root `/` to `/landing`
 
-  if (pathname === "/") {
-    if (!token) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/landing";
-      return NextResponse.redirect(url);
-    }
-  }
+  // if (pathname === '/') {
+  //   if (!token) {
+  //     const url = request.nextUrl.clone();
+  //     url.pathname = '/landing';
+  //     return NextResponse.redirect(url);
+  //   }
+  // }
 
   // Protect private routes
   if (!isPublicRoute(request)) {
@@ -47,8 +43,8 @@ export default clerkMiddleware(async (auth, request) => {
 export const config = {
   matcher: [
     // Skip Next.js internals and static assets
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     // Always run for API routes
-    "/(api|trpc)(.*)",
+    '/(api|trpc)(.*)',
   ],
 };

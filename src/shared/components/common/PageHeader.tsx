@@ -1,5 +1,5 @@
-import React from "react";
-import { FadeIn } from "../animated/FadeIn";
+import React from 'react';
+import { FadeIn } from '../animated/FadeIn';
 
 interface PageHeaderProps {
   title: React.ReactNode;
@@ -25,7 +25,7 @@ export const PageHeader = ({
         <FadeIn
           as="p"
           transition={{ delay: 0.2 }}
-          className="text-xs md:text-sm text-gray-600 dark:text-gray-400"
+          className="text-xs md:text-sm text-muted-foreground"
         >
           {description}
         </FadeIn>

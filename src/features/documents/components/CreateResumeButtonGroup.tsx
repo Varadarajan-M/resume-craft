@@ -28,6 +28,7 @@ import ImportPdfDialog from './ImportPdfDialog';
 export default function CreateResumeButtonGroup() {
   const createResumeMutation = useCreateResumeMutation({});
   const createResumeFromTextMutation = useCreateResumeFromTextMutation({});
+  const isSignedIn = useAuth()?.isSignedIn;
 
   const { captureEvent } = usePosthog();
 
@@ -82,7 +83,7 @@ export default function CreateResumeButtonGroup() {
   };
 
   return (
-    <>
+    <div className="relative">
       <ButtonGroup>
         <Button
           variant={'default'}
@@ -99,7 +100,7 @@ export default function CreateResumeButtonGroup() {
           <DropdownMenuTrigger asChild>
             <Button
               variant="default"
-              className="!pl-2"
+              className="pl-2!"
               disabled={createResumeMutation.isPending}
             >
               {createResumeMutation.isPending ? (
@@ -129,6 +130,12 @@ export default function CreateResumeButtonGroup() {
           </DropdownMenuContent>
         </DropdownMenu>
       </ButtonGroup>
+
+      {isSignedIn ? null : (
+        <small className="text-muted-foreground absolute left-0 text-center -bottom-6.5">
+          No sign-up needed
+        </small>
+      )}
       <ImportPdfDialog
         // To force remounting the dialog on open/close to reset internal state
         key={isImportDialogOpen ? 'open' : 'closed'}
@@ -136,6 +143,6 @@ export default function CreateResumeButtonGroup() {
         setOpen={setIsImportDialogOpen}
         onImport={handleFileImport}
       />
-    </>
+    </div>
   );
 }

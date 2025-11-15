@@ -11,10 +11,12 @@ interface DocumentListProps {
   onDocumentClick?: <T extends Resume>(document: T) => void;
   onDocumentDelete?: <T extends Resume>(document: T) => void;
   onDocumentCopy?: <T extends Resume>(document: T) => void;
+  isSignedIn?: boolean;
 }
 
 const DocumentList: React.FC<DocumentListProps> = ({
   isLoading,
+  isSignedIn,
   documents,
   viewType = 'grid',
   onDocumentClick,
@@ -29,9 +31,10 @@ const DocumentList: React.FC<DocumentListProps> = ({
 
   if (!documents || documents.length === 0) {
     return (
-      <div className="text-muted-foreground">
-        No documents found. Please create a new document.
-      </div>
+      <p className="text-muted-foreground text-sm md:text-base">
+        No documents yet. You can create resumes without signing in — they’ll
+        sync automatically once you log in.
+      </p>
     );
   }
   return (

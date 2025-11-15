@@ -2,14 +2,16 @@ import React from 'react';
 
 import { DashboardSidebar } from '@/features/dashboard';
 import { FadeIn } from '@/shared/components/animated/FadeIn';
+import AuthGuard from '@/shared/components/common/AuthGuard';
 import PrefetchRSC from '@/shared/components/common/PrefetchRSC';
 import { ThemeSwitch } from '@/shared/components/common/ThemeSwitcher';
+import { Button } from '@/shared/components/ui/button';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from '@/shared/components/ui/sidebar';
-import { SignedIn, UserButton } from '@clerk/nextjs';
+import { UserButton } from '@clerk/nextjs';
 
 export default function DashboardLayout({
   children,
@@ -24,13 +26,14 @@ export default function DashboardLayout({
           <SidebarTrigger />
 
           <div className="flex gap-6 items-center">
-            <ThemeSwitch />
-
             <div className="sm:hidden flex">
-              <SignedIn>
-                <UserButton></UserButton>
-              </SignedIn>
+              <AuthGuard
+                signedInContent={<UserButton />}
+                signedOutContent={<Button>Sign In</Button>}
+              />{' '}
             </div>
+
+            <ThemeSwitch />
           </div>
         </FadeIn>
         <div className="p-6">{children}</div>

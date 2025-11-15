@@ -15,17 +15,21 @@ import {
 } from '@/features/documents';
 import { useResumeStore } from '@/features/resume-builder/store/resume';
 import { FadeIn } from '@/shared/components/animated/FadeIn';
+import LocalDocumentsAlert from '@/shared/components/common/LocalDocumentsAlert';
 import { Button } from '@/shared/components/ui/button';
 import { usePosthog } from '@/shared/hooks/usePosthog';
 import { POSTHOG_EVENTS } from '@/shared/lib/constants';
 import { Resume } from '@/shared/types/resume';
+import { useAuth } from '@clerk/nextjs';
 
 const RecentDocumentSection = () => {
+  const isSignedIn = useAuth().isSignedIn;
+
   const {
     data: documents = [],
     error,
     isLoading,
-  } = useDocumentListQuery({ limit: 3 });
+  } = useDocumentListQuery({ limit: 3, enabled: !!isSignedIn });
 
   const { mutate: deleteResumeMutation } = useDeleteResumeMutation({});
   const { captureEvent } = usePosthog();
@@ -76,8 +80,16 @@ const RecentDocumentSection = () => {
           </Button>
         </FadeIn>
       </div>
+
+      {!isSignedIn && documents?.length > 0 ? (
+        <FadeIn transition={{ delay: 0.3 }} className="mb-3">
+          <LocalDocumentsAlert />
+        </FadeIn>
+      ) : null}
+
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <DocumentList
+          isSignedIn={isSignedIn}
           isLoading={isLoading}
           documents={documents}
           onDocumentClick={handleDocumentClick}
