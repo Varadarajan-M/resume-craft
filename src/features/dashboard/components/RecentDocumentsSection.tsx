@@ -72,13 +72,15 @@ const RecentDocumentSection = () => {
         >
           Recent Documents
         </FadeIn>
-        <FadeIn transition={{ delay: 0.4 }}>
-          <Button variant={'link'} asChild className="text-xs">
-            <Link href="/documents" className="flex items-center gap-1">
-              View all <ChevronRight className="w-3 h-3" />
-            </Link>
-          </Button>
-        </FadeIn>
+        {documents?.length > 0 && (
+          <FadeIn transition={{ delay: 0.4 }}>
+            <Button variant={'link'} asChild className="text-xs">
+              <Link href="/documents" className="flex items-center gap-1">
+                View all <ChevronRight className="w-3 h-3" />
+              </Link>
+            </Button>
+          </FadeIn>
+        )}
       </div>
 
       {!isSignedIn && documents?.length > 0 ? (

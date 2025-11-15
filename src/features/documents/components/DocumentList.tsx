@@ -31,9 +31,9 @@ const DocumentList: React.FC<DocumentListProps> = ({
 
   if (!documents || documents.length === 0) {
     return (
-      <p className="text-muted-foreground text-sm md:text-base">
-        No documents yet. You can create resumes without signing in — they’ll
-        sync automatically once you log in.
+      <p className="text-muted-foreground text-sm md:text-base -mt-3">
+        No documents yet. Create resumes without an account — they’ll sync when
+        you sign in.
       </p>
     );
   }

@@ -11,6 +11,7 @@ import { FadeIn } from '@/shared/components/animated/FadeIn';
 import { usePosthog } from '@/shared/hooks/usePosthog';
 import { POSTHOG_EVENTS } from '@/shared/lib/constants';
 import { Resume } from '@/shared/types/resume';
+import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -20,10 +21,16 @@ import useDuplicateResumeMutation from '../hooks/useDuplicateResumeMutation';
 
 const DocumentsSection = () => {
   const [activeView, setActiveView] = useState<'grid' | 'list'>('grid');
-
+  const isSignedIn = useAuth()?.isSignedIn;
   const setResume = useResumeStore((s) => s.setResume);
 
-  const { data: documents = [], isLoading, error } = useDocumentListQuery({});
+  const {
+    data: documents = [],
+    isLoading,
+    error,
+  } = useDocumentListQuery({
+    enabled: !!isSignedIn,
+  });
   const { mutate: handleDocumentDuplication } = useDuplicateResumeMutation();
   const { mutate: deleteResumeMutation } = useDeleteResumeMutation({});
 
@@ -57,23 +64,25 @@ const DocumentsSection = () => {
 
   return (
     <>
-      <FadeIn transition={{ delay: 0.3 }} className="flex flex-row gap-4">
-        <DocumentSearch />
-        <div className="flex gap-2 items-center">
-          <ViewTypeButton
-            active={activeView === 'grid'}
-            icon={Grid}
-            onClick={() => setActiveView('grid')}
-            tooltipText="Grid View"
-          />
-          <ViewTypeButton
-            active={activeView === 'list'}
-            icon={List}
-            onClick={() => setActiveView('list')}
-            tooltipText="List View"
-          />
-        </div>
-      </FadeIn>
+      {(isLoading || documents?.length > 0) && (
+        <FadeIn transition={{ delay: 0.3 }} className="flex flex-row gap-4">
+          <DocumentSearch />
+          <div className="flex gap-2 items-center">
+            <ViewTypeButton
+              active={activeView === 'grid'}
+              icon={Grid}
+              onClick={() => setActiveView('grid')}
+              tooltipText="Grid View"
+            />
+            <ViewTypeButton
+              active={activeView === 'list'}
+              icon={List}
+              onClick={() => setActiveView('list')}
+              tooltipText="List View"
+            />
+          </div>
+        </FadeIn>
+      )}
 
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <DocumentList
