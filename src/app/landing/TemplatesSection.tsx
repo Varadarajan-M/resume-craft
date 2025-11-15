@@ -1,4 +1,3 @@
-import AuthGuard from '@/shared/components/common/AuthGuard';
 import { Button } from '@/shared/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -58,15 +57,9 @@ export default function TemplatesSection() {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 group-hover:bg-black/5 dark:group-hover:bg-black/20">
-                    <AuthGuard
-                      redirectUrl={templateRedirectUrl}
-                      signedOutContent={<UseTemplateButton />}
-                      signedInContent={
-                        <Link href={templateRedirectUrl}>
-                          <UseTemplateButton />
-                        </Link>
-                      }
-                    />
+                    <Link href={templateRedirectUrl}>
+                      <UseTemplateButton />
+                    </Link>
                   </div>
                 </div>
                 <div className="p-4 relative z-10">

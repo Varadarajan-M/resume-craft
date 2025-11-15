@@ -26,7 +26,7 @@ const usePopulateLastViewedResumeFromStorage = () => {
     }
 
     // If the resume is not set in the store, set it from localStorage
-    if (!resume?.id) setResume(parsedResume!);
+    if (!resume?.id && parsedResume?.id) setResume(parsedResume!);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resume, userId]);

@@ -31,7 +31,7 @@ export function Navigation() {
               <AuthGuard
                 signedInContent={<UserButton />}
                 signedOutContent={
-                  <Button className="text-xs sm:text-sm">Get Started</Button>
+                  <Button className="text-xs sm:text-sm">Sign In</Button>
                 }
               />
             </div>

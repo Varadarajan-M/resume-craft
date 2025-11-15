@@ -14,7 +14,7 @@ const useCreateResumeFromSearchParams = () => {
   const searchParams = useSearchParams();
   const templateId = searchParams.get('templateId');
   const isNew = searchParams.get('new') === 'true';
-  const userId = useAuth()?.userId;
+  const userId = useAuth()?.userId || 'anonymous';
 
   const { captureEvent } = usePosthog();
 
@@ -25,6 +25,8 @@ const useCreateResumeFromSearchParams = () => {
       const template = {
         id: templateId,
       };
+
+      localStorage.removeItem('resume-craft:resume');
 
       const newResume = getPlaceholderResume(
         userId!,

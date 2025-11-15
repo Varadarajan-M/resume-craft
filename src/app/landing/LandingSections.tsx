@@ -9,7 +9,6 @@ import {
 } from './MotionComponents';
 
 import FadeInChildren from '@/shared/components/animated/FadeIn';
-import AuthGuard from '@/shared/components/common/AuthGuard';
 import { Button } from '@/shared/components/ui/button';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
@@ -49,18 +48,13 @@ export function HeroSection() {
           <p className="mb-10 text-lg text-muted-foreground text-balance sm:text-xl leading-relaxed">
             Create professional, ATS-friendly resumes with our intuitive
             builder. Choose from beautiful templates, get AI-powered
-            suggestions, and land your dream job.
+            suggestions, and start instantly — no signup required.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <AuthGuard
-              signedOutContent={<CreateYourResumeButton />}
-              signedInContent={
-                <Link href="/">
-                  <CreateYourResumeButton />
-                </Link>
-              }
-            />
+            <Link href="/builder?new=true&templateId=standard">
+              <CreateYourResumeButton />
+            </Link>
 
             <Link href="#templates">
               <ViewTemplatesButton />
@@ -77,7 +71,7 @@ export const CreateYourResumeButton = () => (
     size="lg"
     className="w-fit sm:w-auto bg-foreground text-background hover:bg-foreground/90 text-sm tracking-tight px-8"
   >
-    Create Your Resume
+    Try a demo resume
     <ArrowRight className="ml-2 h-5 w-5" />
   </Button>
 );
@@ -88,7 +82,7 @@ export const ViewTemplatesButton = () => (
     variant="outline"
     className="w-fit sm:w-auto text-sm tracking-tight px-8 bg-transparent"
   >
-    View Templates
+    Browse Templates
   </Button>
 );
 
@@ -245,14 +239,9 @@ export function CTASection() {
               with ResumeCraft
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <AuthGuard
-                signedOutContent={<StartBuildingButton />}
-                signedInContent={
-                  <Link href="/">
-                    <StartBuildingButton />
-                  </Link>
-                }
-              />
+              <Link href="/builder?new=true&templateId=standard">
+                <StartBuildingButton />
+              </Link>
             </div>
             <div className="mt-8 flex items-center justify-center gap-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
