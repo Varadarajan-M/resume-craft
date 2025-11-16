@@ -38,9 +38,13 @@ function useResumeCreator() {
     if (!isSignedIn) {
       return createLocalResume(placeholder)
         .then(() => {
-          handleSuccess(placeholder, POSTHOG_EVENTS.RESUME_CREATED, {
-            templateId: placeholder.templateId,
-          });
+          handleSuccess(
+            placeholder,
+            POSTHOG_EVENTS.RESUME_CREATED_ANONYMOUSLY,
+            {
+              templateId: placeholder.templateId,
+            }
+          );
         })
         .catch(handleError);
     }
@@ -62,7 +66,7 @@ function useResumeCreator() {
       if (!local?.id)
         return handleError(new Error('Failed to create resume from PDF'));
       await createLocalResume(local);
-      return handleSuccess(local, POSTHOG_EVENTS.RESUME_IMPORTED, {
+      return handleSuccess(local, POSTHOG_EVENTS.RESUME_IMPORTED_ANONYMOUSLY, {
         title: local.title,
       });
     }

@@ -44,19 +44,29 @@ export const useLocalResumeStore = create<LocalResumeStore>((set, get) => ({
   },
 
   createResume: async (resume) => {
-    const updated = [resume, ...get().resumes];
+    const newResume = {
+      ...resume,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    const updated = [newResume, ...get().resumes];
     set({ resumes: updated });
     await idbSet(localResumeDbName, updated);
   },
 
   upsertResume: async (resume) => {
+    const copy = { ...resume, updatedAt: new Date() };
     const prev = get().resumes;
     const index = prev.findIndex((r) => r.id === resume.id);
 
+    if (index === -1) {
+      copy.createdAt = new Date();
+    }
+
     const updated =
       index === -1
-        ? [resume, ...prev]
-        : Object.assign([...prev], { [index]: resume });
+        ? [copy, ...prev]
+        : Object.assign([...prev], { [index]: copy });
 
     set({ resumes: updated });
     await idbSet(localResumeDbName, updated);
@@ -96,18 +106,22 @@ const useIdbResume = (params?: { enabled?: boolean }) => {
     if (params?.enabled) loadResumes();
   }, [params?.enabled, loadResumes]);
 
-  const top3LocalResumes = useMemo(() => {
-    return [...resumes]
-      .sort((a, b) => {
-        const da = new Date(a.updatedAt || a.createdAt).getTime();
-        const db = new Date(b.updatedAt || b.createdAt).getTime();
-        return db - da;
-      })
-      .slice(0, 3);
+  const sortByDate = (a: Resume, b: Resume) => {
+    const da = new Date(a.updatedAt || a.createdAt).getTime();
+    const db = new Date(b.updatedAt || b.createdAt).getTime();
+    return db - da;
+  };
+
+  const sortedResumes = useMemo(() => {
+    return [...resumes].sort(sortByDate);
   }, [resumes]);
 
+  const top3LocalResumes = useMemo(() => {
+    return sortedResumes.slice(0, 3);
+  }, [sortedResumes]);
+
   return {
-    localResumes: resumes,
+    localResumes: sortedResumes,
     top3LocalResumes,
     createLocalResume: createResume,
     upsertLocalResume: upsertResume,
