@@ -11,6 +11,7 @@ interface DocumentListProps {
   onDocumentClick?: <T extends Resume>(document: T) => void;
   onDocumentDelete?: <T extends Resume>(document: T) => void;
   onDocumentCopy?: <T extends Resume>(document: T) => void;
+  isSignedIn?: boolean;
 }
 
 const DocumentList: React.FC<DocumentListProps> = ({
@@ -27,11 +28,12 @@ const DocumentList: React.FC<DocumentListProps> = ({
     return <DocumentSkeleton skeletonCount={3} viewType={viewType} isLoading />;
   }
 
-  if (!documents || documents.length === 0) {
+  if ((!documents || documents.length === 0) && !isLoading) {
     return (
-      <div className="text-muted-foreground">
-        No documents found. Please create a new document.
-      </div>
+      <p className="text-muted-foreground text-sm md:text-base -mt-3">
+        No documents yet. Create resumes without an account — they’ll sync when
+        you sign in.
+      </p>
     );
   }
   return (

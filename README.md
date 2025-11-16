@@ -19,6 +19,7 @@ The goal of this project is to offer a beautiful, intuitive, and powerful tool f
 - **Modern Templates** — Choose from a growing collection of professionally designed, ATS-friendly resume templates.
 - **AI-Powered Content Suggestions** — Get intelligent recommendations to refine your summaries, work experience, and achievements.
 - **Real-Time Preview** — Edit your resume and instantly see every change reflected in a live PDF preview.
+- **No Sign-Up Needed** - Start creating your resume instantly—no account or email required. Your work is saved locally and always accessible.
 - **Smart PDF Import** — Upload your existing resume PDF to automatically extract and prefill your details.
 - **Rich Text Editing** — Format your content with bold, italics, lists, and more using an intuitive editor.
 - **Text Selection Sync** — Click or select text in the preview to automatically scroll to and highlight the matching field in the editor.

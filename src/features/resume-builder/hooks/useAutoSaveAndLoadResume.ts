@@ -2,9 +2,10 @@ import useUpdateResumeMutation from '@/features/documents/hooks/useUpdateResumeM
 import { useEffect, useRef } from 'react';
 import { useResumeStore } from '../store/resume';
 
+import useIdbResume from '@/features/documents/hooks/useIdbResume';
 import { Resume } from '@/shared/types/resume';
+import { useAuth } from '@clerk/nextjs';
 import { useQueryClient } from '@tanstack/react-query';
-import usePopulateLastViewedResumeFromStorage from './usePopulateLastViewedResumeFromStorage';
 
 interface UseAutoSaveAndLoadResumeProps {
   onSave?: (resume: Resume) => void;
@@ -12,19 +13,20 @@ interface UseAutoSaveAndLoadResumeProps {
 }
 
 /**
- * Custom hook to handle auto-saving and loading of resumes.
+ * Custom hook to handle auto-saving of resumes.
  * It saves the resume to localStorage and updates the server periodically.
  */
 
-const useAutoSaveAndLoadResume = ({
+const useAutoSaveResume = ({
   onSave,
   onSaveError,
 }: UseAutoSaveAndLoadResumeProps) => {
   const resume = useResumeStore((state) => state.resume);
   const queryClient = useQueryClient();
-
-  // Populate last viewed resume from local storage
-  usePopulateLastViewedResumeFromStorage();
+  const isSignedIn = useAuth()?.isSignedIn;
+  const { upsertLocalResume } = useIdbResume({
+    enabled: !isSignedIn,
+  });
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const localStorageUpdateTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -58,7 +60,8 @@ const useAutoSaveAndLoadResume = ({
     if (!resume?.id) return;
 
     timerRef.current = setTimeout(() => {
-      if (resume?.id) {
+      if (!resume.id) return;
+      if (isSignedIn) {
         saveResumeMutation.mutateAsync(resume, {
           onSuccess: (data) => {
             queryClient.setQueriesData(
@@ -87,6 +90,15 @@ const useAutoSaveAndLoadResume = ({
           },
           onError: onSaveError,
         });
+      } else {
+        // For unsigned users, update in indexedDB or local state if needed
+        upsertLocalResume(resume)
+          .then(() => {
+            onSave?.(resume);
+          })
+          .catch((error) => {
+            onSaveError?.(error);
+          });
       }
     }, 2000);
 
@@ -97,9 +109,9 @@ const useAutoSaveAndLoadResume = ({
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resume]);
+  }, [resume, isSignedIn]);
 
   return null;
 };
 
-export default useAutoSaveAndLoadResume;
+export default useAutoSaveResume;

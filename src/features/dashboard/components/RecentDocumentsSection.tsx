@@ -12,20 +12,41 @@ import {
   useDeleteDocumentMutation as useDeleteResumeMutation,
   useDocumentListQuery,
   useDuplicateResumeMutation,
+  useIdbResume,
 } from '@/features/documents';
 import { useResumeStore } from '@/features/resume-builder/store/resume';
 import { FadeIn } from '@/shared/components/animated/FadeIn';
+import LocalDocumentsAlert from '@/shared/components/common/LocalDocumentsAlert';
 import { Button } from '@/shared/components/ui/button';
 import { usePosthog } from '@/shared/hooks/usePosthog';
 import { POSTHOG_EVENTS } from '@/shared/lib/constants';
 import { Resume } from '@/shared/types/resume';
+import { useAuth } from '@clerk/nextjs';
 
 const RecentDocumentSection = () => {
+  const { isSignedIn, isLoaded } = useAuth();
+
   const {
-    data: documents = [],
-    error,
-    isLoading,
-  } = useDocumentListQuery({ limit: 3 });
+    data: remoteResumes,
+    error: remoteError,
+    isLoading: isLoadingRemote,
+  } = useDocumentListQuery({
+    limit: 3,
+    enabled: !!isSignedIn,
+  });
+
+  const {
+    top3LocalResumes: localResumes,
+    loading: isLoadingLocal,
+    error: localError,
+    deleteLocalResume,
+  } = useIdbResume({ enabled: !isSignedIn && isLoaded });
+
+  const documents = (
+    !isSignedIn && isLoaded ? localResumes : remoteResumes
+  ) as Resume[];
+  const isLoading = !isSignedIn && isLoaded ? isLoadingLocal : isLoadingRemote;
+  const error = !isSignedIn && isLoaded ? localError : remoteError;
 
   const { mutate: deleteResumeMutation } = useDeleteResumeMutation({});
   const { captureEvent } = usePosthog();
@@ -35,20 +56,27 @@ const RecentDocumentSection = () => {
   const router = useRouter();
   const setResume = useResumeStore((s) => s.setResume);
 
-  const handleDocumentClick = <T extends Resume>(document: T) => {
+  const handleDocumentClick = (document: Resume) => {
     setResume(document);
     router.push(`/builder`);
   };
 
-  const handleDeleteDocument = <T extends Resume>(document: T) => {
-    deleteResumeMutation(document.id, {
-      onSuccess: () => {
-        toast.success('Document deleted successfully!');
-        captureEvent(POSTHOG_EVENTS.RESUME_DELETED);
-      },
-      onError: (error) => {
-        toast.error(`Failed to delete document: ${error.message}`);
-      },
+  const handleDeleteDocument = (document: Resume) => {
+    const onSuccess = () => {
+      toast.success('Document deleted successfully!');
+      captureEvent(POSTHOG_EVENTS.RESUME_DELETED);
+    };
+    const onError = (error: Error) => {
+      toast.error(`Failed to delete document: ${error.message}`);
+    };
+
+    if (!isSignedIn) {
+      return deleteLocalResume(document.id).then(onSuccess).catch(onError);
+    }
+
+    deleteResumeMutation(document?.id, {
+      onSuccess,
+      onError,
     });
   };
 
@@ -68,14 +96,23 @@ const RecentDocumentSection = () => {
         >
           Recent Documents
         </FadeIn>
-        <FadeIn transition={{ delay: 0.4 }}>
-          <Button variant={'link'} asChild className="text-xs">
-            <Link href="/documents" className="flex items-center gap-1">
-              View all <ChevronRight className="w-3 h-3" />
-            </Link>
-          </Button>
-        </FadeIn>
+        {documents?.length > 0 && (
+          <FadeIn transition={{ delay: 0.4 }}>
+            <Button variant={'link'} asChild className="text-xs">
+              <Link href="/documents" className="flex items-center gap-1">
+                View all <ChevronRight className="w-3 h-3" />
+              </Link>
+            </Button>
+          </FadeIn>
+        )}
       </div>
+
+      {!isSignedIn && documents?.length > 0 ? (
+        <FadeIn transition={{ delay: 0.3 }} className="mb-3">
+          <LocalDocumentsAlert />
+        </FadeIn>
+      ) : null}
+
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <DocumentList
           isLoading={isLoading}
