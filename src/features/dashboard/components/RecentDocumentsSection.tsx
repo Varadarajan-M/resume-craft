@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 import {
@@ -25,7 +25,6 @@ import { useAuth } from '@clerk/nextjs';
 
 const RecentDocumentSection = () => {
   const isSignedIn = useAuth().isSignedIn;
-  const [searchQuery, setSearchQuery] = useState('');
 
   const {
     data: remoteResumes,
@@ -54,18 +53,6 @@ const RecentDocumentSection = () => {
 
   const router = useRouter();
   const setResume = useResumeStore((s) => s.setResume);
-
-  const filteredDocuments = useMemo(
-    () =>
-      documents?.filter((doc) => {
-        const derivedTitle =
-          doc?.sections?.personalInfo?.fullName +
-          ' - ' +
-          doc?.sections?.personalInfo?.headline;
-        return derivedTitle.toLowerCase().includes(searchQuery?.toLowerCase());
-      }) || [],
-    [documents, searchQuery]
-  );
 
   const handleDocumentClick = (document: Resume) => {
     setResume(document);
@@ -118,7 +105,7 @@ const RecentDocumentSection = () => {
         )}
       </div>
 
-      {!isSignedIn && filteredDocuments?.length > 0 ? (
+      {!isSignedIn && documents?.length > 0 ? (
         <FadeIn transition={{ delay: 0.3 }} className="mb-3">
           <LocalDocumentsAlert />
         </FadeIn>
@@ -127,7 +114,7 @@ const RecentDocumentSection = () => {
       <FadeIn transition={{ delay: 0.3 }} className="w-full">
         <DocumentList
           isLoading={isLoading}
-          documents={filteredDocuments}
+          documents={documents}
           onDocumentClick={handleDocumentClick}
           onDocumentCopy={handleDocumentDuplication}
           onDocumentDelete={handleDeleteDocument}

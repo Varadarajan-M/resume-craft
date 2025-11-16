@@ -44,7 +44,7 @@ const DocumentsSection = () => {
     deleteLocalResume,
   } = useIdbResume({ enabled: !isSignedIn });
 
-  const documents = isSignedIn ? remoteResumes : localResumes;
+  const documents = (isSignedIn ? remoteResumes : localResumes) as Resume[];
   const isLoading = isSignedIn ? isLoadingRemote : isLoadingLocal;
   const error = isSignedIn ? remoteError : localError;
 
@@ -101,7 +101,7 @@ const DocumentsSection = () => {
 
   return (
     <div className="flex flex-col gap-6 w-full">
-      {(isLoading || documents!?.length > 0) && (
+      {(isLoading || documents?.length > 0) && (
         <FadeIn transition={{ delay: 0.3 }} className="flex flex-row gap-4">
           <DocumentSearch onChange={setSearchQuery} />
           <div className="flex gap-2 items-center">
