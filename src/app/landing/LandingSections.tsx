@@ -1,6 +1,14 @@
 import { Card } from '@/shared/components/ui/card';
 
-import { CheckCircle2, Download, Palette, Play, Zap } from 'lucide-react';
+import {
+  CheckCircle2,
+  Download,
+  FileUp,
+  Palette,
+  Play,
+  UserPlus,
+  Zap,
+} from 'lucide-react';
 
 import {
   AnimatedCard,
@@ -95,15 +103,27 @@ const features = [
   },
   {
     icon: Palette,
-    title: 'Beautiful Templates',
+    title: 'ATS Friendly Templates',
     description:
-      'Choose from professionally designed templates that make your resume stand out.',
+      'Choose from professionally designed ATS friendly templates that make your resume stand out.',
+  },
+  {
+    icon: FileUp,
+    title: 'Import Existing PDF',
+    description:
+      'Upload any existing resume PDF and instantly convert it into an editable, structured resume.',
   },
   {
     icon: Zap,
     title: 'Real-Time Preview',
     description:
       'See your changes instantly with our live preview editor as you build your resume.',
+  },
+  {
+    icon: UserPlus,
+    title: 'No Sign-Up Needed',
+    description:
+      'Start creating your resume instantly—no account or email required. Your work is saved locally and always accessible.',
   },
   {
     icon: Download,
@@ -180,12 +200,12 @@ export function FeaturesSection() {
           </p>
         </AnimatedSection>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="flex gap-8 justify-center items-center flex-wrap">
           {features.map((feature, index) => (
             <AnimatedFeatureCard
               key={index}
               index={index}
-              className="group relative overflow-hidden p-6 hover:shadow-lg transition-all duration-300 border-border/50 hover:border-foreground/20 bg-card/50 backdrop-blur-sm md:h-[250px]"
+              className="group relative overflow-hidden p-6 hover:shadow-lg transition-all duration-300 border-border/50 hover:border-foreground/20 bg-card/50 backdrop-blur-sm md:h-[250px] w-[300px] flex-shrink-0"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-muted/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="relative">

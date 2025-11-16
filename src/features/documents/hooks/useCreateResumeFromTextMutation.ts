@@ -1,6 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { createResumeWithTextContentAction } from '@/backend/actions/ai';
+import {
+  createResumeWithTextContentAction,
+  getResumeFromTextContentAction,
+} from '@/backend/actions/ai';
 
 import type { Resume } from '@/shared/types/resume';
 
@@ -38,6 +41,20 @@ const useCreateResumeFromTextMutation = (
     onError: (error) => {
       props.onError?.(error);
     },
+  });
+
+  return mutation;
+};
+
+const getResumeFromTextContentMutation = async (textContent: string) => {
+  const res = await getResumeFromTextContentAction(textContent);
+
+  return res;
+};
+
+export const useCreateLocalResumeFromTextMutation = () => {
+  const mutation = useMutation({
+    mutationFn: getResumeFromTextContentMutation,
   });
 
   return mutation;
