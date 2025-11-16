@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DashboardSidebar } from '@/features/dashboard';
+import { SyncResumesAlert } from '@/features/documents';
 import { FadeIn } from '@/shared/components/animated/FadeIn';
 import AuthGuard from '@/shared/components/common/AuthGuard';
 import PrefetchRSC from '@/shared/components/common/PrefetchRSC';
@@ -36,10 +37,12 @@ export default function DashboardLayout({
             <ThemeSwitch />
           </div>
         </FadeIn>
+
         <div className="p-6">{children}</div>
       </SidebarInset>
       {/* Client side navigation to builder to prefetch the RSC */}
       <PrefetchRSC path="/builder" />
+      <SyncResumesAlert />
     </SidebarProvider>
   );
 }

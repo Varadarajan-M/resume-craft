@@ -41,6 +41,36 @@ export const createResumeAction = async (resume: ResumeType) => {
   }
 };
 
+export const createBulkResumesAction = async (resumes: ResumeType[]) => {
+  try {
+    const [, userId] = await Promise.all([connectDb(), verifyAuth()]);
+
+    // Add userId to each resume
+    const resumesWithUserId = resumes.map((resume) => ({
+      ...resume,
+      userId,
+    }));
+
+    // Create multiple resume documents
+    const newResumes = await Resume.insertMany(resumesWithUserId);
+
+    revalidateTag(`resumes-${userId}`);
+
+    return {
+      success: true,
+      message: 'Resumes created successfully',
+      data: JSON.parse(JSON.stringify(newResumes)) as ResumeType[],
+    };
+  } catch (error: unknown) {
+    console.error('Error creating resumes:', error);
+    return {
+      success: false,
+      message: 'Failed to create resumes',
+      error: (error as Error)?.message,
+    };
+  }
+};
+
 const _getAllResumesAction = async (userId: string, limit?: number) => {
   'use cache';
   try {

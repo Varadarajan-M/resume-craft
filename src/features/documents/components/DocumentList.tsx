@@ -28,7 +28,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
     return <DocumentSkeleton skeletonCount={3} viewType={viewType} isLoading />;
   }
 
-  if (!documents || documents.length === 0) {
+  if ((!documents || documents.length === 0) && !isLoading) {
     return (
       <p className="text-muted-foreground text-sm md:text-base -mt-3">
         No documents yet. Create resumes without an account — they’ll sync when

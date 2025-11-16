@@ -7,12 +7,12 @@ import { useCallback } from 'react';
 export const usePosthog = () => {
   const { user, isSignedIn } = useUser();
 
+  const emailId = user?.emailAddresses?.[0]?.emailAddress;
+
   const captureEvent = useCallback(
     (eventName: string, properties?: Record<string, any>) => {
       const userId = isSignedIn ? user?.id : undefined;
-      const email = isSignedIn
-        ? user?.emailAddresses?.[0]?.emailAddress
-        : undefined;
+      const email = isSignedIn ? emailId : undefined;
 
       posthog.capture(eventName, {
         ...(userId && { userId }),
@@ -21,7 +21,7 @@ export const usePosthog = () => {
         time: new Date().toISOString(),
       });
     },
-    [isSignedIn, user?.id, user?.emailAddresses?.[0]?.emailAddress]
+    [isSignedIn, user?.id, emailId]
   );
 
   return { captureEvent };

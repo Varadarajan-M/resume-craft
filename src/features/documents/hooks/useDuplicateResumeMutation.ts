@@ -35,7 +35,7 @@ const useDuplicateResumeMutation = () => {
         },
       });
     },
-    [mutation, isSignedIn, captureEvent]
+    [mutation, isSignedIn, captureEvent, duplicateLocalResume]
   );
 
   return {

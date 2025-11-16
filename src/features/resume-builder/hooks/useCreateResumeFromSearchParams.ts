@@ -45,7 +45,7 @@ const useCreateResumeFromSearchParams = () => {
       url.searchParams.delete('templateId');
       router.replace(url.toString());
     }
-  }, [userId, isNew, templateId, router, setResume]);
+  }, [userId, isNew, templateId, router, setResume, captureEvent]);
 
   return null;
 };

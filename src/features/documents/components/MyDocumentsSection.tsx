@@ -21,12 +21,13 @@ import useDeleteResumeMutation from '../hooks/useDeleteDocumentMutation';
 import useDocumentListQuery from '../hooks/useDocumentListQuery';
 import useDuplicateResumeMutation from '../hooks/useDuplicateResumeMutation';
 import useIdbResume from '../hooks/useIdbResume';
+import SyncLocalResumesCallout from './SyncResumesCallout';
 
 const DocumentsSection = () => {
   const [activeView, setActiveView] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const isSignedIn = useAuth()?.isSignedIn;
+  const { isLoaded, isSignedIn } = useAuth();
   const setResume = useResumeStore((s) => s.setResume);
 
   const {
@@ -42,11 +43,13 @@ const DocumentsSection = () => {
     loading: isLoadingLocal,
     error: localError,
     deleteLocalResume,
-  } = useIdbResume({ enabled: !isSignedIn });
+  } = useIdbResume({ enabled: !isSignedIn && isLoaded });
 
-  const documents = (isSignedIn ? remoteResumes : localResumes) as Resume[];
-  const isLoading = isSignedIn ? isLoadingRemote : isLoadingLocal;
-  const error = isSignedIn ? remoteError : localError;
+  const documents = (
+    !isSignedIn && isLoaded ? localResumes : remoteResumes
+  ) as Resume[];
+  const isLoading = !isSignedIn && isLoaded ? isLoadingLocal : isLoadingRemote;
+  const error = !isSignedIn && isLoaded ? localError : remoteError;
 
   const filteredDocuments = useMemo(
     () =>
@@ -101,31 +104,35 @@ const DocumentsSection = () => {
 
   return (
     <div className="flex flex-col gap-6 w-full">
-      {(isLoading || documents?.length > 0) && (
-        <FadeIn transition={{ delay: 0.3 }} className="flex flex-row gap-4">
-          <DocumentSearch onChange={setSearchQuery} />
-          <div className="flex gap-2 items-center">
-            <ViewTypeButton
-              active={activeView === 'grid'}
-              icon={Grid}
-              onClick={() => setActiveView('grid')}
-              tooltipText="Grid View"
-            />
-            <ViewTypeButton
-              active={activeView === 'list'}
-              icon={List}
-              onClick={() => setActiveView('list')}
-              tooltipText="List View"
-            />
-          </div>
-        </FadeIn>
-      )}
+      <FadeIn transition={{ delay: 0.3 }} className="flex flex-row gap-4">
+        <DocumentSearch onChange={setSearchQuery} />
+        <div className="flex gap-2 items-center">
+          <ViewTypeButton
+            active={activeView === 'grid'}
+            icon={Grid}
+            onClick={() => setActiveView('grid')}
+            tooltipText="Grid View"
+          />
+          <ViewTypeButton
+            active={activeView === 'list'}
+            icon={List}
+            onClick={() => setActiveView('list')}
+            tooltipText="List View"
+          />
+        </div>
+      </FadeIn>
 
-      {!isSignedIn && filteredDocuments?.length > 0 ? (
+      {!isSignedIn && filteredDocuments?.length > 0 && isLoaded ? (
         <FadeIn transition={{ delay: 0.3 }} className="my-2">
           <LocalDocumentsAlert />
         </FadeIn>
       ) : null}
+
+      {isSignedIn && isLoaded && (
+        <FadeIn transition={{ delay: 0.2 }}>
+          <SyncLocalResumesCallout />
+        </FadeIn>
+      )}
 
       <FadeIn
         transition={{ delay: 0.3 }}

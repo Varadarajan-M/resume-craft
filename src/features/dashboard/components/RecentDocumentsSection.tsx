@@ -24,7 +24,7 @@ import { Resume } from '@/shared/types/resume';
 import { useAuth } from '@clerk/nextjs';
 
 const RecentDocumentSection = () => {
-  const isSignedIn = useAuth().isSignedIn;
+  const { isSignedIn, isLoaded } = useAuth();
 
   const {
     data: remoteResumes,
@@ -40,11 +40,13 @@ const RecentDocumentSection = () => {
     loading: isLoadingLocal,
     error: localError,
     deleteLocalResume,
-  } = useIdbResume({ enabled: !isSignedIn });
+  } = useIdbResume({ enabled: !isSignedIn && isLoaded });
 
-  const documents = (isSignedIn ? remoteResumes : localResumes) as Resume[];
-  const isLoading = isSignedIn ? isLoadingRemote : isLoadingLocal;
-  const error = isSignedIn ? remoteError : localError;
+  const documents = (
+    !isSignedIn && isLoaded ? localResumes : remoteResumes
+  ) as Resume[];
+  const isLoading = !isSignedIn && isLoaded ? isLoadingLocal : isLoadingRemote;
+  const error = !isSignedIn && isLoaded ? localError : remoteError;
 
   const { mutate: deleteResumeMutation } = useDeleteResumeMutation({});
   const { captureEvent } = usePosthog();

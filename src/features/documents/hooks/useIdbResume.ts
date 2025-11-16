@@ -1,7 +1,7 @@
 'use client';
 
 import { createDuplicateResume } from '@/shared/lib/resume';
-import { get as idbGet, set as idbSet } from 'idb-keyval';
+import { del, get as idbGet, set as idbSet } from 'idb-keyval';
 import { useEffect, useMemo } from 'react';
 import { create } from 'zustand';
 
@@ -21,6 +21,8 @@ interface LocalResumeStore {
   upsertResume: (resume: Resume) => Promise<void>;
   deleteResume: (id: string) => Promise<void>;
   duplicateResume: (id: string, fn: (r: Resume) => Resume) => Promise<void>;
+
+  deleteAllResumes: () => Promise<void>;
 }
 
 export const useLocalResumeStore = create<LocalResumeStore>((set, get) => ({
@@ -88,6 +90,11 @@ export const useLocalResumeStore = create<LocalResumeStore>((set, get) => ({
     set({ resumes: updated });
     await idbSet(localResumeDbName, updated);
   },
+
+  deleteAllResumes: async () => {
+    set({ resumes: [] });
+    await del(localResumeDbName);
+  },
 }));
 
 const useIdbResume = (params?: { enabled?: boolean }) => {
@@ -100,6 +107,7 @@ const useIdbResume = (params?: { enabled?: boolean }) => {
     upsertResume,
     deleteResume,
     duplicateResume,
+    deleteAllResumes,
   } = useLocalResumeStore();
 
   useEffect(() => {
@@ -128,6 +136,7 @@ const useIdbResume = (params?: { enabled?: boolean }) => {
     deleteLocalResume: deleteResume,
     duplicateLocalResume: (id: string) =>
       duplicateResume(id, createDuplicateResume),
+    clearAllLocalResumes: deleteAllResumes,
     loading,
     error,
   } as const;
