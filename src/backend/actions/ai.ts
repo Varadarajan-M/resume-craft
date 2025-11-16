@@ -99,13 +99,7 @@ export const getAIEnhancedContentAction = async (content: string) => {
   }
 };
 
-/** Action to create a resume from extracted text content using AI.
- * @param textContent The extracted text content from a PDF or other source
- * @returns Promise<{ success: boolean; data?: Resume; message?: string; error?: string }> - The result of the action.
- */
-export const createResumeWithTextContentAction = async (
-  textContent: string
-) => {
+export const getResumeFromTextContentAction = async (textContent: string) => {
   try {
     const systemPrompt = await _fetchSystemPrompt(
       'AI_RESUME_EXTRACTION_PROMPT'
@@ -142,6 +136,21 @@ export const createResumeWithTextContentAction = async (
 
     const resume = safeJsonParse(message) as Resume;
 
+    return resume;
+  } catch (error: unknown) {
+    throw new Error((error as Error)?.message || 'Failed to extract resume');
+  }
+};
+
+/** Action to create a resume from extracted text content using AI.
+ * @param textContent The extracted text content from a PDF or other source
+ * @returns Promise<{ success: boolean; data?: Resume; message?: string; error?: string }> - The result of the action.
+ */
+export const createResumeWithTextContentAction = async (
+  textContent: string
+) => {
+  try {
+    const resume = await getResumeFromTextContentAction(textContent);
     return createResumeAction(resume);
   } catch (error: unknown) {
     return {

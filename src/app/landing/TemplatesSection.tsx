@@ -1,4 +1,3 @@
-import AuthGuard from '@/shared/components/common/AuthGuard';
 import { Button } from '@/shared/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -31,7 +30,7 @@ export default function TemplatesSection() {
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4 text-balance">
             Professional Templates
           </h2>
-          <p className="text-lg text-muted-foreground text-balance">
+          <p className="text-lg text-muted-foreground text-balance tracking-tight">
             Choose from our collection of ATS-friendly, professionally designed
             templates
           </p>
@@ -54,19 +53,13 @@ export default function TemplatesSection() {
                     alt={`${template} Template`}
                     width={400}
                     height={533}
-                    className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.02] relative z-10"
+                    className="w-full h-auto py-4 object-cover transition-transform duration-300 relative z-10"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 group-hover:bg-black/5 dark:group-hover:bg-black/20">
-                    <AuthGuard
-                      redirectUrl={templateRedirectUrl}
-                      signedOutContent={<UseTemplateButton />}
-                      signedInContent={
-                        <Link href={templateRedirectUrl}>
-                          <UseTemplateButton />
-                        </Link>
-                      }
-                    />
+                    <Link href={templateRedirectUrl}>
+                      <UseTemplateButton />
+                    </Link>
                   </div>
                 </div>
                 <div className="p-4 relative z-10">

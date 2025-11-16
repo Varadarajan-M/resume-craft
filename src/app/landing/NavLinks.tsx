@@ -12,6 +12,11 @@ const links = [
     href: '#pricing',
     label: 'Pricing',
   },
+
+  {
+    href: 'https://github.com/Varadarajan-M/resume-craft',
+    label: 'GitHub',
+  },
 ];
 
 const NavLinks = () => {
@@ -19,6 +24,8 @@ const NavLinks = () => {
     <>
       {links.map((link) => (
         <Link
+          target={link.href.startsWith('http') ? '_blank' : '_self'}
+          rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
           key={link.href}
           href={link.href}
           className={cn(

@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import useAutoSaveAndLoadResume from '../hooks/useAutoSaveAndLoadResume';
+import useAutoSaveResume from '../hooks/useAutoSaveAndLoadResume';
+import usePopulateLastViewedResumeFromStorage from '../hooks/usePopulateLastViewedResumeFromStorage';
 
 /**
  * This handles auto-saving the resume and loading it from local storage.
@@ -26,10 +27,15 @@ const AutoSaveAndLoadResume = () => {
       duration: 2000,
     });
   };
-  useAutoSaveAndLoadResume({
+
+  // Populate last viewed resume from local storage
+  usePopulateLastViewedResumeFromStorage();
+
+  useAutoSaveResume({
     onSave: handleSaveSuccess,
     onSaveError: handleSaveError,
   });
+
   return null;
 };
 

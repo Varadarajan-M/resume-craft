@@ -65,7 +65,7 @@ const SectionConfig = () => {
               <Reorder.Item
                 key={sectionId}
                 value={sectionId}
-                className="flex items-center justify-between gap-2 p-3 rounded-md bg-background hover:bg-accent dark:hover:bg-accent/50 cursor-grab"
+                className="flex items-center justify-between gap-2 p-3 rounded-md bg-background hover:bg-gray-500/20 dark:hover:bg-accent/50 cursor-grab"
               >
                 <div className="flex items-center gap-2">
                   <Grip className="h-3.5 w-3.5" />
