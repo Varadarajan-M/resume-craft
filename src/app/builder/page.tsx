@@ -10,6 +10,7 @@ import {
 import CreateResumeFromSearchParams from '@/features/resume-builder/components/CreateResumeFromSearchParams';
 import PageSkeleton from '@/features/resume-builder/components/resume-preview/PreviewSkeleton';
 import { FadeIn } from '@/shared/components/animated/FadeIn';
+import useInterceptBackNavigation from '@/shared/hooks/useInterceptBackNavigation';
 import { cn } from '@/shared/lib/utils';
 import dynamic from 'next/dynamic';
 import { Suspense, useState } from 'react';
@@ -36,6 +37,8 @@ enum ResumeBuilderSection {
 const ResumeBuilderPage = () => {
   const [activeSection, setActiveSection] =
     useState<ResumeBuilderSection | null>(ResumeBuilderSection.Preview);
+
+  useInterceptBackNavigation({ redirectTo: '/' });
 
   return (
     <section
