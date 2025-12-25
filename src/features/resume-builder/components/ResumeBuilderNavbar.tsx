@@ -1,49 +1,28 @@
-'use client';
+/**
+ * @file ResumeBuilderNavbar.tsx
+ * @description Navbar component for the resume builder, providing actions for downloading and sharing resumes.
+ */
 
-import { toast } from 'sonner';
+"use client";
 
-import { FadeIn } from '@/shared/components/animated/FadeIn';
-import { TapAnimationButton } from '@/shared/components/animated/TapAnimationButton';
-import ResumeCraftBrand from '@/shared/components/common/ResumeCraftBrand';
-import { ThemeSwitch } from '@/shared/components/common/ThemeSwitcher';
-import { Button } from '@/shared/components/ui/button';
-
-import { usePosthog } from '@/shared/hooks/usePosthog';
-import { POSTHOG_EVENTS } from '@/shared/lib/constants';
-import { downloadFile } from '@/shared/lib/utils';
-import { Download, Share2 } from 'lucide-react';
-import { useCallback, useEffect } from 'react';
-import { useResumeStore } from '../store/resume';
+import { FadeIn } from "@/shared/components/animated/FadeIn";
+import { TapAnimationButton } from "@/shared/components/animated/TapAnimationButton";
+import ResumeCraftBrand from "@/shared/components/common/ResumeCraftBrand";
+import { ThemeSwitch } from "@/shared/components/common/ThemeSwitcher";
+import { Button } from "@/shared/components/ui/button";
+import { Download, Share2 } from "lucide-react";
+import { useResumeActions } from "../hooks/useResumeActions";
+import { useResumeStore } from "../store/resume";
 
 interface SharedButtonProps {
   resumeTitle: string;
 }
 
-const getPdfBlobUrl = (): string | null =>
-  document
-    .querySelector('[data-pdf-blob-url]')
-    ?.getAttribute('data-pdf-blob-url') ?? null;
-
+/**
+ * Button component for downloading the resume as a PDF.
+ */
 const ResumeDownloadButton = ({ resumeTitle }: SharedButtonProps) => {
-  const { captureEvent } = usePosthog();
-
-  const handleDownload = useCallback(() => {
-    const url = getPdfBlobUrl();
-    if (!url) return;
-    downloadFile(url, resumeTitle);
-    captureEvent(POSTHOG_EVENTS.RESUME_DOWNLOADED, { title: resumeTitle });
-  }, [resumeTitle, captureEvent]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-        e.preventDefault();
-        handleDownload();
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [handleDownload]);
+  const { handleDownload } = useResumeActions(resumeTitle);
 
   return (
     <TapAnimationButton>
@@ -60,33 +39,11 @@ const ResumeDownloadButton = ({ resumeTitle }: SharedButtonProps) => {
   );
 };
 
+/**
+ * Button component for sharing the resume PDF using the Web Share API.
+ */
 const ResumeShareButton = ({ resumeTitle }: SharedButtonProps) => {
-  const { captureEvent } = usePosthog();
-  const handleShare = async () => {
-    try {
-      const url = getPdfBlobUrl();
-      if (!url) return;
-
-      const response = await fetch(url);
-      const pdfBlob = await response.blob();
-
-      const file = new File([pdfBlob], 'resume.pdf', { type: pdfBlob.type });
-
-      if (navigator.share && navigator.canShare?.({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: resumeTitle,
-          text: 'Check out this document!',
-        });
-        toast.success('Resume shared successfully!');
-        captureEvent(POSTHOG_EVENTS.RESUME_SHARED, { title: resumeTitle });
-      } else {
-        toast.error('Sharing is not supported on this device.');
-      }
-    } catch (e: unknown) {
-      toast.error(`${(e as Error)?.message}`);
-    }
-  };
+  const { handleShare } = useResumeActions(resumeTitle);
 
   return (
     <TapAnimationButton>
@@ -103,6 +60,10 @@ const ResumeShareButton = ({ resumeTitle }: SharedButtonProps) => {
   );
 };
 
+/**
+ * Main Navbar component for the Resume Builder.
+ * Handles the display of the brand, theme switch, and resume actions.
+ */
 const ResumeBuilderNavbar = () => {
   const fullName = useResumeStore(
     (state) => state.resume?.sections?.personalInfo?.fullName
@@ -112,12 +73,12 @@ const ResumeBuilderNavbar = () => {
   );
 
   const resumeTitle = fullName
-    ? `${fullName} - ${headline ?? ''} Resume`
-    : 'Resume';
+    ? `${fullName} - ${headline ?? ""} Resume`
+    : "Resume";
 
   return (
     <nav className="flex items-center-safe sticky top-0 z-50 justify-between border-b border-border bg-background px-4 py-2 transition-all duration-200">
-      <ResumeCraftBrand />
+      <ResumeCraftBrand to="/dashboard" />
       <FadeIn className="flex flex-row items-center justify-end gap-4">
         <ThemeSwitch className="cursor-pointer mr-4 lg:mr-2" />
         <ResumeDownloadButton resumeTitle={resumeTitle} />

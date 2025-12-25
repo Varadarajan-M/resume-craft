@@ -1,11 +1,11 @@
-import FadeInChildren from '@/shared/components/animated/FadeIn';
-import AuthGuard from '@/shared/components/common/AuthGuard';
-import ResumeCraftBrand from '@/shared/components/common/ResumeCraftBrand';
-import { ThemeSwitch } from '@/shared/components/common/ThemeSwitcher';
-import { Button } from '@/shared/components/ui/button';
-import { UserButton } from '@clerk/nextjs';
-import { MotionNav } from './MotionComponents';
-import NavLinks from './NavLinks';
+import FadeInChildren from "@/shared/components/animated/FadeIn";
+import AuthGuard from "@/shared/components/common/AuthGuard";
+import ResumeCraftBrand from "@/shared/components/common/ResumeCraftBrand";
+import { ThemeSwitch } from "@/shared/components/common/ThemeSwitcher";
+import { Button } from "@/shared/components/ui/button";
+import { UserButton } from "@clerk/nextjs";
+import { MotionNav } from "./MotionComponents";
+import NavLinks from "./NavLinks";
 
 export function Navigation() {
   return (

@@ -8,29 +8,22 @@ export default clerkMiddleware(async (auth, request) => {
 
   const token = await (await auth()).getToken();
 
-  // Redirect authenticated users hitting `/sign-in` or `/sign-up` or '/landing' to `/`
-  switch (pathname) {
-    case '/sign-in':
-    case '/sign-up':
-      if (token) {
-        const url = request.nextUrl.clone();
-        url.pathname = '/';
-        return NextResponse.redirect(url);
-      }
-      break;
-    default:
-      break;
+
+  // This adds redirect from old `/landing` url to `/`
+  if (pathname === '/landing') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
+    return NextResponse.redirect(url);
   }
 
-  // Redirect unauthenticated users hitting the root `/` to `/landing`
-
-  // if (pathname === '/') {
-  //   if (!token) {
-  //     const url = request.nextUrl.clone();
-  //     url.pathname = '/landing';
-  //     return NextResponse.redirect(url);
-  //   }
-  // }
+  // Redirect authenticated users hitting `/sign-in`, `/sign-up` or `/` to `/dashboard`
+  if (token) {
+    if (pathname === '/sign-in' || pathname === '/sign-up' || pathname === '/') {
+      const url = request.nextUrl.clone();
+      url.pathname = '/dashboard';
+      return NextResponse.redirect(url);
+    }
+  }
 
   // Protect private routes
   if (!isPublicRoute(request)) {

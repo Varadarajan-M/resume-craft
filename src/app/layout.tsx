@@ -1,65 +1,73 @@
-import PosthogIdentify from '@/shared/components/common/PosthogIdentify';
-import ClerkProvider from '@/shared/lib/clerk';
-import { ThemeProvider } from '@/shared/lib/next-themes';
-import ReactQueryProvider from '@/shared/lib/react-query';
+import PosthogIdentify from "@/shared/components/common/PosthogIdentify";
+import ClerkProvider from "@/shared/lib/clerk";
+import { ThemeProvider } from "@/shared/lib/next-themes";
+import ReactQueryProvider from "@/shared/lib/react-query";
 
-import { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
-import { Toaster } from 'sonner';
+import { Metadata, Viewport } from "next";
+import { Poppins } from "next/font/google";
+import { Toaster } from "sonner";
 
-import './globals.css';
+import JsonLd from "@/shared/components/common/JsonLd";
+import "./globals.css";
 
 const poppins = Poppins({
-  weight: ['100', '200', '300', '400', '500', '600', '700'],
-  display: 'swap',
-  subsets: ['latin'],
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
+  display: "swap",
+  subsets: ["latin"],
 });
 
-// This is the single source of truth.
-const canonicalDomain = 'https://theresumecraft.vercel.app';
-const pageUrl = 'https://theresumecraft.vercel.app/landing';
+const canonicalDomain = "https://theresumecraft.vercel.app";
 
 // Define your core site details
 const siteTitle =
-  'ResumeCraft | Online Resume Builder for Modern, ATS-Friendly Resumes';
+  "ResumeCraft | Free Online AI Resume Builder | ATS-Friendly Templates";
 const siteDescription =
-  'Build a job-winning resume in minutes with ResumeCraft. Our online resume builder features professional, ATS-friendly templates, real-time editing, and easy PDF export.';
+  "Build job-winning, professional, and ATS-friendly resumes in minutes with ResumeCraft. Our AI-powered resume builder offers modern templates, real-time previews, and easy PDF export—all for free.";
 const siteKeywords = [
-  'resume builder',
-  'online resume builder',
-  'ATS-friendly resume',
-  'professional resume templates',
-  'cv builder',
-  'resume maker',
-  'create resume online',
-  'build resume',
-  'modern resume',
-  'pdf resume',
-  'ResumeCraft',
+  "free resume builder",
+  "AI resume builder",
+  "ATS-friendly resume templates",
+  "online resume maker",
+  "professional cv builder",
+  "best resume creator",
+  "create resume online free",
+  "build professional resume",
+  "modern resume design",
+  "pdf resume export",
+  "ResumeCraft",
 ];
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   // --- Core SEO ---
-  title: siteTitle,
+  title: {
+    default: siteTitle,
+    template: `%s | ResumeCraft`,
+  },
   description: siteDescription,
   keywords: siteKeywords,
+  authors: [{ name: "Varadarajan M", url: "https://www.varadarajan-m.dev" }],
+  creator: "Varadarajan M",
 
   // --- Canonical & Robots ---
-  // metadataBase points to the *domain*
   metadataBase: new URL(canonicalDomain),
-  // alternates.canonical points to the *specific page path*
   alternates: {
-    canonical: '/landing', // This page's path
+    canonical: "/",
   },
   robots: {
-    index: true, // We WANT this page indexed
+    index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 
@@ -67,27 +75,33 @@ export const metadata: Metadata = {
   openGraph: {
     title: siteTitle,
     description: siteDescription,
-    url: pageUrl, // The *full* URL to this specific page
-    siteName: 'ResumeCraft',
+    url: canonicalDomain,
+    siteName: "ResumeCraft",
     images: [
       {
-        url: `${canonicalDomain}/og-image.png`, // Absolute URL to the image
+        url: `${canonicalDomain}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'A preview of the ResumeCraft online resume builder interface',
+        alt: "ResumeCraft - Craft Your Perfect Resume in Minutes",
       },
     ],
-    locale: 'en_US',
-    type: 'website',
+    locale: "en_US",
+    type: "website",
   },
 
   // --- Twitter Card (X) ---
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: [`${canonicalDomain}/og-image.png`], // Absolute URL
-    creator: '@varadcodes',
+    images: [`${canonicalDomain}/og-image.png`],
+    creator: "@varadcodes",
+  },
+
+  // --- Icons ---
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
 };
 
@@ -98,6 +112,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <JsonLd />
+      </head>
       <body className={`${poppins.className} font-sans antialiased`}>
         <ThemeProvider>
           <ClerkProvider>

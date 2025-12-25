@@ -1,106 +1,37 @@
-'use client';
+/**
+ * @file MyDocumentsSection.tsx
+ * @description Main dashboard section for displaying and managing the user's resumes.
+ */
 
-import { Grid, List } from 'lucide-react';
+"use client";
 
-import ViewTypeButton from '@/shared/components/common/ViewTypeButton';
-import DocumentList from './DocumentList';
-import DocumentSearch from './DocumentSearch';
+import { FadeIn } from "@/shared/components/animated/FadeIn";
+import LocalDocumentsAlert from "@/shared/components/common/LocalDocumentsAlert";
+import ViewTypeButton from "@/shared/components/common/ViewTypeButton";
+import { cn } from "@/shared/lib/utils";
+import { Grid, List } from "lucide-react";
+import { useDocumentsSection } from "../hooks/useDocumentsSection";
+import DocumentList from "./DocumentList";
+import DocumentSearch from "./DocumentSearch";
+import SyncLocalResumesCallout from "./SyncResumesCallout";
 
-import { useResumeStore } from '@/features/resume-builder/store/resume';
-import { FadeIn } from '@/shared/components/animated/FadeIn';
-import LocalDocumentsAlert from '@/shared/components/common/LocalDocumentsAlert';
-import { usePosthog } from '@/shared/hooks/usePosthog';
-import { POSTHOG_EVENTS } from '@/shared/lib/constants';
-import { cn } from '@/shared/lib/utils';
-import { Resume } from '@/shared/types/resume';
-import { useAuth } from '@clerk/nextjs';
-import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
-import { toast } from 'sonner';
-import useDeleteResumeMutation from '../hooks/useDeleteDocumentMutation';
-import useDocumentListQuery from '../hooks/useDocumentListQuery';
-import useDuplicateResumeMutation from '../hooks/useDuplicateResumeMutation';
-import useIdbResume from '../hooks/useIdbResume';
-import SyncLocalResumesCallout from './SyncResumesCallout';
-
-const DocumentsSection = () => {
-  const [activeView, setActiveView] = useState<'grid' | 'list'>('grid');
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const { isLoaded, isSignedIn } = useAuth();
-  const setResume = useResumeStore((s) => s.setResume);
-
+/**
+ * MyDocumentsSection component orchestrates the display, search, and management
+ * of both local and remote resumes.
+ */
+const MyDocumentsSection = () => {
   const {
-    data: remoteResumes,
-    error: remoteError,
-    isLoading: isLoadingRemote,
-  } = useDocumentListQuery({
-    enabled: !!isSignedIn,
-  });
-
-  const {
-    localResumes,
-    loading: isLoadingLocal,
-    error: localError,
-    deleteLocalResume,
-  } = useIdbResume({ enabled: !isSignedIn && isLoaded });
-
-  const documents = (
-    !isSignedIn && isLoaded ? localResumes : remoteResumes
-  ) as Resume[];
-  const isLoading = !isSignedIn && isLoaded ? isLoadingLocal : isLoadingRemote;
-  const error = !isSignedIn && isLoaded ? localError : remoteError;
-
-  const filteredDocuments = useMemo(
-    () =>
-      documents?.filter((doc) => {
-        const derivedTitle =
-          doc?.sections?.personalInfo?.fullName +
-          ' - ' +
-          doc?.sections?.personalInfo?.headline;
-        return derivedTitle.toLowerCase().includes(searchQuery?.toLowerCase());
-      }) || [],
-    [documents, searchQuery]
-  );
-
-  const { mutate: handleDocumentDuplication } = useDuplicateResumeMutation();
-  const { mutate: deleteResumeMutation } = useDeleteResumeMutation({});
-
-  const { captureEvent } = usePosthog();
-
-  const router = useRouter();
-
-  // set the resume in the store and navigate to the builder page
-  const handleDocumentClick = (document: Resume) => {
-    setResume(document);
-    router.push(`/builder`);
-  };
-
-  const handleDeleteDocument = (document: Resume) => {
-    const onSuccess = () => {
-      toast.success('Document deleted successfully!');
-      captureEvent(POSTHOG_EVENTS.RESUME_DELETED);
-    };
-
-    const onError = (error: Error) => {
-      toast.error(`Failed to delete document: ${error.message}`);
-    };
-
-    if (!isSignedIn) {
-      return deleteLocalResume(document.id).then(onSuccess).catch(onError);
-    }
-
-    deleteResumeMutation(document?.id, {
-      onSuccess,
-      onError,
-    });
-  };
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message || 'Failed to fetch documents');
-    }
-  }, [error]);
+    activeView,
+    setActiveView,
+    setSearchQuery,
+    filteredDocuments,
+    isLoading,
+    isSignedIn,
+    isLoaded,
+    handleDocumentClick,
+    handleDocumentDuplication,
+    handleDeleteDocument,
+  } = useDocumentsSection();
 
   return (
     <div className="flex flex-col gap-6 w-full">
@@ -108,15 +39,15 @@ const DocumentsSection = () => {
         <DocumentSearch onChange={setSearchQuery} />
         <div className="flex gap-2 items-center">
           <ViewTypeButton
-            active={activeView === 'grid'}
+            active={activeView === "grid"}
             icon={Grid}
-            onClick={() => setActiveView('grid')}
+            onClick={() => setActiveView("grid")}
             tooltipText="Grid View"
           />
           <ViewTypeButton
-            active={activeView === 'list'}
+            active={activeView === "list"}
             icon={List}
-            onClick={() => setActiveView('list')}
+            onClick={() => setActiveView("list")}
             tooltipText="List View"
           />
         </div>
@@ -136,7 +67,7 @@ const DocumentsSection = () => {
 
       <FadeIn
         transition={{ delay: 0.3 }}
-        className={cn('w-full', filteredDocuments?.length === 0 && 'mt-4')}
+        className={cn("w-full", filteredDocuments?.length === 0 && "mt-4")}
       >
         <DocumentList
           isLoading={isLoading}
@@ -151,4 +82,4 @@ const DocumentsSection = () => {
   );
 };
 
-export default DocumentsSection;
+export default MyDocumentsSection;

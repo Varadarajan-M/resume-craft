@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   AutoSaveAndLoadResume,
@@ -6,18 +6,18 @@ import {
   ResumeConfigPanel,
   ResumeSectionQuickNavigationPanel,
   ResumeSectionsPanel,
-} from '@/features/resume-builder';
-import CreateResumeFromSearchParams from '@/features/resume-builder/components/CreateResumeFromSearchParams';
-import PageSkeleton from '@/features/resume-builder/components/resume-preview/PreviewSkeleton';
-import { FadeIn } from '@/shared/components/animated/FadeIn';
-import useInterceptBackNavigation from '@/shared/hooks/useInterceptBackNavigation';
-import { cn } from '@/shared/lib/utils';
-import dynamic from 'next/dynamic';
-import { Suspense, useState } from 'react';
+} from "@/features/resume-builder";
+import CreateResumeFromSearchParams from "@/features/resume-builder/components/CreateResumeFromSearchParams";
+import PageSkeleton from "@/features/resume-builder/components/resume-preview/PreviewSkeleton";
+import { FadeIn } from "@/shared/components/animated/FadeIn";
+import useInterceptBackNavigation from "@/shared/hooks/useInterceptBackNavigation";
+import { cn } from "@/shared/lib/utils";
+import dynamic from "next/dynamic";
+import { Suspense, useState } from "react";
 
 const ResumePreviewPanel = dynamic(
   () =>
-    import('@/features/resume-builder/components/resume-preview').then(
+    import("@/features/resume-builder/components/resume-preview").then(
       (mod) => mod.ResumePreviewPanel
     ),
   {
@@ -29,16 +29,16 @@ const ResumePreviewPanel = dynamic(
 );
 
 enum ResumeBuilderSection {
-  Sections = 'Sections',
-  Preview = 'Preview',
-  Settings = 'Settings',
+  Sections = "Sections",
+  Preview = "Preview",
+  Settings = "Settings",
 }
 
 const ResumeBuilderPage = () => {
   const [activeSection, setActiveSection] =
     useState<ResumeBuilderSection | null>(ResumeBuilderSection.Preview);
 
-  useInterceptBackNavigation({ redirectTo: '/' });
+  useInterceptBackNavigation({ redirectTo: "/dashboard" });
 
   return (
     <section
@@ -53,18 +53,18 @@ const ResumeBuilderPage = () => {
       <div className="flex-1 flex items-center-safe w-full ">
         <ResumeSectionQuickNavigationPanel />
         <ResumeSectionsPanel
-          className={cn('basis-full lg:flex md:border-r lg:basis-[25%]', {
+          className={cn("basis-full lg:flex md:border-r lg:basis-[25%]", {
             hidden: activeSection !== ResumeBuilderSection.Sections,
           })}
         />
         <ResumePreviewPanel
-          className={cn('flex-1 lg:flex', {
+          className={cn("flex-1 lg:flex", {
             hidden: activeSection !== ResumeBuilderSection.Preview,
           })}
         />
         <ResumeConfigPanel
           className={cn(
-            'lg:block lg:basis-[24%] md:border-l lg:max-w-[400px]  w-full',
+            "lg:block lg:basis-[24%] md:border-l lg:max-w-[400px]  w-full",
             {
               hidden: activeSection !== ResumeBuilderSection.Settings,
             }
@@ -75,11 +75,11 @@ const ResumeBuilderPage = () => {
           as="footer"
           className="absolute flex flex-row lg:hidden justify-center gap-4 items-center bottom-20 left-1/2 -translate-x-1/2 text-sm shadow-sm px-4 py-2 rounded-full bg-background backdrop-blur-lg"
         >
-          {['Sections', 'Preview', 'Settings'].map((section) => (
+          {["Sections", "Preview", "Settings"].map((section) => (
             <button
               key={section}
               className={`px-3 py-1 rounded-lg text-xs ${
-                activeSection === section ? 'bg-foreground text-background' : ''
+                activeSection === section ? "bg-foreground text-background" : ""
               }`}
               onClick={() =>
                 setActiveSection(
