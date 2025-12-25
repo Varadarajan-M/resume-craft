@@ -114,6 +114,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <JsonLd />
+        <meta
+          name="google-site-verification"
+          content="ortnx0Fdg5YPFQUzqs4dSoOeSi-OBHREVU-cnmkd8ZE"
+        />
       </head>
       <body className={`${poppins.className} font-sans antialiased`}>
         <ThemeProvider>
