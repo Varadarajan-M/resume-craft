@@ -1,16 +1,19 @@
-import { useResumeStore } from '@/features/resume-builder/store/resume';
-import { Input } from '@/shared/components/ui/input';
-import RichTextEditor from '@/shared/components/ui/rich-text-editor';
-import EnhanceWithAI from '../../EnhanceWithAI';
-import ResumeItem from '../ResumeItem';
+import { useWorkExperience } from "@/features/resume-builder/hooks/useWorkExperience";
+import { Input } from "@/shared/components/ui/input";
+import RichTextEditor from "@/shared/components/ui/rich-text-editor";
+import EnhanceWithAI from "../../EnhanceWithAI";
+import ResumeItem from "../ResumeItem";
 
-const WorkExperienceForm = ({ id }: { id: string }) => {
-  const experience = useResumeStore((s) =>
-    s.resume?.sections.experience?.find((e) => e.id === id)
-  );
-  const handleUpdateExperienceField = useResumeStore(
-    (s) => s.updateExperienceItem
-  );
+interface WorkExperienceFormProps {
+  /** The unique ID of the work experience item to edit. */
+  id: string;
+}
+
+/**
+ * Component for editing work experience details (title, company, location, duration).
+ */
+const WorkExperienceForm = ({ id }: WorkExperienceFormProps) => {
+  const { experience, updateField } = useWorkExperience(id);
 
   if (!experience) return null;
 
@@ -19,9 +22,7 @@ const WorkExperienceForm = ({ id }: { id: string }) => {
       <ResumeItem label="Job Title" itemId={`${id}-title`}>
         <Input
           value={experience.title}
-          onChange={(e) =>
-            handleUpdateExperienceField(id, { title: e.target.value })
-          }
+          onChange={(e) => updateField({ title: e.target.value })}
           placeholder="e.g., Frontend Engineer"
         />
       </ResumeItem>
@@ -29,9 +30,7 @@ const WorkExperienceForm = ({ id }: { id: string }) => {
       <ResumeItem label="Company" itemId={`${id}-company`}>
         <Input
           value={experience.company}
-          onChange={(e) =>
-            handleUpdateExperienceField(id, { company: e.target.value })
-          }
+          onChange={(e) => updateField({ company: e.target.value })}
           placeholder="e.g., OpenAI"
         />
       </ResumeItem>
@@ -39,9 +38,7 @@ const WorkExperienceForm = ({ id }: { id: string }) => {
       <ResumeItem label="Location" itemId={`${id}-location`}>
         <Input
           value={experience.location}
-          onChange={(e) =>
-            handleUpdateExperienceField(id, { location: e.target.value })
-          }
+          onChange={(e) => updateField({ location: e.target.value })}
           placeholder="e.g., Austin, Texas"
         />
       </ResumeItem>
@@ -49,9 +46,7 @@ const WorkExperienceForm = ({ id }: { id: string }) => {
       <ResumeItem label="Duration" itemId={`${id}-duration`}>
         <Input
           value={experience.timePeriod}
-          onChange={(e) =>
-            handleUpdateExperienceField(id, { timePeriod: e.target.value })
-          }
+          onChange={(e) => updateField({ timePeriod: e.target.value })}
           placeholder="e.g., Jan 2020 – Present"
         />
       </ResumeItem>
@@ -60,16 +55,18 @@ const WorkExperienceForm = ({ id }: { id: string }) => {
   );
 };
 
-// rendering rich text editor in every unreleated keystroke causes performance issues
-// so using a separate component with selective rendering for description to avoid re-rendering when other fields change
-const ExperienceDescription = ({ id }: { id: string }) => {
-  const description = useResumeStore(
-    (s) =>
-      s.resume?.sections.experience?.find((e) => e.id === id)?.description || ''
-  );
-  const handleUpdateExperienceField = useResumeStore(
-    (s) => s.updateExperienceItem
-  );
+interface ExperienceDescriptionProps {
+  /** The unique ID of the work experience item. */
+  id: string;
+}
+
+/**
+ * Separate component for the experience description to optimize performance.
+ * Rendering the RichTextEditor in every unrelated keystroke causes lag,
+ * so this sub-component isolates description updates.
+ */
+const ExperienceDescription = ({ id }: ExperienceDescriptionProps) => {
+  const { description, updateField } = useWorkExperience(id);
 
   const contentToEnhance = `Improve the following experience description to make it results-driven and professional. Start sentences with strong action verbs and emphasize measurable impact. Keep it concise and suitable for a resume:\n\n${description}`;
 
@@ -78,14 +75,14 @@ const ExperienceDescription = ({ id }: { id: string }) => {
       <EnhanceWithAI
         content={contentToEnhance}
         onEnhance={(updatedContent) =>
-          handleUpdateExperienceField(id, { description: updatedContent })
+          updateField({ description: updatedContent })
         }
-        enhanceDialogTitle="Enhance Work experice with AI"
+        enhanceDialogTitle="Enhance Work experience with AI"
       >
         <RichTextEditor
           content={description}
           onChange={(content) => {
-            handleUpdateExperienceField(id, { description: content });
+            updateField({ description: content });
           }}
           placeholder="Describe your key responsibilities and achievements in this role..."
         />

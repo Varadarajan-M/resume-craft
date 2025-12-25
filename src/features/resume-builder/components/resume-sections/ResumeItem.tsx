@@ -21,11 +21,7 @@ const ResumeItem = ({
   renderHeaderAction,
 }: ResumeItemProps) => {
   return (
-    <div
-      className={cn("flex flex-col gap-1.5 px-1 flex-1", className)}
-      aria-label={`This item represents ${label} in the resume`}
-      aria-live="polite"
-    >
+    <div className={cn("flex flex-col gap-1.5 px-1 flex-1", className)}>
       <div className="flex justify-between items-center w-full">
         <Label
           className={cn("text-sm text-foreground font-medium", labelClassName)}

@@ -1,4 +1,4 @@
-import { Card } from '@/shared/components/ui/card';
+import { Card } from "@/shared/components/ui/card";
 
 import {
   CheckCircle2,
@@ -8,18 +8,18 @@ import {
   Play,
   UserPlus,
   Zap,
-} from 'lucide-react';
+} from "lucide-react";
 
 import {
   AnimatedCard,
   AnimatedFeatureCard,
   AnimatedSection,
-} from './MotionComponents';
+} from "./MotionComponents";
 
-import FadeInChildren from '@/shared/components/animated/FadeIn';
-import { Button } from '@/shared/components/ui/button';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import Link from 'next/link';
+import FadeInChildren from "@/shared/components/animated/FadeIn";
+import { Button } from "@/shared/components/ui/button";
+import { ArrowRight, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
@@ -47,7 +47,7 @@ export function HeroSection() {
           </div>
 
           <h1 className="mb-6 text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-            Craft Your Perfect Resume in{' '}
+            Craft Your Perfect Resume in{" "}
             <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
               Minutes
             </span>
@@ -97,39 +97,39 @@ export const ViewTemplatesButton = () => (
 const features = [
   {
     icon: Sparkles,
-    title: 'AI-Powered Content',
+    title: "AI-Powered Content",
     description:
-      'Generate professional resume content with intelligent suggestions tailored to your experience.',
+      "Generate professional resume content with intelligent suggestions tailored to your experience.",
   },
   {
     icon: Palette,
-    title: 'ATS Friendly Templates',
+    title: "ATS Friendly Templates",
     description:
-      'Choose from professionally designed ATS friendly templates that make your resume stand out.',
+      "Choose from professionally designed ATS friendly templates that make your resume stand out.",
   },
   {
     icon: FileUp,
-    title: 'Import Existing PDF',
+    title: "Import Existing PDF",
     description:
-      'Upload any existing resume PDF and instantly convert it into an editable, structured resume.',
+      "Upload any existing resume PDF and instantly convert it into an editable, structured resume.",
   },
   {
     icon: Zap,
-    title: 'Real-Time Preview',
+    title: "Real-Time Preview",
     description:
-      'See your changes instantly with our live preview editor as you build your resume.',
+      "See your changes instantly with our live preview editor as you build your resume.",
   },
   {
     icon: UserPlus,
-    title: 'No Sign-Up Needed',
+    title: "No Sign-Up Needed",
     description:
-      'Start creating your resume instantly—no account or email required. Your work is saved locally and always accessible.',
+      "Start creating your resume instantly—no account or email required. Your work is saved locally and always accessible.",
   },
   {
     icon: Download,
-    title: 'Instant Download',
+    title: "Instant Download",
     description:
-      'Download your resume as PDF or share to other platforms with just a click.',
+      "Download your resume as PDF or share to other platforms with just a click.",
   },
 ];
 
@@ -163,6 +163,7 @@ export function VideoSection() {
                   src="https://www.loom.com/embed/0f9dc5af6fbc48a8852c406e5f133047"
                   allowFullScreen
                   className="absolute inset-0 w-full h-full"
+                  title="ResumeCraft Demo Video"
                 ></iframe>
               </div>
             </div>

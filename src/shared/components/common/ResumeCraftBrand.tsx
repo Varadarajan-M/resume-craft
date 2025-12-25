@@ -6,14 +6,16 @@ import ResumeCraftIcon from "./ResumeCraftIcon";
 interface ResumeCraftBrandProps {
   className?: string;
   iconClassName?: string;
+  to?: string;
 }
 const ResumeCraftBrand: React.FC<ResumeCraftBrandProps> = ({
   className,
   iconClassName,
+  to,
 }) => {
   return (
     <FadeIn>
-      <Link href="/" className="flex items-center gap-1 ">
+      <Link href={to || "/"} className="flex items-center gap-1 ">
         <ResumeCraftIcon className={cn("w-5 h-5", iconClassName)} />
         <h3
           className={cn(

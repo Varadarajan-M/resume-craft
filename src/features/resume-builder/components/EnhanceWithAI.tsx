@@ -1,39 +1,51 @@
-import { TapAnimationButton } from '@/shared/components/animated/TapAnimationButton';
-import { Button } from '@/shared/components/ui/button';
+"use client";
+
+import { TapAnimationButton } from "@/shared/components/animated/TapAnimationButton";
+import { Button } from "@/shared/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from '@/shared/components/ui/card';
+} from "@/shared/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTrigger,
-} from '@/shared/components/ui/dialog';
-import RichTextEditor from '@/shared/components/ui/rich-text-editor';
-import { Skeleton } from '@/shared/components/ui/skeleton';
-import { usePosthog } from '@/shared/hooks/usePosthog';
-import { POSTHOG_EVENTS } from '@/shared/lib/constants';
-import { AIContentSuggestion } from '@/shared/types/ai';
-import { SparklesIcon } from 'lucide-react';
-import React, { useEffect } from 'react';
-import useContentEnhancerQuery from '../hooks/useContentEnhancerQuery';
+} from "@/shared/components/ui/dialog";
+import RichTextEditor from "@/shared/components/ui/rich-text-editor";
+import { Skeleton } from "@/shared/components/ui/skeleton";
+import { usePosthog } from "@/shared/hooks/usePosthog";
+import { POSTHOG_EVENTS } from "@/shared/lib/constants";
+import { AIContentSuggestion } from "@/shared/types/ai";
+import { SparklesIcon } from "lucide-react";
+import React, { useEffect } from "react";
+import useContentEnhancerQuery from "../hooks/useContentEnhancerQuery";
 
 interface EnhanceWithAIProps {
+  /** The content to be enhanced. */
   children: React.ReactNode;
+  /** The string content that the AI will use to generate suggestions. */
   content: string;
+  /** Callback triggered when a suggestion is applied. */
   onEnhance: (enhancedContent: string) => void;
+  /** Optional title for the enhancement dialog. */
   enhanceDialogTitle?: string;
 }
 
-interface DialogContentProps {
+interface AISuggestionsContentProps {
   suggestions: AIContentSuggestion[];
   onApply: (suggestionContent: string) => void;
 }
 
-const AISuggestionsContent = ({ suggestions, onApply }: DialogContentProps) => {
+/**
+ * Renders the list of AI-generated content suggestions.
+ */
+const AISuggestionsContent = ({
+  suggestions,
+  onApply,
+}: AISuggestionsContentProps) => {
   return (
     <div className="flex flex-col gap-4">
       {suggestions.map((suggestion, index) => (
@@ -74,6 +86,9 @@ const AISuggestionsContent = ({ suggestions, onApply }: DialogContentProps) => {
   );
 };
 
+/**
+ * Skeleton loader for AI suggestions.
+ */
 const AISuggestionsSkeleton = () => {
   return (
     <div className="flex flex-col gap-4">
@@ -99,14 +114,16 @@ const AISuggestionsSkeleton = () => {
   );
 };
 
-const EnhanceWithAI = (props: EnhanceWithAIProps) => {
-  const {
-    children,
-    content,
-    onEnhance,
-    enhanceDialogTitle = 'Enhance with AI',
-  } = props;
-
+/**
+ * EnhanceWithAI component provides an interface to improve resume sections using AI suggestions.
+ * It opens a dialog with suggestions generated based on the provided content.
+ */
+const EnhanceWithAI = ({
+  children,
+  content,
+  onEnhance,
+  enhanceDialogTitle = "Enhance with AI",
+}: EnhanceWithAIProps) => {
   const [open, setOpen] = React.useState(false);
   const [renderKey, setRenderKey] = React.useState(0);
 
@@ -117,6 +134,7 @@ const EnhanceWithAI = (props: EnhanceWithAIProps) => {
 
   const { captureEvent } = usePosthog();
 
+  // Track usage when the dialog opens with content
   useEffect(() => {
     if (open && content?.trim().length > 0) {
       captureEvent(POSTHOG_EVENTS.ENHANCE_WITH_AI_USED);
@@ -128,22 +146,25 @@ const EnhanceWithAI = (props: EnhanceWithAIProps) => {
       <div key={renderKey}>{children}</div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger className="self-end">
+        <DialogTrigger asChild>
           <TapAnimationButton className="w-fit self-end">
-            <Button size={'sm'} variant="secondary" className="animate-pulse">
-              <SparklesIcon className="mr-1 h-2 w-2 dark:text-yellow-300 " />
+            <Button
+              size={"sm"}
+              variant="secondary"
+              className="animate-pulse"
+              onClick={() => setOpen(true)}
+            >
+              <SparklesIcon className="mr-1 h-3 w-3 dark:text-yellow-300" />
               <span className="text-xs"> Enhance with AI</span>
             </Button>
           </TapAnimationButton>
         </DialogTrigger>
         <DialogContent className="max-w-2xl overflow-auto max-h-[80dvh]">
-          <DialogHeader className="text-base font-semibold">
+          <DialogHeader className="text-sm font-semibold">
             {enhanceDialogTitle}
           </DialogHeader>
           {isLoading ? (
-            <>
-              <AISuggestionsSkeleton />
-            </>
+            <AISuggestionsSkeleton />
           ) : (
             <AISuggestionsContent
               suggestions={Array.isArray(data) ? data : []}
