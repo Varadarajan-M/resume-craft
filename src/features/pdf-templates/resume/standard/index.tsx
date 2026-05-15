@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { PdfLucideIcon } from '@/shared/components/common/LucideToReactPdfIcon';
-import { htmlParser } from '@/shared/lib/html-parser';
-import { Resume, ResumeTemplateComponentProps } from '@/shared/types/resume';
+import { PdfLucideIcon } from "@/shared/components/common/LucideToReactPdfIcon";
+import { htmlParser } from "@/shared/lib/html-parser";
+import { Resume, ResumeTemplateComponentProps } from "@/shared/types/resume";
 import {
   Document,
   Font,
@@ -12,31 +12,23 @@ import {
   Text,
   View,
   ViewProps,
-} from '@react-pdf/renderer';
-import { Fragment, JSX } from 'react';
-import DestroyAndMountChildrenOnPropChange from '../../DestroyAndMountChildrenOnPropChange';
-import DocumentProvider from '../../DocumentProvider';
-import PDFErrorBoundary from '../../PDFErrorBoundary';
+} from "@react-pdf/renderer";
+import { Fragment, JSX } from "react";
+import DestroyAndMountChildrenOnPropChange from "../../DestroyAndMountChildrenOnPropChange";
+import DocumentProvider from "../../DocumentProvider";
+import PDFErrorBoundary from "../../PDFErrorBoundary";
 
-// Font registration
+// Font registration (served from public/fonts/)
 Font.register({
-  family: 'Tinos',
+  family: "Tinos",
   fonts: [
+    { src: "/fonts/tinos/Tinos-Regular.ttf" },
+    { src: "/fonts/tinos/Tinos-Bold.ttf", fontWeight: "bold" },
+    { src: "/fonts/tinos/Tinos-Italic.ttf", fontStyle: "italic" },
     {
-      src: 'https://raw.githubusercontent.com/google/fonts/main/apache/tinos/Tinos-Regular.ttf',
-    },
-    {
-      src: 'https://raw.githubusercontent.com/google/fonts/main/apache/tinos/Tinos-Bold.ttf',
-      fontWeight: 'bold',
-    },
-    {
-      src: 'https://raw.githubusercontent.com/google/fonts/main/apache/tinos/Tinos-Italic.ttf',
-      fontStyle: 'italic',
-    },
-    {
-      src: 'https://raw.githubusercontent.com/google/fonts/main/apache/tinos/Tinos-BoldItalic.ttf',
-      fontWeight: 'bold',
-      fontStyle: 'italic',
+      src: "/fonts/tinos/Tinos-BoldItalic.ttf",
+      fontWeight: "bold",
+      fontStyle: "italic",
     },
   ],
 });
@@ -44,13 +36,13 @@ Font.register({
 // Constants for consistent styling
 const THEME = {
   colors: {
-    primary: '#000',
-    secondary: '#444',
-    border: 'grey',
-    background: '#fff',
+    primary: "#000",
+    secondary: "#444",
+    border: "grey",
+    background: "#fff",
   },
   fonts: {
-    main: 'Tinos',
+    main: "Tinos",
   },
   spacing: {
     xs: 1,
@@ -116,41 +108,41 @@ const styles = StyleSheet.create({
 
   // Text variants
   textBold: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   textItalic: {
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   textCapitalize: {
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
   },
   textUppercase: {
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   textRight: {
-    textAlign: 'right',
+    textAlign: "right",
   },
   textCenter: {
-    textAlign: 'center',
+    textAlign: "center",
   },
 
   // Layout components
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   rowBetween: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
   },
   rowCenter: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   rowWrap: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
 
   // Spacing
@@ -173,31 +165,31 @@ const styles = StyleSheet.create({
   gap5: { gap: 5 },
   gap12: { gap: THEME.spacing.xxl },
 
-  fb68: { flexBasis: '68%' },
-  fb32: { flexBasis: '32%' },
+  fb68: { flexBasis: "68%" },
+  fb32: { flexBasis: "32%" },
 
   // Header styles
   header: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   nameFirst: {
     fontSize: THEME.fontSizes.nameFirst,
     fontFamily: THEME.fonts.main,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     letterSpacing: 1,
     lineHeight: THEME.spacing.xs,
   },
   nameRest: {
     fontSize: THEME.fontSizes.name,
     fontFamily: THEME.fonts.main,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     letterSpacing: 1,
     lineHeight: THEME.spacing.xs,
   },
   location: {
     fontSize: 13,
     fontFamily: THEME.fonts.main,
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
   },
   headline: {
     fontSize: THEME.fontSizes.xxl,
@@ -206,31 +198,31 @@ const styles = StyleSheet.create({
 
   // Contact styles
   contactRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
     columnGap: THEME.spacing.xxl,
     rowGap: 5,
   },
   contactItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: THEME.spacing.md,
   },
   contactLink: {
     fontSize: THEME.fontSizes.sm,
-    textDecoration: 'underline',
+    textDecoration: "underline",
     color: THEME.colors.primary,
-    textAlign: 'center',
+    textAlign: "center",
   },
 
   // Section styles
   section: {},
   sectionTitle: {
     fontSize: THEME.fontSizes.xl,
-    fontWeight: 'semibold',
+    fontWeight: "semibold",
     fontFamily: THEME.fonts.main,
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
   },
   sectionDivider: {
     borderBottom: `0.5 solid ${THEME.colors.border}`,
@@ -240,12 +232,12 @@ const styles = StyleSheet.create({
   subsection: {},
   subsectionHeader: {
     fontSize: THEME.fontSizes.md,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontFamily: THEME.fonts.main,
   },
   subsectionDescription: {
     fontSize: THEME.fontSizes.sm,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     fontFamily: THEME.fonts.main,
     marginVertical: THEME.spacing.xs,
   },
@@ -266,7 +258,7 @@ const styles = StyleSheet.create({
   },
   projectTech: {
     fontSize: THEME.fontSizes.xs,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     marginHorizontal: THEME.spacing.xs,
   },
   summaryText: {
@@ -362,27 +354,27 @@ const LinkText = ({
   href ? (
     <Text style={[style]}>
       {htmlParser(
-        `<a href="${href}" style="text-decoration:underline;color:black">${children}</a>`
+        `<a href="${href}" style="text-decoration:underline;color:black">${children}</a>`,
       )}
     </Text>
   ) : undefined;
 
 const sectionRenderers: Record<
   string,
-  (section: Resume['sections'], id?: string) => JSX.Element | null
+  (section: Resume["sections"], id?: string) => JSX.Element | null
 > = {
   personalInfo: (sections, id) => {
     const personalInfo = sections?.[
       id as keyof typeof sections
-    ] as Resume['sections']['personalInfo'];
+    ] as Resume["sections"]["personalInfo"];
     if (!personalInfo) return null;
 
-    const fullName = personalInfo.fullName || 'First Last';
+    const fullName = personalInfo.fullName || "First Last";
 
     return (
       <View style={styles.header}>
         <Text style={styles.mb7}>
-          {fullName.split(' ').map((namePart, index) => (
+          {fullName.split(" ").map((namePart, index) => (
             <Fragment key={index}>
               <Text key={`${namePart}-first`} style={styles.nameFirst}>
                 {namePart?.charAt(0)}
@@ -390,7 +382,7 @@ const sectionRenderers: Record<
               <Text key={`${namePart}-rest`} style={styles.nameRest}>
                 {namePart?.slice(1)}
               </Text>
-              {'  '}
+              {"  "}
             </Fragment>
           ))}
         </Text>
@@ -421,7 +413,7 @@ const sectionRenderers: Record<
           {personalInfo.links?.map((link) => (
             <ContactItem
               key={link?.id}
-              icon={link?.iconName || 'link'}
+              icon={link?.iconName || "link"}
               href={link?.url}
               label={link?.label}
             />
@@ -434,7 +426,7 @@ const sectionRenderers: Record<
   summary: (sections, id) => {
     const summary = sections?.[
       id as keyof typeof sections
-    ] as Resume['sections']['summary'];
+    ] as Resume["sections"]["summary"];
     if (!summary || !(summary.content?.toString()?.trim().length > 7))
       return null;
 
@@ -448,7 +440,7 @@ const sectionRenderers: Record<
   education: (sections, id) => {
     const education = sections?.[
       id as keyof typeof sections
-    ] as Resume['sections']['education'];
+    ] as Resume["sections"]["education"];
     if (!education || education.length === 0) return null;
 
     return (
@@ -468,7 +460,7 @@ const sectionRenderers: Record<
             <SubsectionRow
               left={
                 <DescriptionText style={styles.fb68}>
-                  {edu.fieldOfStudy} {edu.gpa ? `- ${edu.gpa}` : ''}
+                  {edu.fieldOfStudy} {edu.gpa ? `- ${edu.gpa}` : ""}
                 </DescriptionText>
               }
               right={
@@ -493,15 +485,15 @@ const sectionRenderers: Record<
   skills: (sections, id) => {
     const skills = sections?.[
       id as keyof typeof sections
-    ] as Resume['sections']['skills'];
+    ] as Resume["sections"]["skills"];
     if (!skills || skills.categories.length === 0) return null;
 
     return (
       <Section title="Skills">
         {skills?.categories?.map((cat) => (
           <Text key={cat.id} style={[styles.skillCategory, styles.mb1]}>
-            <Text style={styles.textBold}>{cat.name}:</Text>{' '}
-            {cat?.skills?.map((s) => s.name)?.join(', ')}
+            <Text style={styles.textBold}>{cat.name}:</Text>{" "}
+            {cat?.skills?.map((s) => s.name)?.join(", ")}
           </Text>
         ))}
       </Section>
@@ -511,7 +503,7 @@ const sectionRenderers: Record<
   experience: (sections, id) => {
     const experience = sections?.[
       id as keyof typeof sections
-    ] as Resume['sections']['experience'];
+    ] as Resume["sections"]["experience"];
     if (!experience || experience.length === 0) return null;
 
     return (
@@ -556,7 +548,7 @@ const sectionRenderers: Record<
   projects: (sections, id) => {
     const projects = sections?.[
       id as keyof typeof sections
-    ] as Resume['sections']['projects'];
+    ] as Resume["sections"]["projects"];
     if (!projects || projects.length === 0) return null;
 
     return (
@@ -575,14 +567,14 @@ const sectionRenderers: Record<
               left={
                 proj.technologies ? (
                   <DescriptionText style={styles.fb68}>
-                    {proj?.technologies?.join(', ')}
+                    {proj?.technologies?.join(", ")}
                   </DescriptionText>
                 ) : undefined
               }
               right={
                 <LinkText
                   href={proj.url!}
-                  style={{ textAlign: 'right', ...styles.fb32 }}
+                  style={{ textAlign: "right", ...styles.fb32 }}
                 >
                   {proj?.url}
                 </LinkText>
@@ -601,7 +593,7 @@ const sectionRenderers: Record<
   certifications: (sections, id) => {
     const certifications = sections?.[
       id as keyof typeof sections
-    ] as Resume['sections']['certifications'];
+    ] as Resume["sections"]["certifications"];
     if (!certifications || certifications.length === 0) return null;
 
     return (
@@ -619,7 +611,7 @@ const sectionRenderers: Record<
               right={
                 <TimePeriodText style={styles.fb32}>
                   {cert.date}
-                  {cert.expirationDate ? ` – ${cert.expirationDate}` : ''}
+                  {cert.expirationDate ? ` – ${cert.expirationDate}` : ""}
                 </TimePeriodText>
               }
             />
@@ -653,7 +645,7 @@ const sectionRenderers: Record<
   languages: (sections, id) => {
     const languages = sections?.[
       id as keyof typeof sections
-    ] as Resume['sections']['languages'];
+    ] as Resume["sections"]["languages"];
     if (!languages || languages.length === 0) return null;
 
     return (
@@ -670,7 +662,7 @@ const sectionRenderers: Record<
   achievements: (sections, id) => {
     const achievements = sections?.[
       id as keyof typeof sections
-    ] as Resume['sections']['achievements'];
+    ] as Resume["sections"]["achievements"];
     if (!achievements || achievements.length === 0) return null;
 
     return (
