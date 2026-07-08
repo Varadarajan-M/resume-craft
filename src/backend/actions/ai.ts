@@ -7,7 +7,7 @@ import { Groq } from 'groq-sdk';
 
 import { createResumeAction } from './resume';
 
-import { GROQ_AI_MODEL } from '@/shared/lib/constants';
+import { GROQ_AI_MODEL, RESUME_SCHEMA } from '@/shared/lib/constants';
 import connectDb from '../config/connection';
 import AppConfig from '../models/config';
 
@@ -103,7 +103,7 @@ export const getResumeFromTextContentAction = async (textContent: string) => {
     const systemPrompt = await _fetchSystemPrompt(
       'AI_RESUME_EXTRACTION_PROMPT'
     );
-
+    
     if (!systemPrompt) {
       throw new Error('Prompt error');
     }
@@ -111,11 +111,17 @@ export const getResumeFromTextContentAction = async (textContent: string) => {
     const response = await groq.chat.completions.create({
       model: GROQ_AI_MODEL,
       temperature: 1,
+      max_completion_tokens: 8000,
       top_p: 1,
       stream: false,
       stop: null,
       response_format: {
-        type: 'json_object',
+        type: 'json_schema',
+        json_schema: {
+          name: 'resume',
+          strict: false,
+          schema: RESUME_SCHEMA,
+        },
       },
       messages: [
         {
