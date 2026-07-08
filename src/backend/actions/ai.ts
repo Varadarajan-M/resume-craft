@@ -7,6 +7,7 @@ import { Groq } from 'groq-sdk';
 
 import { createResumeAction } from './resume';
 
+import { GROQ_AI_MODEL } from '@/shared/lib/constants';
 import connectDb from '../config/connection';
 import AppConfig from '../models/config';
 
@@ -61,12 +62,10 @@ export const getAIEnhancedContentAction = async (content: string) => {
     }
 
     const response = await groq.chat.completions.create({
-      model: 'openai/gpt-oss-120b',
+      model: GROQ_AI_MODEL,
       temperature: 1,
-      max_completion_tokens: 8192,
       top_p: 1,
       stream: false,
-      reasoning_effort: 'medium',
       stop: null,
       response_format: {
         type: 'json_object',
@@ -110,12 +109,10 @@ export const getResumeFromTextContentAction = async (textContent: string) => {
     }
 
     const response = await groq.chat.completions.create({
-      model: 'openai/gpt-oss-120b',
+      model: GROQ_AI_MODEL,
       temperature: 1,
-      max_completion_tokens: 8192,
       top_p: 1,
       stream: false,
-      reasoning_effort: 'medium',
       stop: null,
       response_format: {
         type: 'json_object',

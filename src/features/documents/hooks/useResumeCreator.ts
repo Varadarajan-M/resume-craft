@@ -61,7 +61,9 @@ function useResumeCreator() {
 
   const createFromPdfText = async (text: string) => {
     if (!isSignedIn) {
-      const local = await createLocalFromText.mutateAsync(text);
+      const local = await createLocalFromText.mutateAsync(text, {
+        onError: handleError
+      });
       local.userId = 'anonymous';
       if (!local?.id)
         return handleError(new Error('Failed to create resume from PDF'));

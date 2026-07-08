@@ -13,3 +13,6 @@ export const POSTHOG_EVENTS = {
   THEME_SWITCHED: 'theme_switched',
   TEMPLATE_SWITCHED: 'template_switched',
 };
+
+
+export const GROQ_AI_MODEL = process.env.GROQ_AI_MODEL || `meta-llama/llama-4-scout-17b-16e-instruct`
