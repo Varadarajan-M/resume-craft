@@ -1,0 +1,56 @@
+# .cursorrules — Resume Craft
+
+> Cursor AI assistant rules for Resume Craft project.
+
+## Project Context
+
+Resume Craft is a Next.js 15 App Router application — an AI-powered resume builder.
+
+## Always Do
+
+- Use `@/*` path aliases (resolves to `./src/*`)
+- Use Tailwind CSS v4 utility classes for styling
+- Use `cn()` from `@/shared/lib/utils` for conditional classes
+- Use Zustand store (with Immer) for resume state mutations
+- Use React Query for server-state (queries/mutations calling server actions)
+- Use server actions (`"use server"`) for all backend logic — no API routes
+- Use `getUniqId()` for generating UUIDs (uuid v7)
+- Return `{ success, message, data?, error? }` from server actions
+- Call `connectDb()` and `verifyAuth()` in authenticated server actions
+- Import from feature barrel files (`@/features/documents`)
+- Use `dynamic(() => ..., { ssr: false })` for PDF-rendering components
+
+## Never Do
+
+- Use browser DOM APIs (`<img>`, `<div>`) in @react-pdf/renderer templates
+- Create API routes — use server actions only
+- Modify shadcn/ui base components unless adding variants
+- Import internal feature paths across feature boundaries
+- Use inline styles in React components (except in PDF templates)
+- Store secrets in code — use environment variables
+
+## Tech Stack Quick Ref
+
+- Next.js 15 (App Router, Turbopack, React Compiler)
+- TypeScript strict
+- Tailwind CSS v4 (oklch tokens)
+- shadcn/ui (new-york) + Radix UI
+- Zustand + Immer
+- TanStack React Query v5
+- Clerk auth
+- MongoDB + Mongoose
+- @react-pdf/renderer
+- TipTap editor
+- Groq SDK (AI)
+- Motion (animations)
+- PostHog (analytics)
+- pnpm
+
+## File Structure Convention
+
+```
+src/app/           → Pages & layouts (App Router)
+src/backend/       → Server actions, DB models, config
+src/features/      → Feature modules (self-contained)
+src/shared/        → Cross-feature code (components, hooks, lib, types)
+```

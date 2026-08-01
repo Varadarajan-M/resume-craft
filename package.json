@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed:templates": "node --env-file=.env.local scripts/seed-templates.mjs"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.21.0",
